@@ -4,7 +4,7 @@
 		"slug": "nett",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./app/assets/icon.png",
+		"icon": "./app/assets/soundcloud.png",
 		"splash": {
 			"image": "./app/assets/splash.png",
 			"resizeMode": "contain",
@@ -25,6 +25,8 @@
 		},
 		"web": {
 			"favicon": "./app/assets/favicon.png"
-		}
+		},
+		"description": "This is an app serving as a teaching tool for nursing students.",
+		"githubUrl": "https://github.com/FrankMbappe/nett"
 	}
 }
