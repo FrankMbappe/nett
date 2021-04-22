@@ -4,7 +4,7 @@ import { View } from "react-native";
 import Screen from "../../components/Screen";
 import WelcomeTitle from "../../components/Welcome/Title";
 import WelcomeBottomBar from "../../components/Welcome/BottomBar";
-import OptionCardSelector from "../../components/Welcome/OptionCardSelector";
+import ListItemSelector from "../../components/Welcome/ListItemSelector";
 
 import styles from "./styles";
 import enums from "../../config/enums";
@@ -26,23 +26,23 @@ function LoginWithPhoneScreen(props) {
 				</WelcomeTitle>
 
 				{/* Account type selection */}
-				<OptionCardSelector
+				<ListItemSelector
 					style={styles.selector}
 					options={[
 						{
-							icon: icons.TEACHER_ACCOUNT,
+							image: icons.TEACHER_ACCOUNT,
 							name: "Teacher",
 							description:
 								"Create classrooms and lecture your courses to students.",
 						},
 						{
-							icon: icons.STUDENT_ACCOUNT,
+							image: icons.STUDENT_ACCOUNT,
 							name: "Student",
 							description:
 								"Join classrooms and attend courses made by your teachers.",
 						},
 						{
-							icon: icons.CONSULT_ACCOUNT,
+							image: icons.CONSULT_ACCOUNT,
 							name: "Consultant",
 							description:
 								"Share your knowledge with teachers and students via classrooms.",

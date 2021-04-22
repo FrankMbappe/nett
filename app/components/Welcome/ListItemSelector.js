@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import OptionCard from "../OptionCard";
+import ListItem from "../ListItem";
 
-function OptionCardSelector({ style, options }) {
+function ListItemSelector({ style, options }) {
 	return (
 		<View style={[styles.selector, style]}>
 			{options.map(({ icon, name, description }, key) => (
-				<OptionCard icon={icon} name={name} description={description} />
+				<ListItem icon={icon} name={name} description={description} />
 			))}
 		</View>
 	);
@@ -16,4 +16,4 @@ const styles = StyleSheet.create({
 	selector: {},
 });
 
-export default OptionCardSelector;
+export default ListItemSelector;

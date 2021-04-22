@@ -2,10 +2,10 @@ import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 
-function OptionCard({ style, icon, name, description }) {
+function ListItem({ style, image, name, description }) {
 	return (
 		<TouchableOpacity style={[styles.card, style]}>
-			<Image style={styles.icon} source={icon} />
+			<Image style={styles.image} source={image} />
 			<View style={styles.descriptionContainer}>
 				<Text style={styles.name}>{name}</Text>
 				<Text style={styles.description}>{description}</Text>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginStart: 20,
 	},
-	icon: {
+	image: {
 		width: 50,
 		height: 50,
 	},
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default OptionCard;
+export default ListItem;
