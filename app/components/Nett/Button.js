@@ -33,11 +33,11 @@ const styles = (buttonType) => {
 			alignItems: "center",
 			paddingHorizontal: 30,
 			paddingVertical: 15,
-			borderRadius: 15,
+			borderRadius: 10,
 		},
 		text: {
 			color: front,
-			fontSize: 18,
+			fontSize: 16,
 			textTransform: "uppercase",
 			fontWeight: "bold",
 		},

@@ -17,7 +17,7 @@ const handleNext = () => console.log("Next");
 // --- SCREEN --- //
 function LoginWithPhoneScreen(props) {
 	return (
-		<Screen style={styles.container}>
+		<Screen style={styles.screen}>
 			{/* --- Main Box --- */}
 			<View style={styles.mainBox}>
 				{/* Title */}

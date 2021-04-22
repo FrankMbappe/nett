@@ -12,10 +12,13 @@ function Screen({ children, style }) {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		paddingTop: Constants.statusBarHeight,
+		alignSelf: "center",
 		backgroundColor: colors.uiBack,
+		flex: 1,
+		maxWidth: 500,
 		padding: 5,
+		paddingTop: Constants.statusBarHeight,
+		width: "100%",
 	},
 });
 export default Screen;

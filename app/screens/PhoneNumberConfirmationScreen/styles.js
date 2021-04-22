@@ -32,17 +32,17 @@ const styles = StyleSheet.create({
 	},
 	resendCode: {
 		width: "100%",
-		top: "10%",
+		top: 30,
 	},
 	resendCodeContainer: {
 		width: "100%",
 		flexDirection: "row",
 		justifyContent: "center",
-		top: "5%",
+		top: 20,
 	},
 	resendCodeDivider: {
 		backgroundColor: colors.uiFront,
-		opacity: 0.25,
+		opacity: 0.15,
 		width: "100%",
 	},
 	resendLabel: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 		width: "60%",
 	},
 	tinyDescription: {
-		marginTop: "7%",
+		marginTop: 25,
 	},
 });
 

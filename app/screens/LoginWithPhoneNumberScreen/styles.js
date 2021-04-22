@@ -9,29 +9,25 @@ const styles = StyleSheet.create({
 	importantText: {
 		fontWeight: "bold",
 		fontSize: 22,
-		padding: 10,
+		marginEnd: 15,
 	},
 	inputContainer: {
-		borderColor: "red",
-		borderWidth: 0,
 		width: "100%",
 		flexDirection: "row",
-		marginTop: "10%",
+		marginTop: 30,
 		alignItems: "center",
 	},
 	mainBox: {
 		alignItems: "center",
 		justifyContent: "center",
 		width: "85%",
-		borderColor: "blue",
-		borderWidth: 0,
 		bottom: "10%",
 	},
 	textInput: {
 		flex: 1,
 	},
 	title: {
-		width: "50%",
+		width: "60%",
 	},
 	tinyDescription: {
 		marginTop: "7%",

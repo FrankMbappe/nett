@@ -12,10 +12,11 @@ function NettTextInput({ style, placeholder }) {
 const styles = StyleSheet.create({
 	textInput: {
 		backgroundColor: colors.uiInput,
+		borderRadius: 15,
+		fontSize: 20,
 		paddingHorizontal: 15,
 		paddingVertical: 15,
-		fontSize: 20,
-		borderRadius: 15,
+		width: "100%",
 	},
 });
 

@@ -7,6 +7,6 @@ import UserChatListScreen from "./app/screens/UserChatListScreen/UserChatListScr
 export default function App() {
 	// return <LoginWithPhoneScreen />;
 	// return <PhoneNumberConfirmation phone={"+237656895348"} />;
-	return <AccountTypeSelection />;
-	// return <UserChatListScreen />;
+	// return <AccountTypeSelection />;
+	return <UserChatListScreen />;
 }
