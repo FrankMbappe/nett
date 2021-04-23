@@ -1,12 +1,18 @@
+const nett = { white: "#fff", black: "#141414", primary: "#d16262" };
+
 export default {
-	white: "#fff",
-	black: "#000",
-	grey: "#ebebeb",
+	// --- DEFAULT --- //
+	appFront: nett.black,
+	appBack: nett.white,
+	appPrimary: nett.primary,
 
-	uiFront: "#000",
-	uiBack: "#fff",
-	uiInput: "#eee",
+	// --- WB TONES --- //
+	white: nett.white,
+	light: "#ebebeb",
+	mediumLight: "#bababa",
+	medium: "#828282",
+	dark: nett.black,
 
-	primary: "#D16262",
-	secondary: "#fff",
+	// --- SPECIAL --- //
+	danger: "#ef253c",
 };

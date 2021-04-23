@@ -2,66 +2,77 @@ import { StyleSheet } from "react-native";
 
 import colors from "../../config/colors";
 
-// --- STYLES --- //
+// <--- PhoneNumberConfirmationScreen styles ---> //
+
 const styles = StyleSheet.create({
-	codeExpirationContainer: {
-		alignItems: "center",
-	},
-	container: {
+	screen: {
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	importantText: {
-		fontWeight: "bold",
-		fontSize: 22,
+
+	// --- MAIN CONTAINER --- //
+	mainContainer: {
+		alignItems: "center",
+		justifyContent: "center",
+		width: "85%",
+		bottom: "10%",
 	},
-	validationInputContainer: {
-		borderColor: "red",
-		borderWidth: 0,
+
+	// --> TITLE
+	titleContainer: {
+		width: "60%",
+	},
+
+	// --> INPUT
+	inputDescription: {
+		marginTop: 25,
+	},
+	inputContainer: {
 		width: "100%",
 		flexDirection: "row",
 		marginTop: "5%",
 	},
-	mainBox: {
+	codeInput: {
+		flex: 1,
+	},
+
+	// --> TIMER
+	timerContainer: {
 		alignItems: "center",
-		justifyContent: "center",
-		width: "85%",
-		borderColor: "blue",
-		borderWidth: 0,
-		bottom: "10%",
 	},
-	resendCode: {
-		width: "100%",
-		top: 30,
+	timerDescription: {
+		marginTop: 25,
 	},
+	timer: {
+		fontWeight: "bold",
+		fontSize: 24,
+		top: 3,
+	},
+
+	// --> RESEND CODE
 	resendCodeContainer: {
+		top: 30,
 		width: "100%",
-		flexDirection: "row",
-		justifyContent: "center",
-		top: 20,
 	},
 	resendCodeDivider: {
-		backgroundColor: colors.uiFront,
+		backgroundColor: colors.appFront,
 		opacity: 0.15,
 		width: "100%",
 	},
-	resendLabel: {
+	resendCodeTextContainer: {
+		top: 20,
+		width: "100%",
+		flexDirection: "row",
+		justifyContent: "center",
+	},
+	resendCodeLabel: {
 		fontSize: 15,
 		color: "grey",
 	},
-	resendLink: {
+	resendCodeLink: {
 		fontSize: 15,
-		color: colors.primary,
+		color: colors.appPrimary,
 		paddingStart: 7,
-	},
-	textInput: {
-		flex: 1,
-	},
-	title: {
-		width: "60%",
-	},
-	tinyDescription: {
-		marginTop: 25,
 	},
 });
 

@@ -9,11 +9,13 @@ function ListItemSelector({ style, options }) {
 			{options.map(
 				({ image, name, description, imageIsRounded = false }, key) => (
 					<ListItem
+						key={key}
 						style={styles.item}
 						image={image}
 						name={name}
 						description={description}
 						imageIsRounded={imageIsRounded}
+						onPress={() => console.log(`Type ${key} selected.`)}
 					/>
 				)
 			)}
@@ -27,8 +29,9 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		padding: 19,
-		borderColor: colors.grey,
+		borderColor: colors.light,
 		borderWidth: 2,
+		marginBottom: 10,
 	},
 });
 

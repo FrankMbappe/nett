@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../config/colors";
 
-import NettButton from "../Nett/Button";
+import NettButton from "../NettButton";
 
 function WelcomeBottomBar({ style, buttonStart, buttonEnd }) {
 	return (
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		borderColor: "green",
 		borderWidth: 0,
-		backgroundColor: colors.uiBack,
+		backgroundColor: colors.appBack,
 	},
 });
 

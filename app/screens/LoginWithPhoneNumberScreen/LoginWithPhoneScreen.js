@@ -2,8 +2,8 @@ import React from "react";
 import { Text, View } from "react-native";
 
 import Screen from "../../components/Screen";
-import TinyDescriptionText from "../../components/TinyDescriptionText";
-import NettTextInput from "../../components/Nett/TextInput";
+import TinyTextDescription from "../../components/TinyTextDescription";
+import NettTextInput from "../../components/NettTextInput";
 import WelcomeTitle from "../../components/Welcome/Title";
 import WelcomeBottomBar from "../../components/Welcome/BottomBar";
 
@@ -17,28 +17,30 @@ const handleNext = () => console.log("Next");
 // --- SCREEN --- //
 function LoginWithPhoneScreen(props) {
 	return (
-		<Screen style={styles.container}>
-			{/* --- Main Box --- */}
-			<View style={styles.mainBox}>
+		<Screen style={styles.screen}>
+			{/* --- Main container --- */}
+			<View style={styles.mainContainer}>
 				{/* Title */}
-				<WelcomeTitle style={styles.title}>
+				<WelcomeTitle style={styles.titleContainer}>
 					Enter your phone number
 				</WelcomeTitle>
 
 				{/* Input */}
 				<View style={styles.inputContainer}>
-					<Text style={styles.importantText}>+237</Text>
+					<Text style={styles.countryIndicator}>+237</Text>
 					<NettTextInput
-						style={styles.textInput}
+						style={styles.input}
 						placeholder={"Your phone number"}
+						keyboardType={"phone-pad"}
+						maxLength={9}
 					/>
 				</View>
 
 				{/* Description */}
-				<TinyDescriptionText style={styles.tinyDescription}>
+				<TinyTextDescription style={styles.inputDescription}>
 					Phone numbers are used to register and log into Nett accounts. After
 					entering yours, we will send you a confirmation message to verify it.
-				</TinyDescriptionText>
+				</TinyTextDescription>
 			</View>
 
 			{/* --- Bottom bar --- */}

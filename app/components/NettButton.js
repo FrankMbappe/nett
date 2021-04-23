@@ -1,8 +1,8 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-import colors from "../../config/colors";
-import enums from "../../config/enums";
+import colors from "../config/colors";
+import enums from "../config/enums";
 
 function Button({ style, text, type, onPress }) {
 	return (
@@ -13,16 +13,16 @@ function Button({ style, text, type, onPress }) {
 }
 
 const styles = (buttonType) => {
-	// Since uttons can be of different types, the main UI distinctions
+	// Since buttons can be of different types, the main UI distinctions
 	// are stored in back & front variables
 	let back, front;
 	switch (buttonType) {
 		case enums.BUTTON_SECONDARY:
-			back = colors.uiBack;
-			front = colors.black;
+			back = colors.appBack;
+			front = colors.dark;
 			break;
 		default:
-			back = colors.primary;
+			back = colors.appPrimary;
 			front = colors.white;
 			break;
 	}

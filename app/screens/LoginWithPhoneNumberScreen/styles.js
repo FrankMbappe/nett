@@ -1,35 +1,44 @@
 import { StyleSheet } from "react-native";
 
-// --- STYLES --- //
+// <--- LoginWithPhoneNumberScreen styles ---> //
+
 const styles = StyleSheet.create({
-	container: {
+	screen: {
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	importantText: {
-		fontWeight: "bold",
-		fontSize: 22,
-		marginEnd: 15,
+
+	// --- MAIN CONTAINER --- //
+	mainContainer: {
+		alignItems: "center",
+		justifyContent: "center",
+		width: "85%",
+		bottom: "10%",
 	},
+
+	// --> TITLE
+	titleContainer: {
+		width: "60%",
+	},
+
+	// --> INPUT
 	inputContainer: {
 		width: "100%",
 		flexDirection: "row",
 		marginTop: 30,
 		alignItems: "center",
 	},
-	mainBox: {
-		alignItems: "center",
-		justifyContent: "center",
-		width: "85%",
-		bottom: "10%",
+	countryIndicator: {
+		fontWeight: "bold",
+		fontSize: 22,
+		marginEnd: 15,
 	},
-	textInput: {
+	input: {
 		flex: 1,
 	},
-	title: {
-		width: "60%",
-	},
-	tinyDescription: {
+
+	// --> INPUT DESCRIPTION
+	inputDescription: {
 		marginTop: "7%",
 	},
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 
-function TinyDescriptionText({ children, style }) {
+function TinyTextDescription({ children, style }) {
 	return <Text style={[styles.text, style]}>{children}</Text>;
 }
 
@@ -13,4 +13,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TinyDescriptionText;
+export default TinyTextDescription;

@@ -1,22 +1,29 @@
 import { StyleSheet } from "react-native";
 
-// --- STYLES --- //
+// <--- AccountTypeSelection styles ---> //
+
 const styles = StyleSheet.create({
 	screen: {
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	mainBox: {
+
+	// --- MAIN CONTAINER --- //
+	mainContainer: {
 		alignItems: "center",
 		justifyContent: "center",
 		width: "85%",
 		bottom: "5%",
 	},
-	selector: {
-		marginTop: "5%",
-	},
-	title: {
+
+	// --> TITLE
+	titleContainer: {
 		width: "75%",
+	},
+
+	// --> TYPE SELECTOR
+	typeSelector: {
+		marginTop: "5%",
 	},
 });
 
