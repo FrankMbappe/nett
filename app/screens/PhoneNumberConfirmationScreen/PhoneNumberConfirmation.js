@@ -5,8 +5,8 @@ import { Divider } from "react-native-elements";
 import Screen from "../../components/Screen";
 import TinyTextDescription from "../../components/TinyTextDescription";
 import NettTextInput from "../../components/NettTextInput";
-import WelcomeTitle from "../../components/Welcome/Title";
-import WelcomeBottomBar from "../../components/Welcome/BottomBar";
+import WelcomeTitle from "../../components/welcome/Title";
+import WelcomeBottomBar from "../../components/welcome/BottomBar";
 
 import styles from "./styles";
 import enums from "../../config/enums";

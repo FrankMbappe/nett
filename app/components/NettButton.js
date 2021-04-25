@@ -4,7 +4,23 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import colors from "../config/colors";
 import enums from "../config/enums";
 
-function Button({ style, text, type, onPress }) {
+// --- Kind of buttons --- //
+const buttons = {
+	[enums.BUTTON_PRIMARY]: {
+		backColor: colors.appPrimary,
+		frontColor: colors.white,
+	},
+	[enums.BUTTON_SECONDARY]: {
+		backColor: colors.appBack,
+		frontColor: colors.appFront,
+	},
+	[enums.BUTTON_TERTIARY]: {
+		backColor: colors.lighter,
+		frontColor: colors.dark,
+	},
+};
+
+function Button({ style, text, onPress, type = enums.BUTTON_PRIMARY }) {
 	return (
 		<TouchableOpacity style={[styles(type).container, style]} onPress={onPress}>
 			<Text style={styles(type).text}>{text}</Text>
@@ -13,22 +29,9 @@ function Button({ style, text, type, onPress }) {
 }
 
 const styles = (buttonType) => {
-	// Since buttons can be of different types, the main UI distinctions
-	// are stored in back & front variables
-	let back, front;
-	switch (buttonType) {
-		case enums.BUTTON_SECONDARY:
-			back = colors.appBack;
-			front = colors.dark;
-			break;
-		default:
-			back = colors.appPrimary;
-			front = colors.white;
-			break;
-	}
 	return StyleSheet.create({
 		container: {
-			backgroundColor: back,
+			backgroundColor: buttons[buttonType].backColor,
 			justifyContent: "center",
 			alignItems: "center",
 			paddingHorizontal: 30,
@@ -36,7 +39,7 @@ const styles = (buttonType) => {
 			borderRadius: 10,
 		},
 		text: {
-			color: front,
+			color: buttons[buttonType].frontColor,
 			fontSize: 16,
 			textTransform: "uppercase",
 			fontWeight: "bold",

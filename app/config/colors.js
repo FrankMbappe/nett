@@ -8,6 +8,7 @@ export default {
 
 	// --- WB TONES --- //
 	white: nett.white,
+	lighter: "#f2f2f2",
 	light: "#ebebeb",
 	mediumLight: "#bababa",
 	medium: "#828282",

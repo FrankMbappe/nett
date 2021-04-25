@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 
 import Screen from "../../components/Screen";
-import WelcomeTitle from "../../components/Welcome/Title";
-import WelcomeBottomBar from "../../components/Welcome/BottomBar";
-import ListItemSelector from "../../components/Welcome/ListItemSelector";
+import WelcomeTitle from "../../components/welcome/Title";
+import WelcomeBottomBar from "../../components/welcome/BottomBar";
+import ListItemSelector from "../../components/welcome/ListItemSelector";
 
 import styles from "./styles";
 import enums from "../../config/enums";

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FlatList, View } from "react-native";
-import ListItem from "../../components/ListItem";
-import ListItemDeleteAction from "../../components/ListItemDeleteAction";
-import ListItemSeparator from "../../components/ListItemSeparator";
+import { FlatList } from "react-native";
+import ListItem from "../../components/lists/ListItem";
+import ListItemDeleteAction from "../../components/lists/ListItemDeleteAction";
+import ListItemSeparator from "../../components/lists/ListItemSeparator";
 import Screen from "../../components/Screen";
 
 import images from "../../config/images";
@@ -38,8 +38,10 @@ function UserChatListScreen(props) {
 
 	// Handlers
 	const handleDelete = (item) => {
+		console.log("Deletion triggered: ", item);
+
 		// Delete the item from the current array
-		setItems(items.filter((i) => i.id != item.id));
+		setItems(items.filter((i) => i.id !== item.id));
 
 		// Call the server to delete that item as well
 		// TODO
@@ -50,7 +52,7 @@ function UserChatListScreen(props) {
 		<Screen style={styles.screen}>
 			<FlatList
 				style={styles.flatList}
-				data={chats}
+				data={items}
 				keyExtractor={(chat) => chat.id.toString()}
 				renderItem={({ item }) => (
 					<ListItem
@@ -68,15 +70,8 @@ function UserChatListScreen(props) {
 				ItemSeparatorComponent={ListItemSeparator}
 				refreshing={refreshing}
 				onRefresh={() => {
-					setItems([
-						{
-							id: 3,
-							picUrl: images.USER_DEFAULT, //"https://picsum.photos/200"
-							user: "Kayleen Green",
-							lastMessage: "No, not today unfortunately",
-						},
-					]);
-				}} // Call the server to get the new list of items
+					setItems(chats); // TODO: Call the server to get the new list of items
+				}}
 			/>
 		</Screen>
 	);

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import colors from "../config/colors";
+import colors from "../../config/colors";
 
 const IMAGE_SIZE = { width: 50, height: 50 };
 

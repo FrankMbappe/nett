@@ -7,16 +7,8 @@ import NettButton from "../NettButton";
 function WelcomeBottomBar({ style, buttonStart, buttonEnd }) {
 	return (
 		<View style={[styles.bottomBar, style]}>
-			<NettButton
-				type={buttonStart.type}
-				text={buttonStart.text}
-				onPress={buttonStart.onPress}
-			/>
-			<NettButton
-				type={buttonEnd.type}
-				text={buttonEnd.text}
-				onPress={buttonEnd.onPress}
-			/>
+			<NettButton {...buttonStart} />
+			<NettButton {...buttonEnd} />
 		</View>
 	);
 }

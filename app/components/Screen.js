@@ -13,7 +13,7 @@ function Screen({ children, style }) {
 }
 
 const styles = StyleSheet.create({
-	container: { flex: 1, width: "100%" },
+	container: { flex: 1, width: "100%", padding: 5 },
 	screen: {
 		alignSelf: "center",
 		backgroundColor: colors.appBack,

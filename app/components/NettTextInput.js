@@ -4,9 +4,17 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 
-function NettTextInput({ style, icon, fontSize = 20, ...otherProps }) {
+function NettTextInput({
+	containerStyle,
+	style,
+	icon,
+	fontSize = 20,
+	...otherProps
+}) {
 	return (
-		<View style={[styles.container, { padding: fontSize * 0.75 }, style]}>
+		<View
+			style={[styles.container, { padding: fontSize * 0.75 }, containerStyle]}
+		>
 			{icon && (
 				<MaterialCommunityIcons
 					name={icon}
