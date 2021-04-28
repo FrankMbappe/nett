@@ -15,15 +15,11 @@ function WelcomeBottomBar({ style, buttonStart, buttonEnd }) {
 
 const styles = StyleSheet.create({
 	bottomBar: {
-		position: "absolute",
-		bottom: 0,
+		backgroundColor: colors.appBack,
 		padding: 25,
 		width: "100%",
 		flexDirection: "row",
 		justifyContent: "space-between",
-		borderColor: "green",
-		borderWidth: 0,
-		backgroundColor: colors.appBack,
 	},
 });
 

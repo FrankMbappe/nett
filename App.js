@@ -8,6 +8,7 @@ import NettPicker from "./app/components/NettPicker";
 import NettTextInput from "./app/components/NettTextInput";
 import ProfileEditionScreen from "./app/screens/ProfileEditionScreen/ProfileEditionScreen";
 
+//#region Testing Picker with dummy data
 const categories = [
 	{ label: "Furniture", value: 1 },
 	{ label: "Clothing", value: 2 },
@@ -34,6 +35,7 @@ const categoryPickerExample = () => {
 		</Screen>
 	);
 };
+//#endregion
 
 export default function App() {
 	// return <LoginWithPhoneScreen />;

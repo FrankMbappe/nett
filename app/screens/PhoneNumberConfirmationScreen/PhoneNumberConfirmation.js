@@ -1,15 +1,16 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { Divider } from "react-native-elements";
 
+import NettTextInput from "../../components/NettTextInput";
+import NettButton from "../../components/NettButton";
 import Screen from "../../components/Screen";
 import TinyTextDescription from "../../components/TinyTextDescription";
-import NettTextInput from "../../components/NettTextInput";
 import WelcomeTitle from "../../components/welcome/Title";
 import WelcomeBottomBar from "../../components/welcome/BottomBar";
 
 import styles from "./styles";
-import enums from "../../config/enums";
+import { buttons } from "../../config/enums";
 
 // --- HANDLERS --- //
 const handlePrevious = () => console.log("Previous");
@@ -17,6 +18,15 @@ const handleNext = () => console.log("Next");
 
 // --- SCREEN --- //
 function PhoneNumberConfirmation({ phone }) {
+	const [timerLeft, setTimerLeft] = useState(30);
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (!timerLeft) return;
+			setTimerLeft(timerLeft - 1);
+		}, 1000);
+		return () => clearTimeout(timer);
+	});
+
 	return (
 		<Screen style={styles.screen}>
 			{/* --- Main Box --- */}
@@ -38,6 +48,7 @@ function PhoneNumberConfirmation({ phone }) {
 						placeholder={"4-digit code"}
 						keyboardType={"numeric"}
 						icon={"key"}
+						fontSize={18}
 						maxLength={4}
 					/>
 				</View>
@@ -45,9 +56,13 @@ function PhoneNumberConfirmation({ phone }) {
 				{/* Code expiration timer */}
 				<View style={styles.timerContainer}>
 					<TinyTextDescription style={styles.timerDescription}>
-						This code will expire in:
+						Time left before expiration:
 					</TinyTextDescription>
-					<Text style={styles.timer}>00:50</Text>
+					<Text style={styles.timer}>
+						{timerLeft
+							? new Date(timerLeft * 1000).toISOString().substr(14, 5)
+							: "Expired"}
+					</Text>
 				</View>
 
 				{/* Resend code */}
@@ -63,18 +78,26 @@ function PhoneNumberConfirmation({ phone }) {
 			</View>
 
 			{/* --- Bottom bar --- */}
-			<WelcomeBottomBar
-				buttonStart={{
-					text: "Previous",
-					type: enums.BUTTON_SECONDARY,
-					onPress: handlePrevious,
-				}}
-				buttonEnd={{
-					text: "Next",
-					type: enums.BUTTON_PRIMARY,
-					onPress: handleNext,
-				}}
-			/>
+			{timerLeft ? (
+				<WelcomeBottomBar
+					style={styles.bottomBar}
+					buttonStart={{
+						text: "Previous",
+						type: buttons.SECONDARY,
+						onPress: handlePrevious,
+					}}
+					buttonEnd={{
+						text: "Next",
+						type: buttons.PRIMARY,
+						disabled: !timerLeft, // TODO: Disable button when timer's value == 0
+						onPress: handleNext,
+					}}
+				/>
+			) : (
+				<View style={styles.bottomBar}>
+					<NettButton text="Retry" onPress={handlePrevious} />
+				</View>
+			)}
 		</Screen>
 	);
 }

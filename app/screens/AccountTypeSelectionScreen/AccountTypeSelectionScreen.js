@@ -7,7 +7,7 @@ import WelcomeBottomBar from "../../components/welcome/BottomBar";
 import ListItemSelector from "../../components/welcome/ListItemSelector";
 
 import styles from "./styles";
-import enums from "../../config/enums";
+import { buttons } from "../../config/enums";
 import images from "../../config/images";
 
 // --- HANDLERS --- //
@@ -45,7 +45,7 @@ function LoginWithPhoneScreen(props) {
 							image: images.CONSULT_ACCOUNT,
 							name: "Consultant",
 							description:
-								"Share your knowledge with teachers and students via classrooms.",
+								"Share your knowledge with the world via classrooms.",
 						},
 					]}
 				/>
@@ -53,14 +53,15 @@ function LoginWithPhoneScreen(props) {
 
 			{/* --- Bottom bar --- */}
 			<WelcomeBottomBar
+				style={styles.bottomBar}
 				buttonStart={{
 					text: "Quit",
-					type: enums.BUTTON_SECONDARY,
+					type: buttons.SECONDARY,
 					onPress: handleQuit,
 				}}
 				buttonEnd={{
 					text: "Next",
-					type: enums.BUTTON_PRIMARY,
+					type: buttons.PRIMARY,
 					onPress: handleNext,
 				}}
 			/>

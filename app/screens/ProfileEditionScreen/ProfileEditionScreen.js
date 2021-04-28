@@ -4,12 +4,14 @@ import * as Yup from "yup";
 
 import NettImagePicker from "../../components/NettImagePicker";
 import {
-	NettForm,
-	NettFormField,
-	NettFormSubmitButton,
+	NettForm as Form,
+	NettFormField as Field,
+	NettFormSubmitButton as SubmitButton,
 } from "../../components/forms";
 
 import styles from "./styles";
+import { View } from "react-native";
+import WelcomeTitle from "../../components/welcome/Title";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -22,7 +24,7 @@ const validationSchema = Yup.object().shape({
 function ProfileEditionScreen({ profile }) {
 	return (
 		<Screen style={styles.screen}>
-			<NettForm
+			<Form
 				initialValues={{
 					pic: null,
 					firstName: "",
@@ -32,29 +34,38 @@ function ProfileEditionScreen({ profile }) {
 				onSubmit={(values) => console.log(values)}
 				validationSchema={validationSchema}
 			>
-				{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
-				<NettImagePicker style={styles.imagePicker} />
+				<View style={styles.mainContainer}>
+					<WelcomeTitle style={styles.titleContainer} useLogo={false}>
+						Configure your profile
+					</WelcomeTitle>
 
-				<NettFormField
-					autoCapitalize="none"
-					autoCorrect={false}
-					name="firstName"
-					placeholder="First name"
-					textContentType="name"
-				/>
+					{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
+					<NettImagePicker style={styles.imagePicker} size={250} />
 
-				<NettFormField
-					autoCapitalize="none"
-					autoCorrect={false}
-					name="lastName"
-					placeholder="Last name"
-					textContentType="familyName"
-				/>
+					<Field
+						autoCapitalize="none"
+						autoCorrect={false}
+						name="firstName"
+						placeholder="First name"
+						maxLength={255}
+						textContentType="name"
+					/>
 
-				{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
+					<Field
+						autoCapitalize="none"
+						autoCorrect={false}
+						name="lastName"
+						placeholder="Last name"
+						maxLength={255}
+						textContentType="familyName"
+					/>
 
-				<NettFormSubmitButton style={styles.submitButton} text="Validate" />
-			</NettForm>
+					{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
+				</View>
+				<View style={styles.bottomBar}>
+					<SubmitButton text="Retry" text="Validate" />
+				</View>
+			</Form>
 		</Screen>
 	);
 }

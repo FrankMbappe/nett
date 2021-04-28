@@ -1,8 +1,13 @@
-const enums = {
-	// Buttons
-	BUTTON_PRIMARY: 0,
-	BUTTON_SECONDARY: 1,
-	BUTTON_TERTIARY: 2,
+// Buttons
+const buttons = {
+	PRIMARY: 0,
+	SECONDARY: 1,
+	TERTIARY: 2,
 };
 
-export default enums;
+// Regular expressions
+const regexps = {
+	CMR_PHONE_NUMBER: /^(\+237|00237|\(237\))?((6|2)[5-9][0-9]{7})$/,
+};
+
+export { buttons, regexps };

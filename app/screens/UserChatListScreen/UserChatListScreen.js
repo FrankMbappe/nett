@@ -12,19 +12,17 @@ import styles from "./styles";
 const chats = [
 	{
 		id: 1,
-		picUrl: images.USER_DEFAULT,
+		picUrl: images.random,
 		user: "Paul Zebaze",
 		lastMessage: "Hey what's up? Hope you enjoy!",
 	},
 	{
 		id: 2,
-		picUrl: images.USER_DEFAULT,
 		user: "Marie Antoinette",
 		lastMessage: "Wanna hangout?",
 	},
 	{
 		id: 3,
-		picUrl: images.USER_DEFAULT, //"https://picsum.photos/200"
 		user: "Kayleen Green",
 		lastMessage: "No, not today unfortunately",
 	},
@@ -43,8 +41,7 @@ function UserChatListScreen(props) {
 		// Delete the item from the current array
 		setItems(items.filter((i) => i.id !== item.id));
 
-		// Call the server to delete that item as well
-		// TODO
+		// TODO: Call the server to delete that item as well
 	};
 
 	// Render
@@ -57,7 +54,7 @@ function UserChatListScreen(props) {
 				renderItem={({ item }) => (
 					<ListItem
 						style={styles.listItem}
-						image={item.picUrl}
+						image={item.picUrl ? item.picUrl : images.USER_DEFAULT}
 						name={item.user}
 						description={item.lastMessage}
 						imageIsRounded={true}

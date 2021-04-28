@@ -1,20 +1,39 @@
 import { StyleSheet } from "react-native";
+import colors from "../../config/colors";
 
 // <--- ProfileEditionScreen styles ---> //
 
 const styles = StyleSheet.create({
 	screen: {
 		alignItems: "center",
-		borderColor: "red",
-		borderWidth: 1,
-		paddingVertical: 15,
-		paddingHorizontal: 20,
+	},
+
+	// --- MAIN CONTAINER --- //
+	mainContainer: {
+		alignItems: "center",
+		flex: 1,
+		justifyContent: "center",
+		width: "85%",
+		paddingBottom: 25,
+	},
+
+	// --> TITLE
+	titleContainer: {
+		width: "100%",
+		paddingVertical: 20,
 	},
 	imagePicker: {
-		marginBottom: 30,
+		marginTop: 30,
+		marginBottom: 20,
 	},
-	submitButton: {
-		marginTop: 15,
+
+	// --> BOTTOM BAR
+	bottomBar: {
+		paddingTop: 0,
+		paddingHorizontal: 10,
+		paddingBottom: 10,
+		width: "100%",
+		backgroundColor: colors.appBack,
 	},
 });
 

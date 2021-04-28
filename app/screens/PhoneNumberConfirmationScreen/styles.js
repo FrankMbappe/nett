@@ -7,30 +7,29 @@ import colors from "../../config/colors";
 const styles = StyleSheet.create({
 	screen: {
 		alignItems: "center",
-		justifyContent: "center",
 	},
 
 	// --- MAIN CONTAINER --- //
 	mainContainer: {
 		alignItems: "center",
+		flex: 1,
 		justifyContent: "center",
-		width: "85%",
-		bottom: "10%",
+		width: "90%",
 	},
 
 	// --> TITLE
 	titleContainer: {
-		width: "60%",
+		width: 200,
 	},
 
 	// --> INPUT
 	inputDescription: {
-		marginTop: 25,
+		marginTop: 20,
 	},
 	inputContainer: {
 		width: "100%",
 		flexDirection: "row",
-		marginTop: "5%",
+		marginTop: 10,
 	},
 	codeInput: {
 		flex: 1,
@@ -38,20 +37,18 @@ const styles = StyleSheet.create({
 
 	// --> TIMER
 	timerContainer: {
+		marginTop: 12,
 		alignItems: "center",
-	},
-	timerDescription: {
-		marginTop: 25,
+		width: "100%",
 	},
 	timer: {
 		fontWeight: "bold",
 		fontSize: 24,
-		top: 3,
 	},
 
 	// --> RESEND CODE
 	resendCodeContainer: {
-		top: 30,
+		marginTop: 10,
 		width: "100%",
 	},
 	resendCodeDivider: {
@@ -60,10 +57,10 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 	resendCodeTextContainer: {
-		top: 20,
 		width: "100%",
 		flexDirection: "row",
 		justifyContent: "center",
+		paddingTop: 10,
 	},
 	resendCodeLabel: {
 		fontSize: 15,
@@ -73,6 +70,15 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		color: colors.appPrimary,
 		paddingStart: 7,
+	},
+
+	// --> BOTTOM BAR
+	bottomBar: {
+		paddingTop: 0,
+		paddingHorizontal: 10,
+		paddingBottom: 10,
+		width: "100%",
+		backgroundColor: colors.appBack,
 	},
 });
 

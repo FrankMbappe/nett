@@ -13,7 +13,7 @@ import Screen from "./Screen";
 import NettButton from "./NettButton";
 
 import colors from "../config/colors";
-import enums from "../config/enums";
+import { buttons } from "../config/enums";
 import NettPickerItem from "./NettPickerItem";
 
 function NettPicker({
@@ -62,7 +62,7 @@ function NettPicker({
 				<Screen style={{ paddingHorizontal: 10 }}>
 					<NettButton
 						text="Close"
-						type={enums.BUTTON_TERTIARY}
+						type={buttons.TERTIARY}
 						onPress={() => setModalIsVisible(false)}
 					/>
 					<FlatList

@@ -5,7 +5,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
 	screen: {
 		alignItems: "center",
-		justifyContent: "center",
 	},
 
 	// --- MAIN CONTAINER --- //
@@ -13,17 +12,25 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		width: "85%",
-		bottom: "5%",
+		flex: 1,
 	},
 
 	// --> TITLE
 	titleContainer: {
-		width: "75%",
+		width: 250,
 	},
 
 	// --> TYPE SELECTOR
 	typeSelector: {
-		marginTop: "5%",
+		marginTop: 15,
+	},
+
+	// --> BOTTOM BAR
+	bottomBar: {
+		paddingTop: 0,
+		paddingHorizontal: 10,
+		paddingBottom: 10,
+		width: "100%",
 	},
 });
 

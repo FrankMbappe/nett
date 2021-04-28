@@ -3,11 +3,12 @@ import { TouchableOpacity, Image, View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
+import images from "../config/images";
 
 function NettImagePicker({ style, size = 150, onPress }) {
 	return (
 		<TouchableOpacity style={[styles(size).container, style]} onPress={onPress}>
-			<Image style={styles(size).image} />
+			<Image style={styles(size).image} source={images.random} />
 			<View style={styles(size).overlay}>
 				<MaterialCommunityIcons
 					name={"camera"}
