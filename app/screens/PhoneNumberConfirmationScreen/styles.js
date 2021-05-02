@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
 	// --> INPUT
 	inputDescription: {
 		marginTop: 20,
+		color: colors.medium,
+		textAlign: "center",
 	},
 	inputContainer: {
 		width: "100%",
@@ -37,13 +39,19 @@ const styles = StyleSheet.create({
 
 	// --> TIMER
 	timerContainer: {
-		marginTop: 12,
+		marginTop: 25,
 		alignItems: "center",
 		width: "100%",
+	},
+	timerDescription: {
+		fontSize: 15,
+		color: colors.medium,
+		textAlign: "center",
 	},
 	timer: {
 		fontWeight: "bold",
 		fontSize: 24,
+		marginTop: 5,
 	},
 
 	// --> RESEND CODE
@@ -52,8 +60,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 	resendCodeDivider: {
-		backgroundColor: colors.appFront,
-		opacity: 0.15,
+		backgroundColor: colors.mediumLight,
 		width: "100%",
 	},
 	resendCodeTextContainer: {

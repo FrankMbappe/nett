@@ -2,7 +2,7 @@ import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import colors from "../../config/colors";
-import NettText from "../NettText";
+import NettText from "../Text";
 
 function NettFormErrorLabel({ style, error, visible }) {
 	if (!visible || !error) {

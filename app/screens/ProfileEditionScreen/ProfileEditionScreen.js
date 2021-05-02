@@ -2,7 +2,7 @@ import React from "react";
 import Screen from "../../components/Screen";
 import * as Yup from "yup";
 
-import NettImagePicker from "../../components/NettImagePicker";
+import NettImagePicker from "../../components/ImagePicker";
 import {
 	NettForm as Form,
 	NettFormField as Field,
@@ -40,11 +40,16 @@ function ProfileEditionScreen({ profile }) {
 					</WelcomeTitle>
 
 					{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
-					<NettImagePicker style={styles.imagePicker} size={250} />
+					<NettImagePicker
+						style={styles.imagePicker}
+						size={200}
+						onPicChangerPress={() => console.log("Change")}
+					/>
 
 					<Field
 						autoCapitalize="none"
 						autoCorrect={false}
+						icon="card-text-outline"
 						name="firstName"
 						placeholder="First name"
 						maxLength={255}
@@ -54,6 +59,7 @@ function ProfileEditionScreen({ profile }) {
 					<Field
 						autoCapitalize="none"
 						autoCorrect={false}
+						icon="card-text-outline"
 						name="lastName"
 						placeholder="Last name"
 						maxLength={255}

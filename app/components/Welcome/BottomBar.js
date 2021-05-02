@@ -2,13 +2,15 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../config/colors";
 
-import NettButton from "../NettButton";
-
-function WelcomeBottomBar({ style, buttonStart, buttonEnd }) {
+function WelcomeBottomBar({
+	style,
+	buttonStart: ButtonStart,
+	buttonEnd: ButtonEnd,
+}) {
 	return (
 		<View style={[styles.bottomBar, style]}>
-			<NettButton {...buttonStart} />
-			<NettButton {...buttonEnd} />
+			{ButtonStart}
+			{ButtonEnd}
 		</View>
 	);
 }

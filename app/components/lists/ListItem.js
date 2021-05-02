@@ -1,12 +1,9 @@
 import React from "react";
-import {
-	Text,
-	View,
-	StyleSheet,
-	Image,
-	TouchableHighlight,
-} from "react-native";
+import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import NettText from "../Text";
 
 import colors from "../../config/colors";
 
@@ -37,11 +34,22 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 						)
 					}
 					<View style={styles.descriptionContainer}>
-						<Text style={styles.name}>{otherProps.name}</Text>
+						<NettText style={styles.name} numberOfLines={1}>
+							{otherProps.name}
+						</NettText>
 						{otherProps.description && (
-							<Text style={styles.description}>{otherProps.description}</Text>
+							<NettText style={styles.description} numberOfLines={2}>
+								{otherProps.description}
+							</NettText>
 						)}
 					</View>
+					{otherProps.isChatItem && (
+						<MaterialCommunityIcons
+							name="chevron-right"
+							size={20}
+							color={colors.medium}
+						/>
+					)}
 				</View>
 			</TouchableHighlight>
 		</Swipeable>

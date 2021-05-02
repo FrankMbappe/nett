@@ -9,6 +9,7 @@ import ListItemSelector from "../../components/welcome/ListItemSelector";
 import styles from "./styles";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
+import Button from "../../components/Button";
 
 // --- HANDLERS --- //
 const handleQuit = () => console.log("Quit");
@@ -54,16 +55,12 @@ function LoginWithPhoneScreen(props) {
 			{/* --- Bottom bar --- */}
 			<WelcomeBottomBar
 				style={styles.bottomBar}
-				buttonStart={{
-					text: "Quit",
-					type: buttons.SECONDARY,
-					onPress: handleQuit,
-				}}
-				buttonEnd={{
-					text: "Next",
-					type: buttons.PRIMARY,
-					onPress: handleNext,
-				}}
+				buttonStart={
+					<Button text="Quit" type={buttons.SECONDARY} onPress={handleQuit} />
+				}
+				buttonEnd={
+					<Button text="Next" type={buttons.PRIMARY} onPress={handleNext} />
+				}
 			/>
 		</Screen>
 	);

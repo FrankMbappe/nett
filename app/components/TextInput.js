@@ -18,7 +18,7 @@ function NettTextInput({
 			{icon && (
 				<MaterialCommunityIcons
 					name={icon}
-					size={fontSize * 1.67}
+					size={fontSize * 1.5}
 					color={colors.medium}
 					style={{ marginEnd: fontSize * 0.65 }}
 				/>

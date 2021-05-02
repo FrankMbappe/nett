@@ -7,20 +7,20 @@ import {
 	NettFormField as Field,
 	NettFormSubmitButton as SubmitButton,
 } from "../../components/forms";
-import WelcomeTitle from "../../components/welcome/Title";
-import TinyTextDescription from "../../components/TinyTextDescription";
+import NettText from "../../components/Text";
 import Screen from "../../components/Screen";
+import WelcomeTitle from "../../components/welcome/Title";
 
 import styles from "./styles";
-import { regexps } from "../../config/enums";
+import { countries } from "../../config/enums";
 
 const validationSchema = Yup.object().shape({
 	phone: Yup.string()
 		.label("Phone number")
 		.min(9)
 		.matches(
-			regexps.CMR_PHONE_NUMBER,
-			"This doesn't look like a valid cameroonian phone number."
+			countries.cameroon.phoneFormat,
+			`This doesn't look like a valid ${countries.cameroon.qualifier.toLowerCase()} phone number.`
 		)
 		.required(),
 });
@@ -46,6 +46,7 @@ function LoginWithPhoneScreen(props) {
 					{/* Input */}
 					<View style={styles.inputContainer}>
 						<Text style={styles.countryIndicator}>+237</Text>
+
 						<View style={styles.inputSubContainer}>
 							<Field
 								style={styles.input}
@@ -59,11 +60,11 @@ function LoginWithPhoneScreen(props) {
 					</View>
 
 					{/* Description */}
-					<TinyTextDescription style={styles.inputDescription}>
+					<NettText style={styles.inputDescription}>
 						Phone numbers are used to register and log into Nett accounts. After
 						entering yours, we will send you a confirmation message to verify
 						it.
-					</TinyTextDescription>
+					</NettText>
 				</View>
 
 				{/* --- Bottom bar --- */}

@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
 	// --> INPUT DESCRIPTION
 	inputDescription: {
 		marginTop: 10,
+		color: colors.medium,
+		textAlign: "center",
 	},
 
 	// --> BOTTOM BAR

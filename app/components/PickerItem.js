@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import NettText from "./NettText";
+import NettText from "./Text";
 
 function NettPickerItem({ label, onPress }) {
 	return (

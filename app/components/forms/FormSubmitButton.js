@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormikContext } from "formik";
 
-import NettButton from "../NettButton";
+import NettButton from "../Button";
 
 function NettFormSubmitButton({ text, style }) {
 	const { handleSubmit } = useFormikContext();

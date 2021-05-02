@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormikContext } from "formik";
 
-import NettFormErrorLabel from "./NettFormErrorLabel";
-import NettTextInput from "../NettTextInput";
+import NettFormErrorLabel from "./FormErrorLabel";
+import NettTextInput from "../TextInput";
 
 function NettFormField({ name, ...otherProps }) {
 	const { setFieldTouched, handleChange, errors, touched } = useFormikContext();

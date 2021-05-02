@@ -10,11 +10,11 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Screen from "./Screen";
-import NettButton from "./NettButton";
+import NettButton from "./Button";
 
 import colors from "../config/colors";
 import { buttons } from "../config/enums";
-import NettPickerItem from "./NettPickerItem";
+import NettPickerItem from "./PickerItem";
 
 function NettPicker({
 	icon,

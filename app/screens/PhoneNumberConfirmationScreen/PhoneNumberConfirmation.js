@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Divider } from "react-native-elements";
 
-import NettTextInput from "../../components/NettTextInput";
-import NettButton from "../../components/NettButton";
+import NettButton from "../../components/Button";
+import NettText from "../../components/Text";
+import NettTextInput from "../../components/TextInput";
 import Screen from "../../components/Screen";
-import TinyTextDescription from "../../components/TinyTextDescription";
 import WelcomeTitle from "../../components/welcome/Title";
 import WelcomeBottomBar from "../../components/welcome/BottomBar";
 
@@ -18,7 +18,8 @@ const handleNext = () => console.log("Next");
 
 // --- SCREEN --- //
 function PhoneNumberConfirmation({ phone }) {
-	const [timerLeft, setTimerLeft] = useState(30);
+	//#region - TIMER COUNTDOWN
+	const [timerLeft, setTimerLeft] = useState(35);
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			if (!timerLeft) return;
@@ -26,6 +27,7 @@ function PhoneNumberConfirmation({ phone }) {
 		}, 1000);
 		return () => clearTimeout(timer);
 	});
+	//#endregion
 
 	return (
 		<Screen style={styles.screen}>
@@ -36,12 +38,10 @@ function PhoneNumberConfirmation({ phone }) {
 					Confirm your phone number: {phone}
 				</WelcomeTitle>
 
-				{/* Directive */}
-				<TinyTextDescription style={styles.inputDescription}>
-					Enter the 4-digit code you were sent by SMS
-				</TinyTextDescription>
-
 				{/* Input */}
+				<NettText style={styles.inputDescription}>
+					Enter the 4-digit code you were sent by SMS
+				</NettText>
 				<View style={styles.inputContainer}>
 					<NettTextInput
 						style={styles.codeInput}
@@ -55,9 +55,9 @@ function PhoneNumberConfirmation({ phone }) {
 
 				{/* Code expiration timer */}
 				<View style={styles.timerContainer}>
-					<TinyTextDescription style={styles.timerDescription}>
+					<NettText style={styles.timerDescription}>
 						Time left before expiration:
-					</TinyTextDescription>
+					</NettText>
 					<Text style={styles.timer}>
 						{timerLeft
 							? new Date(timerLeft * 1000).toISOString().substr(14, 5)
@@ -69,9 +69,7 @@ function PhoneNumberConfirmation({ phone }) {
 				<View style={styles.resendCodeContainer}>
 					<Divider style={styles.resendCodeDivider} />
 					<View style={styles.resendCodeTextContainer}>
-						<Text style={styles.resendCodeLabel}>
-							Didn't received the code ?
-						</Text>
+						<Text style={styles.resendCodeLabel}>Didn't receive the code?</Text>
 						<Text style={styles.resendCodeLink}>Resend</Text>
 					</View>
 				</View>
@@ -81,17 +79,20 @@ function PhoneNumberConfirmation({ phone }) {
 			{timerLeft ? (
 				<WelcomeBottomBar
 					style={styles.bottomBar}
-					buttonStart={{
-						text: "Previous",
-						type: buttons.SECONDARY,
-						onPress: handlePrevious,
-					}}
-					buttonEnd={{
-						text: "Next",
-						type: buttons.PRIMARY,
-						disabled: !timerLeft, // TODO: Disable button when timer's value == 0
-						onPress: handleNext,
-					}}
+					buttonStart={
+						<NettButton
+							text="Previous"
+							type={buttons.SECONDARY}
+							onPress={handlePrevious}
+						/>
+					}
+					buttonEnd={
+						<NettButton
+							text="Next"
+							type={buttons.PRIMARY}
+							onPress={handleNext}
+						/>
+					}
 				/>
 			) : (
 				<View style={styles.bottomBar}>

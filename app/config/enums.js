@@ -5,9 +5,14 @@ const buttons = {
 	TERTIARY: 2,
 };
 
-// Regular expressions
-const regexps = {
-	CMR_PHONE_NUMBER: /^(\+237|00237|\(237\))?((6|2)[5-9][0-9]{7})$/,
+// Countries
+const countries = {
+	cameroon: {
+		name: "Cameroon",
+		qualifier: "Cameroonian",
+		indicator: "237",
+		phoneFormat: /^(\+237|00237|\(237\))?((6|2)[5-9][0-9]{7})$/,
+	},
 };
 
-export { buttons, regexps };
+export { buttons, countries };
