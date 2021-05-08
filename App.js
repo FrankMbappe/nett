@@ -9,7 +9,7 @@ import NettTextInput from "./app/components/TextInput";
 import ProfileEditionScreen from "./app/screens/ProfileEditionScreen/ProfileEditionScreen";
 import { Dimensions, FlatList, ScrollView, View } from "react-native";
 import NettText from "./app/components/Text";
-import moment from "moment";
+import HomeScreen from "./app/screens/HomeScreen/HomeScreen";
 
 //#region Testing Picker with dummy data
 
@@ -124,6 +124,7 @@ export default function App() {
 	// return <AccountTypeSelection />;
 	// return <UserChatListScreen />;
 	// return categoryPickerExample();
-	return <ProfileEditionScreen />;
+	// return <ProfileEditionScreen />;
+	return <HomeScreen />;
 	// return birthDatePicker();
 }

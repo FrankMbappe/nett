@@ -12,6 +12,7 @@ import {
 import styles from "./styles";
 import { View } from "react-native";
 import WelcomeTitle from "../../components/welcome/Title";
+import DatePicker from "../../components/DatePicker";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -67,9 +68,10 @@ function ProfileEditionScreen({ profile }) {
 					/>
 
 					{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
+					<DatePicker />
 				</View>
 				<View style={styles.bottomBar}>
-					<SubmitButton text="Retry" text="Validate" />
+					<SubmitButton text="Validate" />
 				</View>
 			</Form>
 		</Screen>

@@ -6,13 +6,13 @@ import colors from "../../config/colors";
 const styles = StyleSheet.create({
 	screen: {
 		alignItems: "center",
+		padding: 0,
 	},
 
 	// --- MAIN CONTAINER --- //
 	mainContainer: {
 		alignItems: "center",
 		flex: 1,
-		justifyContent: "center",
 		width: "85%",
 		paddingBottom: 25,
 	},
@@ -22,18 +22,18 @@ const styles = StyleSheet.create({
 		width: "100%",
 		paddingVertical: 20,
 	},
+
+	// --> IMAGE PICKER
 	imagePicker: {
-		marginTop: 30,
-		marginBottom: 20,
+		marginVertical: 30,
 	},
 
 	// --> BOTTOM BAR
 	bottomBar: {
-		paddingTop: 0,
-		paddingHorizontal: 10,
-		paddingBottom: 10,
-		width: "100%",
 		backgroundColor: colors.appBack,
+		padding: 20,
+		paddingTop: 5,
+		width: "100%",
 	},
 });
 

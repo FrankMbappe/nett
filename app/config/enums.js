@@ -15,4 +15,10 @@ const countries = {
 	},
 };
 
-export { buttons, countries };
+// Account status
+const accountStatus = {
+	OFFLINE: 0,
+	ONLINE: 1,
+};
+
+export { buttons, countries, accountStatus };

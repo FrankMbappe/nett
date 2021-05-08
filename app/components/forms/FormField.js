@@ -10,13 +10,13 @@ function NettFormField({ name, ...otherProps }) {
 	return (
 		<>
 			<NettTextInput
-				containerStyle={{ marginVertical: 10 }}
+				containerStyle={{ marginBottom: 10 }}
 				onBlur={() => setFieldTouched(name)}
 				onChangeText={handleChange(name)}
 				{...otherProps}
 			/>
 			<NettFormErrorLabel
-				style={{ marginBottom: 15 }}
+				style={{ marginBottom: 10 }}
 				error={errors[name]}
 				visible={touched[name]}
 			/>

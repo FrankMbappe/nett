@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, StyleSheet, Image, View } from "react-native";
+import { TextInput, StyleSheet, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.light,
 		borderRadius: 15,
 		flexDirection: "row",
+		alignItems: "center",
 		width: "100%",
 	},
 });

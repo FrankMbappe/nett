@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import ListItem from "../lists/ListItem";
+import { ListItem } from "../lists";
 import colors from "../../config/colors";
 
 function ListItemSelector({ style, options }) {

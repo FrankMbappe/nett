@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import { buttons } from "../config/enums";
@@ -20,27 +21,44 @@ const buttonTypes = {
 	},
 };
 
-function Button({ style, text, onPress, disabled, type = buttons.PRIMARY }) {
+function NettButton({
+	icon,
+	text,
+	disabled,
+	fontSize = 20,
+	type = buttons.PRIMARY,
+	...otherProps
+}) {
 	return (
 		<TouchableOpacity
 			disabled={disabled}
-			style={[styles(type).container, style]}
-			onPress={onPress}
+			style={[styles(type, disabled).container, otherProps.style]}
+			onPress={otherProps.onPress}
 		>
-			<Text style={styles(type).text}>{text}</Text>
+			{icon && (
+				<MaterialCommunityIcons
+					name={icon}
+					size={fontSize * 1.5}
+					color={buttonTypes[type].frontColor}
+					style={{ marginEnd: text ? fontSize * 0.65 : 0 }}
+				/>
+			)}
+			{text && <Text style={[styles(type).text, { fontSize }]}>{text}</Text>}
 		</TouchableOpacity>
 	);
 }
 
-const styles = (buttonType) => {
+const styles = (buttonType, disabled = false) => {
 	return StyleSheet.create({
 		container: {
 			backgroundColor: buttonTypes[buttonType].backColor,
 			justifyContent: "center",
 			alignItems: "center",
+			flexDirection: "row",
 			paddingHorizontal: 30,
 			paddingVertical: 15,
 			borderRadius: 10,
+			opacity: disabled ? 0.25 : 1,
 		},
 		text: {
 			color: buttonTypes[buttonType].frontColor,
@@ -51,4 +69,4 @@ const styles = (buttonType) => {
 	});
 };
 
-export default Button;
+export default NettButton;
