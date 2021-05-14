@@ -6,7 +6,7 @@ import moment from "moment";
 const me = {
 	// Default attributes
 	id: "usr-100",
-	registeredOn: "2021-05-08 02:23:58",
+	registeredOn: "2021-05-08T02:23:58+01:00",
 	status: 1,
 	phone: "+237656895348",
 	type: "student",
@@ -20,7 +20,7 @@ const me = {
 		fullName: "Frank MBAPPE",
 		birthday: "2001-12-19",
 		gender: "male",
-		picUrl: "https://picsum.photos/id/1047/300/300",
+		picUri: "https://picsum.photos/id/1047/300/300",
 	},
 	pocket: {
 		posts: ["pos-110"],
@@ -41,7 +41,7 @@ const teachers = [
 	{
 		// Default attributes
 		id: "usr-210",
-		registeredOn: "2021-02-17 17:32:51",
+		registeredOn: "2021-02-17T17:32:51+01:00",
 		status: 0,
 		phone: "+237656895347",
 		type: "teacher",
@@ -55,7 +55,7 @@ const teachers = [
 			fullName: "Dr. Samwell KONG",
 			birthday: "1985-02-05",
 			gender: "male",
-			picUrl: "https://picsum.photos/id/1005/300/300",
+			picUri: "https://picsum.photos/id/1005/300/300",
 		},
 		pocket: {
 			posts: ["pos-110"],
@@ -105,7 +105,7 @@ const teachers = [
 			fullName: "Mrs. Marceline EWUBE",
 			birthday: "1987-03-14",
 			gender: "female",
-			picUrl: "https://picsum.photos/id/237/300/300",
+			picUri: "https://picsum.photos/id/237/300/300",
 		},
 		pocket: {
 			posts: ["pos-111"],
@@ -143,7 +143,7 @@ const students = [
 	{
 		// Default attributes
 		id: "usr-110",
-		registeredOn: "2020-11-21 14:30:02",
+		registeredOn: "2021-02-21T17:32:51+01:00",
 		status: 0,
 		phone: "+237656895354",
 		type: "student",
@@ -157,7 +157,7 @@ const students = [
 			fullName: "Joseph KRUMAH",
 			birthday: "1999-12-18",
 			gender: "male",
-			picUrl: "https://picsum.photos/id/1015/300/300",
+			picUri: "https://picsum.photos/id/1015/300/300",
 		},
 		pocket: {
 			posts: [],
@@ -176,7 +176,7 @@ const students = [
 	{
 		// Default attributes
 		id: "usr-111",
-		registeredOn: "2020-11-21 14:30:02",
+		registeredOn: "2021-04-21T17:32:51+01:00",
 		status: 0,
 		phone: "+237656895354",
 		type: "student",
@@ -190,7 +190,7 @@ const students = [
 			fullName: "Caroline Mokam",
 			birthday: "1997-04-01",
 			gender: "female",
-			picUrl: "https://picsum.photos/id/1014/300/300",
+			picUri: "https://picsum.photos/id/1014/300/300",
 		},
 		pocket: {
 			posts: [],
@@ -209,7 +209,7 @@ const students = [
 	{
 		// Default attributes
 		id: "usr-112",
-		registeredOn: "2020-05-08 20:31:07",
+		registeredOn: "2020-05-08T20:31:07+01:00",
 		status: 0,
 		phone: "+237656895355",
 		type: "student",
@@ -223,7 +223,7 @@ const students = [
 			fullName: "Claire-Ameline SONTCHOU",
 			birthday: "1998-06-15",
 			gender: "female",
-			picUrl: "https://picsum.photos/id/1016/300/300",
+			picUri: "https://picsum.photos/id/1016/300/300",
 		},
 		pocket: {
 			posts: [],
@@ -242,7 +242,7 @@ const students = [
 	{
 		// Default attributes
 		id: "usr-113",
-		registeredOn: "2020-01-31 17:22:45",
+		registeredOn: "2021-05-08T20:31:07+01:00",
 		status: 0,
 		phone: "+237656895356",
 		type: "student",
@@ -256,7 +256,7 @@ const students = [
 			fullName: "Joël MEKONTCHOU",
 			birthday: "2001-12-14",
 			gender: "male",
-			picUrl: "https://picsum.photos/id/1025/300/300",
+			picUri: "https://picsum.photos/id/1025/300/300",
 		},
 		pocket: {
 			posts: [],
@@ -278,7 +278,7 @@ const consultants = [
 	{
 		// Default attributes
 		id: "usr-310",
-		registeredOn: "2020-09-09 15:20:37",
+		registeredOn: "2020-09-09T20:31:07+01:00",
 		status: 0,
 		phone: "+237656895350",
 		type: "consultant",
@@ -292,7 +292,7 @@ const consultants = [
 			fullName: "Dr. Anne Pauline Béa",
 			birthday: "1990-02-05",
 			gender: "female",
-			picUrl: "https://picsum.photos/id/1003/300/300",
+			picUri: "https://picsum.photos/id/1003/300/300",
 		},
 		pocket: {
 			posts: [],
@@ -311,7 +311,7 @@ const consultants = [
 	{
 		// Default attributes
 		id: "usr-311",
-		registeredOn: "2020-01-25 18:21:58",
+		registeredOn: "2020-05-08T20:31:07+01:00",
 		status: 0,
 		phone: "+237656895351",
 		type: "consultant",
@@ -325,7 +325,7 @@ const consultants = [
 			fullName: "Dr. Adele CHUKWEZE",
 			birthday: "1998-01-21",
 			gender: "female",
-			picUrl: "https://picsum.photos/id/1010/300/300",
+			picUri: "https://picsum.photos/id/1010/300/300",
 		},
 		pocket: {
 			posts: [],
@@ -387,81 +387,80 @@ const posts = [
 	{
 		id: "pos-110",
 		author: users.find((x) => x.id === "usr-210"),
-		createdOn: "2020-12-25 11:36:21",
+		createdOn: "2021-05-10T11:36:21+01:00",
 		classroom: "cls-001",
-		text:
-			"Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
 		likes: [
-			{ date: moment().format(), userId: "usr-110" },
-			{ date: moment().format(), userId: "usr-111" },
-			{ date: moment().format(), userId: "usr-112" },
+			{ date: new Date().toISOString(), userId: "usr-110" },
+			{ date: new Date().toISOString(), userId: "usr-111" },
+			{ date: new Date().toISOString(), userId: "usr-112" },
 		],
 		comments: [
 			{
-				date: moment().format(),
+				date: new Date().toISOString(),
 				userId: "usr-110",
 				text: "Pretty helpful, thanks sir !",
 				replies: [
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-210",
 						text: "@usr-110 You're welcome my child",
 					},
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-110",
 						text: "@usr-210 ('^ - ^)",
 					},
 				],
 				likes: [
-					{ date: moment().format(), userId: "usr-210" },
-					{ date: moment().format(), userId: "usr-112" },
+					{ date: new Date().toISOString(), userId: "usr-210" },
+					{ date: new Date().toISOString(), userId: "usr-112" },
 				],
 			},
 		],
 		shares: 12,
 		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+		haveSeen: ["usr-100"],
 	},
 
 	// With photo
 	{
 		id: "pos-111",
 		author: users.find((x) => x.id === "usr-210"),
-		createdOn: "2020-12-25 11:36:21",
+		createdOn: "2021-05-12T16:52:43+00:00",
 		classroom: "cls-001",
-		text:
-			"Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
 		likes: users.map((x) => ({
-			date: moment().format(),
+			date: new Date().toISOString(),
 			userId: x.id,
 		})),
 		comments: [
 			{
-				date: moment().format(),
+				date: new Date().toISOString(),
 				userId: "usr-310",
 				text: "Tremendous quote here, I must take some notes",
 				replies: [
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-210",
 						text: "@usr-310 Lol, do so then",
 					},
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-310",
 						text: "@usr-210 Bet, I will",
 					},
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-100",
 						text: "@usr-110 I agree, totally",
 					},
 				],
 				likes: [
-					{ date: moment().format(), userId: "usr-210" },
-					{ date: moment().format(), userId: "usr-112" },
-					{ date: moment().format(), userId: "usr-111" },
-					{ date: moment().format(), userId: "usr-310" },
+					{ date: new Date().toISOString(), userId: "usr-210" },
+					{ date: new Date().toISOString(), userId: "usr-112" },
+					{ date: new Date().toISOString(), userId: "usr-111" },
+					{ date: new Date().toISOString(), userId: "usr-310" },
 				],
 			},
 		],
@@ -474,54 +473,53 @@ const posts = [
 			extension: "jpg",
 		},
 		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+		haveSeen: [],
 	},
 
 	// With video
 	{
 		id: "pos-112",
 		author: users.find((x) => x.id === "usr-210"),
-		createdOn: "2020-12-25 11:36:21",
+		createdOn: "2020-12-25T11:36:21+01:00",
 		classroom: "cls-001",
-		text:
-			"Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
 		likes: users.map((x) => ({
-			date: moment().format(),
+			date: new Date().toISOString(),
 			userId: x.id,
 		})),
 		comments: [
 			{
-				date: moment().format(),
+				date: new Date().toISOString(),
 				userId: "usr-310",
 				text: "Tremendous quote here, I must take some notes",
 				replies: [
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-210",
 						text: "@usr-310 Lol, do so then",
 					},
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-310",
 						text: "@usr-210 Bet, I will",
 					},
 					{
-						date: moment().format(),
+						date: new Date().toISOString(),
 						userId: "user-100",
 						text: "@usr-110 I agree, totally",
 					},
 				],
 				likes: [
-					{ date: moment().format(), userId: "usr-210" },
-					{ date: moment().format(), userId: "usr-112" },
-					{ date: moment().format(), userId: "usr-111" },
-					{ date: moment().format(), userId: "usr-310" },
+					{ date: new Date().toISOString(), userId: "usr-210" },
+					{ date: new Date().toISOString(), userId: "usr-112" },
+					{ date: new Date().toISOString(), userId: "usr-111" },
+					{ date: new Date().toISOString(), userId: "usr-310" },
 				],
 			},
 		],
 		shares: 12,
 		file: {
-			uri:
-				"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
+			uri: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
 			type: "video",
 			size: "2048",
 			length: "160",
@@ -529,6 +527,55 @@ const posts = [
 			extension: "mp4",
 		},
 		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+		haveSeen: ["usr-100"],
+	},
+
+	// With other file type
+	{
+		id: "pos-114",
+		author: users.find((x) => x.id === "usr-211"),
+		createdOn: "2021-05-11T18:10:57+01:00",
+		classroom: "cls-001",
+		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+		likes: [
+			{ date: new Date().toISOString(), userId: "usr-110" },
+			{ date: new Date().toISOString(), userId: "usr-111" },
+			{ date: new Date().toISOString(), userId: "usr-112" },
+		],
+		comments: [
+			{
+				date: new Date().toISOString(),
+				userId: "usr-110",
+				text: "Pretty helpful, thanks sir !",
+				replies: [
+					{
+						date: new Date().toISOString(),
+						userId: "user-210",
+						text: "@usr-110 You're welcome my child",
+					},
+					{
+						date: new Date().toISOString(),
+						userId: "user-110",
+						text: "@usr-210 ('^ - ^)",
+					},
+				],
+				likes: [
+					{ date: new Date().toISOString(), userId: "usr-210" },
+					{ date: new Date().toISOString(), userId: "usr-112" },
+				],
+			},
+		],
+		file: {
+			uri: "http",
+			type: "file",
+			size: 78523,
+			length: "160",
+			name: "General Recommendations on Headaches and Earaches by Doctor Roselyn Sanchez",
+			extension: "pdf",
+		},
+		shares: 12,
+		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+		haveSeen: [],
 	},
 ];
 

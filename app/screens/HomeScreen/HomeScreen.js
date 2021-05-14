@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { FlatList, View } from "react-native";
+import { compareAsc, compareDesc } from "date-fns";
+
+import { ClassroomCard, PostCard } from "../../components/cards";
 import ButtonIcon from "../../components/ButtonIcon";
-import TopBar from "../../components/TopBar";
-import Screen from "../../components/Screen";
 import NettTextInput from "../../components/TextInput";
+import SectionHeader from "../../components/SectionHeader";
+import Screen from "../../components/Screen";
+import TopBar from "../../components/TopBar";
+
+import { classrooms, posts } from "../../config/dummyData";
 
 import styles from "./styles";
-import { classrooms, posts } from "../../config/dummyData";
-import { ClassroomCard, PostCard } from "../../components/cards";
 
 function Header() {
 	return (
@@ -30,14 +34,22 @@ function Header() {
 
 function HomeScreen(props) {
 	const [classroomList, setClassroomList] = useState(classrooms);
-	const [postList, setPostList] = useState(posts);
-
-	alert(classrooms.length);
+	const [postList, setPostList] = useState(
+		posts
+			.slice()
+			.sort((x, y) => compareDesc(new Date(x.createdOn), new Date(y.createdOn)))
+	);
 
 	return (
 		<Screen style={styles.screen}>
 			<Header />
 			<View style={{ flex: 1 }}>
+				<SectionHeader
+					icon="google-classroom"
+					title="Classrooms"
+					endLinkText="Show all"
+					onPressEndlink={() => alert("Shown")}
+				/>
 				<FlatList
 					style={{
 						backgroundColor: "aquamarine",
@@ -56,7 +68,7 @@ function HomeScreen(props) {
 					contentContainerStyle={{ alignItems: "center", width: "100%" }}
 					data={postList}
 					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => <PostCard post={item} />}
+					renderItem={({ item }) => <PostCard userId="usr-100" post={item} />}
 				/>
 			</View>
 		</Screen>

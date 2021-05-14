@@ -5,39 +5,45 @@ import NettText from "../Text";
 import TextIcon from "../TextIcon";
 import Author from "./Author";
 
-function getNumberOfParticipants(classroom) {
-	return classroom.students.length + classroom.consultants.length + 1;
-}
-
-function ClassroomCard({ classroom, ...otherProps }) {
+function ClassroomCard({
+	classroom: {
+		name,
+		nbOfParticipants,
+		students,
+		consultants,
+		postsPerDay,
+		teacher,
+	},
+	...otherProps
+}) {
 	return (
 		<TouchableOpacity
 			style={[styles.container, otherProps.style]}
 			onPress={otherProps.onPress}
 		>
 			<NettText style={styles.name} numberOfLines={3}>
-				{classroom.name}
+				{name}
 			</NettText>
 			<View style={styles.statsContainer}>
 				<TextIcon
 					icon="account-multiple"
 					text={
-						classroom.nbOfParticipants
-							? classroom.nbOfParticipants
-							: getNumberOfParticipants(classroom)
+						nbOfParticipants
+							? nbOfParticipants
+							: [...students, ...consultants].length + 1
 					}
 					fontSize={12}
 					containerStyle={{ marginEnd: 12 }}
 				/>
 				<TextIcon
 					icon="chart-timeline-variant"
-					text={`${classroom.postsPerDay} posts/day`}
+					text={`${postsPerDay} posts/day`}
 					fontSize={12}
 				/>
 			</View>
 			<Author
-				name={classroom.teacher.profile.fullName}
-				pic={{ uri: classroom.teacher.profile.picUrl }}
+				name={teacher.profile.fullName}
+				pic={{ uri: teacher.profile.picUri }}
 			/>
 		</TouchableOpacity>
 	);
@@ -48,8 +54,8 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.appBack,
 		borderRadius: 10,
 		elevation: 3,
-		height: 188,
-		marginEnd: 5,
+		height: 180,
+		marginEnd: 10,
 		padding: 10,
 		shadowColor: "#000",
 		shadowOffset: {

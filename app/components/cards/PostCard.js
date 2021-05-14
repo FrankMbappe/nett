@@ -1,64 +1,84 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import colors from "../../config/colors";
-import images from "../../config/images";
-import NettText from "../Text";
-import TextIcon from "../TextIcon";
-import Author from "./Author";
+import { View, StyleSheet, TouchableHighlight } from "react-native";
+import { formatRelative } from "date-fns";
 
-function renderPostBundle({ file }) {
+import { FileBundle, ImageBundle, VideoBundle } from "./bundles";
+import Author from "./Author";
+import Badge from "../Badge";
+import NettText from "../Text";
+
+import colors from "../../config/colors";
+
+function renderPostBundle(file) {
 	switch (file.type.toLowerCase()) {
 		case "image":
-			return (
-				<View>
-					<Image
-						style={{ width: "100%", height: 200 }}
-						source={{ uri: file.uri }}
-					/>
-				</View>
-			);
+			return <ImageBundle imageUri={file.uri} />;
 		case "video":
-			return <NettText>Video</NettText>;
+			return <VideoBundle duration="10:00" />;
 		default:
-			return <NettText>{type}</NettText>;
+			return <FileBundle {...file} />;
 	}
 }
 
-function PostCard({ post, ...otherProps }) {
+function PostCard({
+	userId,
+	post: { author, createdOn, file, haveSeen, text },
+	...otherProps
+}) {
 	return (
-		<TouchableOpacity
+		<TouchableHighlight
 			style={[styles.container, otherProps.style]}
 			onPress={otherProps.onPress}
+			underlayColor={colors.light}
 		>
-			<View style={styles.headContainer}>
-				<NettText>{post.createdOn}</NettText>
-			</View>
+			<>
+				<View style={styles.headContainer}>
+					{/* Display badge only if the user has never seen the post */}
+					{!haveSeen.includes(userId) && <Badge style={{ marginEnd: 5 }} />}
 
-			{post.file && renderPostBundle(post)}
+					<NettText style={styles.postType}>POST</NettText>
+					<NettText style={styles.createdOn}>
+						{formatRelative(new Date(createdOn), new Date())}
+					</NettText>
+				</View>
 
-			<View style={styles.mainContainer}>
-				<NettText style={styles.text} numberOfLines={post.file ? 3 : 0}>
-					{post.text}
-				</NettText>
+				{file && renderPostBundle(file)}
 
-				<Author
-					name={post.author.profile.fullName}
-					pic={{ uri: post.author.profile.picUrl }}
-					style={{ marginTop: 10 }}
-				/>
-			</View>
-		</TouchableOpacity>
+				<View style={styles.contentContainer}>
+					<NettText
+						style={[styles.text, { fontSize: 16 }]}
+						numberOfLines={file ? 4 : 0}
+					>
+						{text}
+					</NettText>
+
+					<Author
+						name={author.profile.fullName}
+						pic={{ uri: author.profile.picUri }}
+						style={{ marginTop: 10 }}
+					/>
+				</View>
+			</>
+		</TouchableHighlight>
 	);
 }
 
 const styles = StyleSheet.create({
+	bundleContainer: {
+		marginTop: 10,
+		backgroundColor: colors.mediumLight,
+	},
+	createdOn: {
+		color: colors.medium,
+		fontWeight: "600",
+	},
 	container: {
 		backgroundColor: colors.appBack,
 		borderRadius: 10,
 		elevation: 3,
 		marginEnd: 5,
+		maxWidth: 330,
 		shadowColor: "#000",
-		maxWidth: 275,
 		shadowOffset: {
 			width: 0,
 			height: 1,
@@ -67,14 +87,22 @@ const styles = StyleSheet.create({
 		shadowRadius: 2.22,
 		marginBottom: 10,
 	},
-	headContainer: {
+	contentContainer: {
 		padding: 10,
 	},
-	mainContainer: {
+	headContainer: {
+		flexDirection: "row",
+		alignItems: "center",
 		padding: 10,
+		paddingBottom: 0,
+	},
+	postType: {
+		fontWeight: "bold",
+		flex: 1,
 	},
 	text: {
 		textAlign: "justify",
+		fontSize: 15,
 	},
 });
 

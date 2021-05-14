@@ -2,6 +2,8 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import Badge from "./Badge";
+
 import colors from "../config/colors";
 
 function ButtonIcon({
@@ -14,10 +16,10 @@ function ButtonIcon({
 	return (
 		<TouchableOpacity
 			disabled={disabled}
-			style={[styles(size, disabled).container, containerStyle]}
+			style={[styles(disabled).container, containerStyle]}
 			onPress={otherProps.onPress}
 		>
-			{!disabled && badge && <View style={styles(size).badge} />}
+			{!disabled && badge && <Badge size={size} style={styles().badge} />}
 			<MaterialCommunityIcons
 				size={size}
 				color={colors.appFront}
@@ -27,22 +29,15 @@ function ButtonIcon({
 	);
 }
 
-const styles = (size, disabled = false) => {
+const styles = (disabled = false) => {
 	return StyleSheet.create({
 		badge: {
 			position: "absolute",
-			backgroundColor: colors.danger,
-			width: size * 0.5,
-			height: size * 0.5,
-			borderColor: colors.appBack,
-			borderRadius: size * 0.225,
 			top: 3,
 			end: 3,
-			borderWidth: 2,
 			zIndex: 1,
 		},
 		container: {
-			backgroundColor: colors.appBack,
 			justifyContent: "center",
 			alignItems: "center",
 			padding: 5,
