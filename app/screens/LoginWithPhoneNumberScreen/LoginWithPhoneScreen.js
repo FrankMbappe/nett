@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 import * as Yup from "yup";
 
 import {
@@ -9,24 +9,22 @@ import {
 } from "../../components/forms";
 import NettText from "../../components/Text";
 import Screen from "../../components/Screen";
-import WelcomeTitle from "../../components/welcome/Title";
+import StartTitle from "../../components/start/Title";
 
 import styles from "./styles";
 import { countries } from "../../config/enums";
+import NettPicker from "../../components/Picker";
 
 const validationSchema = Yup.object().shape({
-	phone: Yup.string()
-		.label("Phone number")
-		.min(9)
-		.matches(
-			countries.cameroon.phoneFormat,
-			`This doesn't look like a valid ${countries.cameroon.qualifier.toLowerCase()} phone number.`
-		)
-		.required(),
+	phone: Yup.string().label("Phone number").required(),
 });
+
+const initialCountry = countries.find((x) => x.key === "FR");
 
 // --- SCREEN --- //
 function LoginWithPhoneScreen(props) {
+	const [country, setCountry] = useState(initialCountry.value);
+
 	return (
 		<Screen style={styles.screen}>
 			<Form
@@ -39,24 +37,32 @@ function LoginWithPhoneScreen(props) {
 				{/* --- Main container --- */}
 				<View style={styles.mainContainer}>
 					{/* Title */}
-					<WelcomeTitle style={styles.titleContainer}>
+					<StartTitle style={styles.titleContainer}>
 						Enter your phone number
-					</WelcomeTitle>
+					</StartTitle>
 
 					{/* Input */}
 					<View style={styles.inputContainer}>
-						<Text style={styles.countryIndicator}>+237</Text>
+						{/* Dial code picker */}
+						<NettPicker
+							containerStyle={styles.dialCodeContainer}
+							style={styles.dialCodeText}
+							items={countries}
+							flatListKey={"key"}
+							placeholder={initialCountry.value}
+							selectedItem={country}
+							onSelectItem={(item) => setCountry(item.value)}
+						/>
 
-						<View style={styles.inputSubContainer}>
-							<Field
-								style={styles.input}
-								name="phone"
-								placeholder={"Your phone number"}
-								keyboardType={"phone-pad"}
-								maxLength={9}
-								textContentType="telephoneNumber"
-							/>
-						</View>
+						{/* Phone number input */}
+						<Field
+							fieldStyle={styles.phoneInput}
+							name="phone"
+							placeholder={"Your phone number"}
+							keyboardType={"phone-pad"}
+							maxLength={9}
+							textContentType="telephoneNumber"
+						/>
 					</View>
 
 					{/* Description */}

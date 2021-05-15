@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 
 import Screen from "../../components/Screen";
-import WelcomeTitle from "../../components/welcome/Title";
-import WelcomeBottomBar from "../../components/welcome/BottomBar";
-import ListItemSelector from "../../components/welcome/ListItemSelector";
+import StartTitle from "../../components/start/Title";
+import StartBottomBar from "../../components/start/BottomBar";
+import ListItemSelector from "../../components/start/ListItemSelector";
 
 import styles from "./styles";
 import { buttons } from "../../config/enums";
@@ -22,9 +22,9 @@ function LoginWithPhoneScreen(props) {
 			{/* --- Main Box --- */}
 			<View style={styles.mainContainer}>
 				{/* Title */}
-				<WelcomeTitle style={styles.titleContainer}>
+				<StartTitle style={styles.titleContainer}>
 					Which kind of account would you like to create ?
-				</WelcomeTitle>
+				</StartTitle>
 
 				{/* Account type selection */}
 				<ListItemSelector
@@ -53,7 +53,7 @@ function LoginWithPhoneScreen(props) {
 			</View>
 
 			{/* --- Bottom bar --- */}
-			<WelcomeBottomBar
+			<StartBottomBar
 				style={styles.bottomBar}
 				buttonStart={
 					<NettButton

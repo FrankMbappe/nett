@@ -27,17 +27,18 @@ const styles = StyleSheet.create({
 		width: "100%",
 		flexDirection: "row",
 		marginTop: 30,
-		alignItems: "center",
+		alignItems: "flex-start",
 	},
-	countryIndicator: {
+
+	dialCodeContainer: {
+		marginEnd: 10,
+	},
+	dialCodeText: {
 		fontWeight: "bold",
 		fontSize: 22,
-		marginEnd: 15,
 	},
-	inputSubContainer: {
-		flex: 1,
-	},
-	input: {
+
+	phoneInput: {
 		flex: 1,
 	},
 

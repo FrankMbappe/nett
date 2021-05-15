@@ -6,8 +6,8 @@ import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
 import NettTextInput from "../../components/TextInput";
 import Screen from "../../components/Screen";
-import WelcomeTitle from "../../components/welcome/Title";
-import WelcomeBottomBar from "../../components/welcome/BottomBar";
+import StartTitle from "../../components/start/Title";
+import StartBottomBar from "../../components/start/BottomBar";
 
 import styles from "./styles";
 import { buttons } from "../../config/enums";
@@ -34,9 +34,9 @@ function PhoneNumberConfirmation({ phone }) {
 			{/* --- Main Box --- */}
 			<View style={styles.mainContainer}>
 				{/* Title */}
-				<WelcomeTitle style={styles.titleContainer}>
+				<StartTitle style={styles.titleContainer}>
 					Confirm your phone number: {phone}
-				</WelcomeTitle>
+				</StartTitle>
 
 				{/* Input */}
 				<NettText style={styles.inputDescription}>
@@ -77,7 +77,7 @@ function PhoneNumberConfirmation({ phone }) {
 
 			{/* --- Bottom bar --- */}
 			{timerLeft ? (
-				<WelcomeBottomBar
+				<StartBottomBar
 					style={styles.bottomBar}
 					buttonStart={
 						<NettButton

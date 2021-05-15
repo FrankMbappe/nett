@@ -1,3 +1,5 @@
+import countryCodes from "./countryCodes";
+
 // Buttons
 const buttons = {
 	PRIMARY: 0,
@@ -6,14 +8,9 @@ const buttons = {
 };
 
 // Countries
-const countries = {
-	cameroon: {
-		name: "Cameroon",
-		qualifier: "Cameroonian",
-		indicator: "237",
-		phoneFormat: /^(\+237|00237|\(237\))?((6|2)[5-9][0-9]{7})$/,
-	},
-};
+const countries = countryCodes.map((x) => {
+	return { key: x.code, label: `${x.flag}  ${x.name}`, value: x.dial_code };
+});
 
 // Account status
 const accountStatus = {

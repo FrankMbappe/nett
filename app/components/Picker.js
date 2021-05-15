@@ -22,6 +22,7 @@ function NettPicker({
 	onSelectItem,
 	selectedItem,
 	placeholder,
+	flatListKey = "value",
 	fontSize = 20,
 	...otherProps
 }) {
@@ -34,7 +35,7 @@ function NettPicker({
 					style={[
 						styles.container,
 						{ padding: fontSize * 0.75 },
-						otherProps.style,
+						otherProps.containerStyle,
 					]}
 				>
 					{icon && (
@@ -67,7 +68,7 @@ function NettPicker({
 					/>
 					<FlatList
 						data={items}
-						keyExtractor={(item) => item.value.toString()}
+						keyExtractor={(item) => item[flatListKey].toString()}
 						renderItem={({ item }) => (
 							<NettPickerItem
 								label={item.label}
@@ -91,10 +92,8 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		flexDirection: "row",
 		alignItems: "center",
-		width: "100%",
 	},
 	text: {
-		width: "100%",
 		color: colors.dark,
 		flex: 1,
 	},

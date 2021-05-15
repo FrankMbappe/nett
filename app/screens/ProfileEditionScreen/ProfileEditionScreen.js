@@ -11,7 +11,7 @@ import {
 
 import styles from "./styles";
 import { View } from "react-native";
-import WelcomeTitle from "../../components/welcome/Title";
+import StartTitle from "../../components/start/Title";
 import DatePicker from "../../components/DatePicker";
 
 const validationSchema = Yup.object().shape({
@@ -36,9 +36,9 @@ function ProfileEditionScreen({ profile }) {
 				validationSchema={validationSchema}
 			>
 				<View style={styles.mainContainer}>
-					<WelcomeTitle style={styles.titleContainer} useLogo={false}>
+					<StartTitle style={styles.titleContainer} useLogo={false}>
 						Configure your profile
-					</WelcomeTitle>
+					</StartTitle>
 
 					{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
 					<NettImagePicker

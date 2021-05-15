@@ -704,6 +704,25 @@ const filteredCountries = countryCodes.filter((x) =>
 	availableCountries.includes(x.name)
 );
 console.log(`After applying filter: ${filteredCountries.length}`);
+let appearsMoreThanOnce = [];
+filteredCountries.forEach((X) => {
+	const occurences = filteredCountries
+		.filter((x) => X.dial_code === x.dial_code)
+		.map((occurence) => occurence.name);
+
+	if (
+		occurences.length > 1 &&
+		!appearsMoreThanOnce.map((occ) => occ.dial_code).includes(X.dial_code)
+	) {
+		appearsMoreThanOnce.push({
+			dial_code: X.dial_code,
+			nbOfOccurences: occurences.length,
+			occurences: occurences,
+		});
+	}
+});
+
+appearsMoreThanOnce.forEach((x) => console.log(x));
 
 const countryToString = (country) => {
 	return `{ 
@@ -714,9 +733,9 @@ const countryToString = (country) => {
 	}`;
 };
 
-fs.writeFileSync(
-	"realTest.js",
-	`const final = [\n${filteredCountries
-		.map((x) => countryToString(x))
-		.toString()}\n];`
-);
+// fs.writeFileSync(
+// 	"realTest.js",
+// 	`const final = [\n${filteredCountries
+// 		.map((x) => countryToString(x))
+// 		.toString()}\n];`
+// );

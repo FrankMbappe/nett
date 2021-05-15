@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../config/colors";
 
-function WelcomeBottomBar({
+function StartBottomBar({
 	style,
 	buttonStart: ButtonStart,
 	buttonEnd: ButtonEnd,
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default WelcomeBottomBar;
+export default StartBottomBar;

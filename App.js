@@ -15,69 +15,68 @@ import { ListItemSeparator } from "./app/components/lists";
 
 //#region Testing Picker with dummy data
 
-const categories = [
-	{ label: "Furniture", value: 1 },
-	{ label: "Clothing", value: 2 },
-	{ label: "Cameras", value: 3 },
-];
+// const categories = [
+// 	{ label: "Furniture", value: 1 },
+// 	{ label: "Clothing", value: 2 },
+// 	{ label: "Cameras", value: 3 },
+// ];
 
-console.log(countryCodes.length);
+// const categoryPickerExample = () => {
+// 	const [category, setCategory] = useState(categories[0].label);
+// 	const [codes, setCodes] = useState(countryCodes);
+// 	const [search, setSearch] = useState("");
 
-const categoryPickerExample = () => {
-	const [category, setCategory] = useState(categories[0].label);
-	const [codes, setCodes] = useState(countryCodes);
-	const [search, setSearch] = useState("");
+// 	return (
+// 		<Screen>
+// 			<NettPicker
+// 				items={categories}
+// 				selectedItem={category}
+// 				onSelectItem={(item) => setCategory(item.label)}
+// 				icon={"apps"}
+// 				fontSize={15}
+// 				placeholder={"Category"}
+// 			/>
+// 			<FlatList
+// 				style={{
+// 					flex: 1,
+// 				}}
+// 				ListHeaderComponent={
+// 					<NettTextInput
+// 						icon="magnify"
+// 						fontSize={15}
+// 						placeholder="Search..."
+// 						onChangeText={(s) => {
+// 							setSearch(s);
+// 							setCodes(
+// 								countryCodes
+// 									.slice()
+// 									.sort((x, y) => x.name.localeCompare(y.name))
+// 									.filter((x) => x.name.toLowerCase().includes(s.toLowerCase()))
+// 							);
+// 						}}
+// 					/>
+// 				}
+// 				data={codes}
+// 				keyExtractor={(item) => item.code}
+// 				ItemSeparatorComponent={ListItemSeparator}
+// 				renderItem={({ item }) => (
+// 					<View
+// 						style={{
+// 							flexDirection: "row",
+// 							padding: 10,
+// 						}}
+// 					>
+// 						<NettText
+// 							style={{ flex: 1 }}
+// 						>{`${item.flag}  ${item.name}`}</NettText>
+// 						<NettText>{`${item.dial_code}`}</NettText>
+// 					</View>
+// 				)}
+// 			/>
+// 		</Screen>
+// 	);
+// };
 
-	return (
-		<Screen>
-			<NettPicker
-				items={categories}
-				selectedItem={category}
-				onSelectItem={(item) => setCategory(item.label)}
-				icon={"apps"}
-				fontSize={15}
-				placeholder={"Category"}
-			/>
-			<FlatList
-				style={{
-					flex: 1,
-				}}
-				ListHeaderComponent={
-					<NettTextInput
-						icon="magnify"
-						fontSize={15}
-						placeholder="Search..."
-						onChangeText={(s) => {
-							setSearch(s);
-							setCodes(
-								countryCodes
-									.slice()
-									.sort((x, y) => x.name.localeCompare(y.name))
-									.filter((x) => x.name.toLowerCase().includes(s.toLowerCase()))
-							);
-						}}
-					/>
-				}
-				data={codes}
-				keyExtractor={(item) => item.code}
-				ItemSeparatorComponent={ListItemSeparator}
-				renderItem={({ item }) => (
-					<View
-						style={{
-							flexDirection: "row",
-							padding: 10,
-						}}
-					>
-						<NettText
-							style={{ flex: 1 }}
-						>{`${item.flag}  ${item.name}`}</NettText>
-						<NettText>{`${item.dial_code}`}</NettText>
-					</View>
-				)}
-			/>
-		</Screen>
-	);
-};
 //#endregion
 
 //#region  Testing DatePicker with dummy data
@@ -162,8 +161,8 @@ export default function App() {
 	// return <PhoneNumberConfirmation phone={"+237656895348"} />;
 	// return <AccountTypeSelection />;
 	// return <UserChatListScreen />;
-	return categoryPickerExample();
+	// return categoryPickerExample();
 	// return <ProfileEditionScreen />;
-	// return <HomeScreen />;
+	return <HomeScreen />;
 	// return birthDatePicker();
 }

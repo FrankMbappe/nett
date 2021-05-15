@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import images from "../../config/images";
 
-function WelcomeTitle({ children, style, useLogo = true }) {
+function StartTitle({ children, style, useLogo = true }) {
 	return (
 		<View style={[styles.titleContainer, style]}>
 			{useLogo && (
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default WelcomeTitle;
+export default StartTitle;
