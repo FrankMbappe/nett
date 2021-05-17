@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { FlatList, View } from "react-native";
-import { compareAsc, compareDesc } from "date-fns";
+import { FlatList, SectionList, View } from "react-native";
+import { compareDesc } from "date-fns";
 
 import { ClassroomCard, PostCard } from "../../components/cards";
 import ButtonIcon from "../../components/ButtonIcon";
@@ -12,22 +12,27 @@ import TopBar from "../../components/TopBar";
 import { classrooms, posts } from "../../config/dummyData";
 
 import styles from "./styles";
+import colors from "../../config/colors";
 
-function Header() {
+function Header({ isAtInitScrollPosition }) {
 	return (
-		<TopBar style={styles.header}>
-			<ButtonIcon name="qrcode-scan" containerStyle={{ margin: 7 }} size={30} />
+		<TopBar
+			style={[
+				styles.header,
+				!isAtInitScrollPosition && {
+					borderBottomWidth: 2,
+					borderColor: colors.light,
+				},
+			]}
+		>
+			<ButtonIcon name="qrcode-scan" size={25} />
 			<NettTextInput
 				icon="magnify"
-				containerStyle={{ flex: 1 }}
-				fontSize={15}
+				containerStyle={{ flex: 1, marginHorizontal: 7 }}
+				fontSize={14}
 				placeholder="Topics, classrooms, ..."
 			/>
-			<ButtonIcon
-				name="bell-outline"
-				containerStyle={{ margin: 7 }}
-				size={30}
-			/>
+			<ButtonIcon name="bell-outline" size={25} />
 		</TopBar>
 	);
 }
@@ -35,42 +40,62 @@ function Header() {
 function HomeScreen(props) {
 	const [classroomList, setClassroomList] = useState(classrooms);
 	const [postList, setPostList] = useState(
-		posts
-			.slice()
-			.sort((x, y) => compareDesc(new Date(x.createdOn), new Date(y.createdOn)))
+		posts.sort((x, y) =>
+			compareDesc(new Date(x.createdOn), new Date(y.createdOn))
+		)
 	);
+	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
 
-	return (
-		<Screen style={styles.screen}>
-			<Header />
-			<View style={{ flex: 1 }}>
+	const DATA = [
+		{
+			Title: (
 				<SectionHeader
+					expand
 					icon="google-classroom"
 					title="Classrooms"
 					endLinkText="Show all"
-					onPressEndlink={() => alert("Shown")}
+					onExpansion={() => alert("Shown")}
 				/>
+			),
+			data: [
 				<FlatList
-					style={{
-						backgroundColor: "aquamarine",
-						flex: 1,
-					}}
+					style={{ flexGrow: 0 }}
 					data={classroomList}
 					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => <ClassroomCard classroom={item} />}
 					horizontal
-				/>
-				<FlatList
-					style={{
-						backgroundColor: "salmon",
-						flex: 1,
-					}}
-					contentContainerStyle={{ alignItems: "center", width: "100%" }}
-					data={postList}
-					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => <PostCard userId="usr-100" post={item} />}
-				/>
-			</View>
+				/>,
+			],
+		},
+		{
+			Title: <SectionHeader title="Recent updates" />,
+			data: postList,
+		},
+	];
+
+	return (
+		<Screen style={styles.screen}>
+			<Header isAtInitScrollPosition={isInitScrollPosition} />
+			<SectionList
+				keyExtractor={(_, index) => String(index)}
+				style={{ flex: 1 }}
+				sections={DATA}
+				onScroll={(event) =>
+					setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
+				}
+				renderSectionHeader={({ section: { Title } }) => Title}
+				renderItem={({ item }) => {
+					if (React.isValidElement(item)) return item;
+					else
+						return (
+							<PostCard
+								userId="usr-100"
+								post={item}
+								classroomName="IUC BTECH SWE 2020-2021"
+							/>
+						);
+				}}
+			/>
 		</Screen>
 	);
 }

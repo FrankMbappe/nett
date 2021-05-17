@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
 	// --> HEADER
 	header: {
-		backgroundColor: "skyblue",
+		paddingHorizontal: 7,
 	},
 
 	// --> BOTTOM BAR

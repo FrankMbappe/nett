@@ -43,7 +43,7 @@ function ClassroomCard({
 			</View>
 			<Author
 				name={teacher.profile.fullName}
-				pic={{ uri: teacher.profile.picUri }}
+				picUri={{ uri: teacher.profile.picUri }}
 			/>
 		</TouchableOpacity>
 	);
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		elevation: 3,
 		height: 180,
-		marginEnd: 10,
+		margin: 5,
 		padding: 10,
 		shadowColor: "#000",
 		shadowOffset: {

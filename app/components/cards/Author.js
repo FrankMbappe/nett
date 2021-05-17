@@ -1,19 +1,26 @@
 import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Divider } from "react-native-elements";
-import colors from "../../config/colors";
-import images from "../../config/images";
 
 import NettText from "../Text";
 
-function Author({ name, style, fontSize = 12, pic = images.USER_DEFAULT }) {
+import colors from "../../config/colors";
+import images from "../../config/images";
+
+function Author({
+	name,
+	style,
+	classroomName,
+	fontSize = 12,
+	picUri = images.USER_DEFAULT,
+}) {
 	return (
 		<View style={style}>
 			<Divider style={styles.divider} />
 			<View style={styles(fontSize).infoContainer}>
-				<Image style={styles(fontSize).pic} source={pic} />
+				<Image style={styles(fontSize).pic} source={picUri} />
 				<NettText style={styles(fontSize).name} numberOfLines={1}>
-					{name}
+					{name + `${classroomName ? `  >  ${classroomName}` : ""}`}
 				</NettText>
 			</View>
 		</View>

@@ -23,6 +23,7 @@ function renderPostBundle(file) {
 function PostCard({
 	userId,
 	post: { author, createdOn, file, haveSeen, text },
+	classroomName,
 	...otherProps
 }) {
 	return (
@@ -54,8 +55,9 @@ function PostCard({
 
 					<Author
 						name={author.profile.fullName}
-						pic={{ uri: author.profile.picUri }}
+						picUri={{ uri: author.profile.picUri }}
 						style={{ marginTop: 10 }}
+						classroomName={classroomName}
 					/>
 				</View>
 			</>
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.appBack,
 		borderRadius: 10,
 		elevation: 3,
-		marginEnd: 5,
+		margin: 5,
 		maxWidth: 330,
 		shadowColor: "#000",
 		shadowOffset: {
@@ -85,7 +87,6 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.22,
 		shadowRadius: 2.22,
-		marginBottom: 10,
 	},
 	contentContainer: {
 		padding: 10,

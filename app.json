@@ -1,32 +1,35 @@
 {
-	"expo": {
-		"name": "nett",
-		"slug": "nett",
-		"version": "1.0.0",
-		"orientation": "portrait",
-		"icon": "./app/assets/soundcloud.png",
-		"splash": {
-			"image": "./app/assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./app/assets/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
-			}
-		},
-		"web": {
-			"favicon": "./app/assets/favicon.png"
-		},
-		"description": "This is an app serving as a teaching tool for nursing students.",
-		"githubUrl": "https://github.com/FrankMbappe/nett"
-	}
+  "expo": {
+    "name": "nett",
+    "slug": "nett",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/soundcloud.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.frankmbappe.nett"
+    },
+    "web": {
+      "favicon": "./app/assets/favicon.png"
+    },
+    "description": "This is an app serving as a teaching tool for nursing students.",
+    "githubUrl": "https://github.com/FrankMbappe/nett"
+  }
 }
