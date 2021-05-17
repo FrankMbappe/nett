@@ -876,6 +876,12 @@ const countryCodes = [
 		flag: "🇬🇧",
 	},
 	{
+		name: "United States",
+		dial_code: "+1",
+		code: "US",
+		flag: "🇺🇸",
+	},
+	{
 		name: "Uzbekistan",
 		dial_code: "+998",
 		code: "UZ",

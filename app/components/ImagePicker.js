@@ -15,7 +15,7 @@ function NettImagePicker({ style, size = 150, onPicPress, onPicChangerPress }) {
 	return (
 		<View style={[styles(size).container, style]} onPress={onPicPress}>
 			<TouchableOpacity style={styles(size).imageContainer}>
-				<Image style={styles(size).image} source={images.USER_DEFAULT} />
+				<Image style={styles(size).image} source={images.random} />
 			</TouchableOpacity>
 			<TouchableHighlight
 				underlayColor={colors.appPrimaryDark}

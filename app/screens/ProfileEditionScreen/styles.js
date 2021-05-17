@@ -4,16 +4,11 @@ import colors from "../../config/colors";
 // <--- ProfileEditionScreen styles ---> //
 
 const styles = StyleSheet.create({
-	screen: {
-		alignItems: "center",
-		padding: 0,
-	},
+	screen: {},
 
 	// --- MAIN CONTAINER --- //
 	mainContainer: {
-		alignItems: "center",
 		flex: 1,
-		width: "85%",
 		paddingBottom: 25,
 	},
 
@@ -31,8 +26,8 @@ const styles = StyleSheet.create({
 	// --> BOTTOM BAR
 	bottomBar: {
 		backgroundColor: colors.appBack,
-		padding: 20,
-		paddingTop: 5,
+		padding: 10,
+		paddingBottom: 5,
 		width: "100%",
 	},
 });

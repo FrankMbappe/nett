@@ -51,9 +51,8 @@ const styles = StyleSheet.create({
 
 	// --> BOTTOM BAR
 	bottomBar: {
-		paddingTop: 0,
-		paddingHorizontal: 10,
-		paddingBottom: 10,
+		padding: 10,
+		paddingBottom: 5,
 		width: "100%",
 		backgroundColor: colors.appBack,
 	},

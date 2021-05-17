@@ -5,12 +5,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Badge from "./Badge";
 
 import colors from "../config/colors";
+import NettText from "./Text";
 
 function ButtonIcon({
 	badge,
 	disabled,
 	containerStyle,
 	size = 25,
+	text,
+	textStyle,
 	...otherProps
 }) {
 	return (
@@ -19,12 +22,17 @@ function ButtonIcon({
 			style={[styles(disabled).container, containerStyle]}
 			onPress={otherProps.onPress}
 		>
-			{!disabled && badge && <Badge size={size} style={styles().badge} />}
-			<MaterialCommunityIcons
-				size={size}
-				color={colors.appFront}
-				{...otherProps}
-			/>
+			<>
+				{!disabled && badge && <Badge size={size} style={styles().badge} />}
+				<MaterialCommunityIcons
+					size={size}
+					color={colors.appFront}
+					{...otherProps}
+				/>
+			</>
+			{text && (
+				<NettText style={[textStyle, { marginStart: 5 }]}>{text}</NettText>
+			)}
 		</TouchableOpacity>
 	);
 }
@@ -39,6 +47,7 @@ const styles = (disabled = false) => {
 		},
 		container: {
 			justifyContent: "center",
+			flexDirection: "row",
 			alignItems: "center",
 			padding: 5,
 			borderRadius: 3,

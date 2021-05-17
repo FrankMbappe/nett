@@ -10,7 +10,7 @@ import {
 } from "../../components/forms";
 
 import styles from "./styles";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import StartTitle from "../../components/start/Title";
 import DatePicker from "../../components/DatePicker";
 
@@ -35,7 +35,10 @@ function ProfileEditionScreen({ profile }) {
 				onSubmit={(values) => console.log(values)}
 				validationSchema={validationSchema}
 			>
-				<View style={styles.mainContainer}>
+				<ScrollView
+					contentContainerStyle={{ alignItems: "center" }}
+					style={styles.mainContainer}
+				>
 					<StartTitle style={styles.titleContainer} useLogo={false}>
 						Configure your profile
 					</StartTitle>
@@ -47,29 +50,33 @@ function ProfileEditionScreen({ profile }) {
 						onPicChangerPress={() => console.log("Change")}
 					/>
 
-					<Field
-						autoCapitalize="none"
-						autoCorrect={false}
-						icon="card-text-outline"
-						name="firstName"
-						placeholder="First name"
-						maxLength={255}
-						textContentType="name"
-					/>
+					<View style={{ width: "85%" }}>
+						<Field
+							autoCapitalize="none"
+							autoCorrect={false}
+							fontSize={16}
+							icon="card-text-outline"
+							name="firstName"
+							placeholder="First name"
+							maxLength={255}
+							textContentType="name"
+						/>
 
-					<Field
-						autoCapitalize="none"
-						autoCorrect={false}
-						icon="card-text-outline"
-						name="lastName"
-						placeholder="Last name"
-						maxLength={255}
-						textContentType="familyName"
-					/>
+						<Field
+							autoCapitalize="none"
+							autoCorrect={false}
+							fontSize={16}
+							icon="card-text-outline"
+							name="lastName"
+							placeholder="Last name"
+							maxLength={255}
+							textContentType="familyName"
+						/>
 
-					{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
-					<DatePicker />
-				</View>
+						{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
+						<DatePicker fontSize={16} />
+					</View>
+				</ScrollView>
 				<View style={styles.bottomBar}>
 					<SubmitButton text="Validate" />
 				</View>

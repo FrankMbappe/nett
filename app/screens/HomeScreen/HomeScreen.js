@@ -78,6 +78,7 @@ function HomeScreen(props) {
 			<Header isAtInitScrollPosition={isInitScrollPosition} />
 			<SectionList
 				keyExtractor={(_, index) => String(index)}
+				contentContainerStyle={{ alignItems: "center" }}
 				style={{ flex: 1 }}
 				sections={DATA}
 				onScroll={(event) =>
@@ -91,7 +92,9 @@ function HomeScreen(props) {
 							<PostCard
 								userId="usr-100"
 								post={item}
-								classroomName="IUC BTECH SWE 2020-2021"
+								classroomName={
+									classrooms.find((x) => x.id === item.classroom).name
+								}
 							/>
 						);
 				}}

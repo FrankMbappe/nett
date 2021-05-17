@@ -9,7 +9,11 @@ const buttons = {
 
 // Countries
 const countries = countryCodes.map((x) => {
-	return { key: x.code, label: `${x.flag}  ${x.name}`, value: x.dial_code };
+	return {
+		key: x.code,
+		label: `${x.flag}   ${x.name} (${x.dial_code})`,
+		value: x.dial_code,
+	};
 });
 
 // Account status

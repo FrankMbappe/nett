@@ -5,7 +5,7 @@ import { bytesToSize } from "../../../utils";
 import NettText from "../../Text";
 import TextIcon from "../../TextIcon";
 
-function FileBundle({ name, extension, size }) {
+function FileBundle({ file: { name, extension, size } }) {
 	return (
 		<TouchableOpacity style={styles.container}>
 			<TextIcon icon="pin" text="File" color={colors.medium} fontSize={11} />

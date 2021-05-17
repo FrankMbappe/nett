@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
 	phone: Yup.string().label("Phone number").required(),
 });
 
-const initialCountry = countries.find((x) => x.key === "FR");
+const initialCountry = countries.find((x) => x.key === "US");
 
 // --- SCREEN --- //
 function LoginWithPhoneScreen(props) {
@@ -58,7 +58,7 @@ function LoginWithPhoneScreen(props) {
 						<Field
 							fieldStyle={styles.phoneInput}
 							name="phone"
-							placeholder={"Your phone number"}
+							placeholder={"Phone number"}
 							keyboardType={"phone-pad"}
 							maxLength={9}
 							textContentType="telephoneNumber"
