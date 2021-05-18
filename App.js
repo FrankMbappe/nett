@@ -69,7 +69,7 @@ import { ListItemSeparator } from "./app/components/lists";
 // 						<NettText
 // 							style={{ flex: 1 }}
 // 						>{`${item.flag}  ${item.name}`}</NettText>
-// 						<NettText>{`${item.dial_code}`}</NettText>
+// 						<NettText>{`${item.dialCode}`}</NettText>
 // 					</View>
 // 				)}
 // 			/>

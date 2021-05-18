@@ -1,5 +1,11 @@
+const sizes = ["bytes", "KB", "MB", "GB", "TB"];
+
+/**
+ *
+ * @param {Represents the number of bytes to convert} bytes
+ * @returns the automatic conversion of a number of bytes to Kilobytes, Megabytes, Gigabytes, and Terabytes
+ */
 function bytesToSize(bytes) {
-	const sizes = ["bytes", "KB", "MB", "GB", "TB"];
 	if (bytes == 0) return "n/a";
 	const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 	if (i == 0) return `${bytes} ${sizes[i]}`;

@@ -1,17 +1,18 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../config/colors";
+import { numberFormat } from "../../utils";
 import ButtonIcon from "../ButtonIcon";
 
 // TODO: Number format: 2,580 -> 2.6k
 
 function LikeCommentShare({
-	isLiked = false,
-	likeCount = 0,
-	commentCount = 0,
 	onPressLike,
 	onPressComment,
 	onPressShare,
+	isLiked = false,
+	likeCount = 0,
+	commentCount = 0,
 }) {
 	return (
 		<View style={styles.container}>
@@ -19,14 +20,14 @@ function LikeCommentShare({
 				name="heart"
 				color={isLiked ? colors.danger : colors.mediumLight}
 				containerStyle={styles.button}
-				text={String(likeCount)}
+				text={numberFormat(likeCount)}
 				onPress={onPressLike}
 			/>
 			<ButtonIcon
 				name="forum"
 				color={colors.medium}
 				containerStyle={styles.button}
-				text={String(commentCount)}
+				text={numberFormat(commentCount)}
 				onPress={onPressComment}
 			/>
 			<ButtonIcon

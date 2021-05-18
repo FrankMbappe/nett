@@ -11,8 +11,8 @@ const buttons = {
 const countries = countryCodes.map((x) => {
 	return {
 		key: x.code,
-		label: `${x.flag}   ${x.name} (${x.dial_code})`,
-		value: x.dial_code,
+		label: `${x.flag}   ${x.name} (${x.dialCode})`,
+		value: x.dialCode,
 	};
 });
 

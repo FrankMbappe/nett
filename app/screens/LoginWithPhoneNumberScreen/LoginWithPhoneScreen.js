@@ -19,11 +19,11 @@ const validationSchema = Yup.object().shape({
 	phone: Yup.string().label("Phone number").required(),
 });
 
-const initialCountry = countries.find((x) => x.key === "US");
+const initialDialCode = countries.find((x) => x.key === "CM");
 
 // --- SCREEN --- //
 function LoginWithPhoneScreen(props) {
-	const [country, setCountry] = useState(initialCountry.value);
+	const [dialCode, setDialCode] = useState(initialDialCode.value);
 
 	return (
 		<Screen style={styles.screen}>
@@ -31,7 +31,7 @@ function LoginWithPhoneScreen(props) {
 				initialValues={{
 					phone: "",
 				}}
-				onSubmit={(values) => console.log(values)}
+				onSubmit={({ phone }) => console.log(dialCode + phone)}
 				validationSchema={validationSchema}
 			>
 				{/* --- Main container --- */}
@@ -46,12 +46,13 @@ function LoginWithPhoneScreen(props) {
 						{/* Dial code picker */}
 						<NettPicker
 							containerStyle={styles.dialCodeContainer}
-							style={styles.dialCodeText}
-							items={countries}
 							flatListKey={"key"}
-							placeholder={initialCountry.value}
-							selectedItem={country}
-							onSelectItem={(item) => setCountry(item.value)}
+							hasSearchBar
+							items={countries}
+							onSelectItem={(item) => setDialCode(item.value)}
+							placeholder={initialDialCode.value}
+							selectedItem={dialCode}
+							style={styles.dialCodeText}
 						/>
 
 						{/* Phone number input */}

@@ -1,31 +1,38 @@
 import React, { useState } from "react";
 import {
-	Text,
-	StyleSheet,
-	TouchableWithoutFeedback,
 	FlatList,
-	View,
 	Modal,
+	StyleSheet,
+	Text,
+	TouchableWithoutFeedback,
+	View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { firstBy } from "thenby";
 
+import { ListItemSeparator } from "./lists";
+import ButtonIcon from "./ButtonIcon";
+import NettPickerItem from "./PickerItem";
+import NettText from "./Text";
+import NettTextInput from "./TextInput";
 import Screen from "./Screen";
-import NettButton from "./Button";
 
 import colors from "../config/colors";
-import { buttons } from "../config/enums";
-import NettPickerItem from "./PickerItem";
 
 function NettPicker({
+	hasSearchBar,
 	icon,
-	items,
 	onSelectItem,
-	selectedItem,
+	pickerItemStyle,
 	placeholder,
+	selectedItem,
+
 	flatListKey = "value",
 	fontSize = 20,
+	items = [],
 	...otherProps
 }) {
+	const [itemList, setItemList] = useState(items);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
 	return (
@@ -60,17 +67,47 @@ function NettPicker({
 				</View>
 			</TouchableWithoutFeedback>
 			<Modal visible={modalIsVisible} animationType="slide">
-				<Screen style={{ paddingHorizontal: 10 }}>
-					<NettButton
-						text="Close"
-						type={buttons.TERTIARY}
+				<Screen style={styles.modalScreen}>
+					<ButtonIcon
+						name="close"
+						containerStyle={styles.modalCloseButton}
+						size={30}
 						onPress={() => setModalIsVisible(false)}
 					/>
+					{hasSearchBar && (
+						<NettTextInput
+							containerStyle={styles.searchBar}
+							icon="magnify"
+							fontSize={15}
+							placeholder="Search an item..."
+							onChangeText={(text) => {
+								setItemList(
+									items
+										.slice()
+										.sort(firstBy("value").thenBy("label").thenBy("key"))
+										.filter((x) =>
+											(x.key + x.label + x.value)
+												.toLowerCase()
+												.includes(text.toLowerCase())
+										)
+								);
+							}}
+						/>
+					)}
 					<FlatList
-						data={items}
+						data={itemList}
 						keyExtractor={(item) => item[flatListKey].toString()}
+						ItemSeparatorComponent={ListItemSeparator}
+						ListHeaderComponent={
+							itemList.length !== items.length && (
+								<NettText
+									style={styles.searchResultLabel}
+								>{`Results - ${itemList.length}`}</NettText>
+							)
+						}
 						renderItem={({ item }) => (
 							<NettPickerItem
+								style={pickerItemStyle}
 								label={item.label}
 								onPress={() => {
 									setModalIsVisible(false);
@@ -79,6 +116,7 @@ function NettPicker({
 								fontSize={15}
 							/>
 						)}
+						style={styles.flatList}
 					/>
 				</Screen>
 			</Modal>
@@ -93,10 +131,21 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 	},
-	text: {
-		color: colors.dark,
-		flex: 1,
+	flatList: {
+		width: "100%",
 	},
+	modalCloseButton: {
+		alignItems: "center",
+		backgroundColor: colors.light,
+		borderRadius: 25,
+		height: 50,
+		justifyContent: "center",
+		marginBottom: 15,
+		width: 50,
+	},
+	modalScreen: { alignItems: "center", paddingHorizontal: 10 },
+	searchBar: { marginBottom: 15 },
+	searchResultLabel: { fontWeight: "bold" },
 });
 
 export default NettPicker;

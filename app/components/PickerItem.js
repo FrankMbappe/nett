@@ -2,10 +2,12 @@ import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import NettText from "./Text";
 
-function NettPickerItem({ label, onPress }) {
+function NettPickerItem({ label, onPress, style }) {
 	return (
-		<TouchableOpacity style={styles.container} onPress={onPress}>
-			<NettText style={styles.text}>{label}</NettText>
+		<TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+			<NettText style={styles.text} numberOfLines={1}>
+				{label}
+			</NettText>
 		</TouchableOpacity>
 	);
 }

@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexGrow: 0,
 		margin: 5,
-		maxWidth: 340,
+		maxWidth: 350,
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
