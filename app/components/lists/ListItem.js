@@ -16,11 +16,13 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 			renderLeftActions={otherProps.renderLeftActions}
 		>
 			<TouchableHighlight
-				underlayColor={colors.light}
+				underlayColor={colors.lighter}
 				onPress={otherProps.onPress}
+				style={[styles.card, style]}
 			>
-				<View style={[styles.card, style]}>
+				<>
 					{otherProps.ImageComponent /* e.g., an Icon component */}
+
 					{
 						/*Basic tip in react to display a component only if a certain value is not null*/
 						otherProps.image && (
@@ -33,6 +35,7 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 							/>
 						)
 					}
+
 					<View style={styles.descriptionContainer}>
 						<NettText style={styles.name} numberOfLines={1}>
 							{otherProps.name}
@@ -43,6 +46,7 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 							</NettText>
 						)}
 					</View>
+
 					{otherProps.isChatItem && (
 						<MaterialCommunityIcons
 							name="chevron-right"
@@ -50,7 +54,7 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 							color={colors.medium}
 						/>
 					)}
-				</View>
+				</>
 			</TouchableHighlight>
 		</Swipeable>
 	);

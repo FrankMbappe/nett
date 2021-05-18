@@ -25,7 +25,7 @@ function NettButton({
 	icon,
 	text,
 	disabled,
-	fontSize = 20,
+	fontSize = 17,
 	type = buttons.PRIMARY,
 	...otherProps
 }) {

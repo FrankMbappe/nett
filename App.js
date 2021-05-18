@@ -157,9 +157,9 @@ import { ListItemSeparator } from "./app/components/lists";
 //#endregion
 
 export default function App() {
-	return <LoginWithPhoneScreen />;
+	// return <LoginWithPhoneScreen />;
 	// return <PhoneNumberConfirmation phone={"+237656895348"} />;
-	// return <AccountTypeSelection />;
+	return <AccountTypeSelection />;
 	// return <UserChatListScreen />;
 	// return categoryPickerExample();
 	// return <ProfileEditionScreen />;
