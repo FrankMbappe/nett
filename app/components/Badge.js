@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import colors from "../config/colors";
 
-function Badge({ style, size = 25, color = colors.danger }) {
+function Badge({ style, size = 25, color = colors.danger, useBorders = true }) {
 	return (
 		<View
 			style={[
@@ -13,7 +13,7 @@ function Badge({ style, size = 25, color = colors.danger }) {
 					height: size * 0.5,
 					borderColor: colors.appBack,
 					borderRadius: size * 0.225,
-					borderWidth: 2,
+					borderWidth: useBorders ? 2 : 0,
 				},
 				style,
 			]}

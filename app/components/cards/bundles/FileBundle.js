@@ -5,7 +5,7 @@ import { bytesToSize } from "../../../utils";
 import NettText from "../../Text";
 import TextIcon from "../../TextIcon";
 
-const getDownloadStatus = (progress) => {
+function getDownloadStatus(progress) {
 	if (progress === 1) return { id: "downloaded", text: "File", icon: "pin" };
 	else if (progress > 0 && progress < 1)
 		return {
@@ -19,7 +19,7 @@ const getDownloadStatus = (progress) => {
 			text: "Tap to download the file",
 			icon: "download",
 		};
-};
+}
 
 function FileBundle({
 	file: { name, extension, size },
@@ -27,7 +27,6 @@ function FileBundle({
 	onPress,
 }) {
 	const downloadStatus = getDownloadStatus(downloadProgress);
-	console.log(downloadProgress);
 
 	return (
 		<TouchableOpacity style={styles.container} onPress={onPress}>

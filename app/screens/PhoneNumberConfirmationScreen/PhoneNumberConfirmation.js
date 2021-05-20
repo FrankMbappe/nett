@@ -26,7 +26,7 @@ function PhoneNumberConfirmation({ phone }) {
 			setTimerLeft(timerLeft - 1);
 		}, 1000);
 		return () => clearTimeout(timer);
-	});
+	}, [timerLeft]);
 	//#endregion
 
 	return (

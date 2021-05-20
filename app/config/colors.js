@@ -12,7 +12,7 @@ export default {
 	appPrimary: nett.primary,
 	appPrimaryDark: nett.primaryDark,
 
-	// --- WB TONES --- //
+	// --- W/B TONES --- //
 	white: nett.white,
 	lighter: "#f2f2f2",
 	light: "#ebebeb",
@@ -22,4 +22,11 @@ export default {
 
 	// --- SPECIAL --- //
 	danger: "#ef253c",
+	dangerLight: "#ffbfbf",
+	ok: "#17a10d",
+	okLight: "#bfffca",
+	optimal: "#2472f0",
+	optimalLight: "#bfdcff",
+	warning: "#f05724",
+	warningLight: "#ffd6be",
 };

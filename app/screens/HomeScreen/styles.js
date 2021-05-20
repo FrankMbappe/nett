@@ -8,11 +8,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	// --> HEADER
-	header: {
-		paddingHorizontal: 7,
-	},
-
 	// --> BOTTOM BAR
 	bottomBar: {
 		paddingTop: 0,

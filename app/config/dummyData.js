@@ -1,3 +1,12 @@
+import {
+	subDays,
+	subMinutes,
+	addHours,
+	addDays,
+	addMinutes,
+	subHours,
+} from "date-fns";
+
 //
 // USERS
 // --> CURRENT
@@ -379,6 +388,59 @@ const classrooms = [
 ];
 
 //
+// EVENTS
+const events = [
+	{
+		id: "evt-001",
+		type: "quiz",
+		classroom: classrooms.find((x) => x.id === "cls-002").name,
+		name: "Cardialogy Semester Evaluation",
+		dateOpening: subDays(new Date(), 4).toISOString(),
+		dateClosing: subDays(new Date(), 3).toISOString(),
+	},
+	{
+		id: "evt-002",
+		type: "quiz",
+		classroom: classrooms.find((x) => x.id === "cls-003").name,
+		name: "Blood pressure measurement test hhhhhhhhhh hhhhhhhhh hhhhhhhhhh",
+		dateOpening: subMinutes(new Date(), 7).toISOString(),
+		dateClosing: addHours(new Date(), 2).toISOString(),
+	},
+	{
+		id: "evt-003",
+		type: "quiz",
+		classroom: classrooms.find((x) => x.id === "cls-002").name,
+		name: "Citizenship Weekly Evaluation",
+		dateOpening: subHours(new Date(), 1).toISOString(),
+		dateClosing: addMinutes(new Date(), 4).toISOString(),
+	},
+	{
+		id: "evt-004",
+		type: "quiz",
+		classroom: classrooms.find((x) => x.id === "cls-001").name,
+		name: "IUC Nursing Department Daily Test",
+		dateOpening: addDays(new Date(), 2).toISOString(),
+		dateClosing: addDays(new Date(), 3).toISOString(),
+	},
+	{
+		id: "evt-005",
+		type: "quiz",
+		classroom: classrooms.find((x) => x.id === "cls-002").name,
+		name: "Citizenship Weekly Evaluation",
+		dateOpening: addDays(new Date(), 7).toISOString(),
+		dateClosing: addDays(new Date(), 8).toISOString(),
+	},
+	{
+		id: "evt-006",
+		type: "quiz",
+		classroom: classrooms.find((x) => x.id === "cls-002").name,
+		name: "General Nursing Semester Test",
+		dateOpening: addDays(new Date(), 11).toISOString(),
+		dateClosing: addDays(new Date(), 12).toISOString(),
+	},
+];
+
+//
 // POSTS
 const posts = [
 	// Simple
@@ -577,4 +639,4 @@ const posts = [
 	},
 ];
 
-export { teachers, students, consultants, users, classrooms, posts };
+export { teachers, students, consultants, users, classrooms, posts, events };

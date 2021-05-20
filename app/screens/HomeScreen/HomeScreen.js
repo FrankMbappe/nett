@@ -1,73 +1,99 @@
 import React, { useState } from "react";
 import { FlatList, SectionList, View } from "react-native";
-import { compareDesc } from "date-fns";
+import { compareAsc, compareDesc } from "date-fns";
 
-import { ClassroomCard, PostCard } from "../../components/cards";
+import { ClassroomCard, EventCard, PostCard } from "../../components/cards";
 import ButtonIcon from "../../components/ButtonIcon";
 import NettTextInput from "../../components/TextInput";
 import SectionHeader from "../../components/SectionHeader";
 import Screen from "../../components/Screen";
 import TopBar from "../../components/TopBar";
 
-import { classrooms, posts } from "../../config/dummyData";
+import { classrooms, posts, events } from "../../config/dummyData";
 
 import styles from "./styles";
 import colors from "../../config/colors";
+import HomeScreenHeader from "./HomeScreenHeader";
 
-function Header({ isAtInitScrollPosition }) {
-	return (
-		<TopBar
-			style={[
-				styles.header,
-				!isAtInitScrollPosition && {
-					borderBottomWidth: 2,
-					borderColor: colors.light,
-				},
-			]}
-		>
-			<ButtonIcon name="qrcode-scan" size={25} />
-			<NettTextInput
-				icon="magnify"
-				containerStyle={{ flex: 1, marginHorizontal: 7 }}
-				fontSize={14}
-				placeholder="Topics, classrooms, ..."
-			/>
-			<ButtonIcon name="bell-outline" size={25} />
-		</TopBar>
+// --- Sorting & Filtering lists --- //
+function filterSections(array) {
+	// Filter: Only sections containing at least 1 item
+	return array.filter((x) => (x ? x.data.length > 0 : false));
+}
+function sortEvents(array = events) {
+	// Filter: Only events that did not end up yet
+	// Sort: Soonest ending first
+	return array
+		.filter((x) => new Date(x.dateClosing) > new Date())
+		.sort((x, y) =>
+			compareAsc(new Date(x.dateClosing), new Date(y.dateClosing))
+		);
+}
+function sortPosts(array = posts) {
+	// Sort: Most recent post first
+	return array.sort((x, y) =>
+		compareDesc(new Date(x.createdOn), new Date(y.createdOn))
 	);
 }
 
+// --- HomeScreen --- //
 function HomeScreen(props) {
+	// Lists
 	const [classroomList, setClassroomList] = useState(classrooms);
-	const [postList, setPostList] = useState(
-		posts.sort((x, y) =>
-			compareDesc(new Date(x.createdOn), new Date(y.createdOn))
-		)
-	);
-	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
+	const [postList, setPostList] = useState(sortPosts);
+	const [eventList, setEventList] = useState(sortEvents);
 
-	const DATA = [
-		{
+	// Other variables
+	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
+	const [refreshing, setRefreshing] = useState(false);
+
+	// Sections
+	const sections = [
+		/* "xxList.length && { Object }": The section will be rendered only when
+		   its number of children will be greater than zero. */
+		eventList.length && {
 			Title: (
 				<SectionHeader
 					expand
-					icon="google-classroom"
-					title="Classrooms"
-					endLinkText="Show all"
+					icon="clock-outline"
+					title="Scheduled events"
 					onExpansion={() => alert("Shown")}
 				/>
 			),
 			data: [
 				<FlatList
 					style={{ flexGrow: 0 }}
-					data={classroomList}
+					data={eventList}
+					showsHorizontalScrollIndicator={false}
 					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => <ClassroomCard classroom={item} />}
+					renderItem={({ item }) => <EventCard event={item} />}
 					horizontal
 				/>,
 			],
 		},
-		{
+		classroomList.length && {
+			Title: (
+				<SectionHeader
+					expand
+					icon="google-classroom"
+					title="Classrooms"
+					onExpansion={() => alert("Shown")}
+				/>
+			),
+			data: [
+				classroomList.length && (
+					<FlatList
+						style={{ flexGrow: 0 }}
+						data={classroomList}
+						showsHorizontalScrollIndicator={false}
+						keyExtractor={(item) => item.id}
+						renderItem={({ item }) => <ClassroomCard classroom={item} />}
+						horizontal
+					/>
+				),
+			],
+		},
+		postList && {
 			Title: <SectionHeader title="Recent updates" />,
 			data: postList,
 		},
@@ -75,17 +101,27 @@ function HomeScreen(props) {
 
 	return (
 		<Screen style={styles.screen}>
-			<Header isAtInitScrollPosition={isInitScrollPosition} />
+			{/* --> Header */}
+			<HomeScreenHeader isAtInitScrollPosition={isInitScrollPosition} />
+
+			{/* --> Main content */}
 			<SectionList
 				keyExtractor={(_, index) => String(index)}
 				contentContainerStyle={{ alignItems: "center" }}
 				style={{ flex: 1 }}
-				sections={DATA}
+				sections={filterSections(sections)}
+				onRefresh={() => {
+					setEventList(sortEvents);
+					setClassroomList(classrooms);
+					setPostList(sortPosts);
+				}}
 				onScroll={(event) =>
 					setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
 				}
+				refreshing={refreshing}
 				renderSectionHeader={({ section: { Title } }) => Title}
 				renderItem={({ item }) => {
+					if (!item) return null;
 					if (React.isValidElement(item)) return item;
 					else
 						return (
@@ -98,7 +134,10 @@ function HomeScreen(props) {
 							/>
 						);
 				}}
+				showsVerticalScrollIndicator={false}
 			/>
+
+			{/* TODO: Bottom bar */}
 		</Screen>
 	);
 }

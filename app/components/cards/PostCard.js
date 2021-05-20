@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
 import { formatRelative } from "date-fns";
 
@@ -28,18 +28,6 @@ function PostCard({
 	...otherProps
 }) {
 	const [likeList, setLikeList] = useState(likes);
-
-	//#region - TIMER COUNTDOWN
-	const [timerLeft, setTimerLeft] = useState(0);
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			if (timerLeft >= 100) return;
-			setTimerLeft(timerLeft + 1);
-		}, 1000);
-		return () => clearTimeout(timer);
-	});
-	//#endregion
-
 	const hasBeenLiked = likeList.some((x) => x.userId === userId);
 
 	return (
@@ -59,7 +47,7 @@ function PostCard({
 					</NettText>
 				</View>
 
-				{file && renderPostBundle(file, timerLeft / 100)}
+				{file && renderPostBundle(file)}
 
 				<View style={styles.contentContainer}>
 					<NettText
