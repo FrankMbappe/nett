@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
 import { formatRelative } from "date-fns";
 
@@ -10,14 +10,14 @@ import NettText from "../Text";
 import colors from "../../config/colors";
 import LikeCommentShare from "./LikeCommentShare";
 
-function renderPostBundle(file) {
+function renderPostBundle(file, downloadProgress = 1) {
 	switch (file.type.toLowerCase()) {
 		case "image":
 			return <ImageBundle imageUri={file.uri} />;
 		case "video":
 			return <VideoBundle duration="10:00" />;
 		default:
-			return <FileBundle file={file} />;
+			return <FileBundle file={file} downloadProgress={downloadProgress} />;
 	}
 }
 
@@ -28,6 +28,17 @@ function PostCard({
 	...otherProps
 }) {
 	const [likeList, setLikeList] = useState(likes);
+
+	//#region - TIMER COUNTDOWN
+	const [timerLeft, setTimerLeft] = useState(0);
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (timerLeft >= 100) return;
+			setTimerLeft(timerLeft + 1);
+		}, 1000);
+		return () => clearTimeout(timer);
+	});
+	//#endregion
 
 	const hasBeenLiked = likeList.some((x) => x.userId === userId);
 
@@ -48,7 +59,7 @@ function PostCard({
 					</NettText>
 				</View>
 
-				{file && renderPostBundle(file)}
+				{file && renderPostBundle(file, timerLeft / 100)}
 
 				<View style={styles.contentContainer}>
 					<NettText
@@ -76,6 +87,8 @@ function PostCard({
 										userId: userId,
 									})
 								);
+							/* I use the function concat() to mutate the array while returning
+							   the mutated value. */
 
 							// TODO: Mutate the number of likes in the database
 

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 
+import ListItemSelector from "../../components/start/ListItemSelector";
+import NettButton from "../../components/Button";
 import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
-import StartBottomBar from "../../components/start/BottomBar";
-import ListItemSelector from "../../components/start/ListItemSelector";
 
-import styles from "./styles";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
-import NettButton from "../../components/Button";
+import styles from "./styles";
 
 // --- CONSTANTS --- //
 const options = [
@@ -34,7 +33,6 @@ const options = [
 ];
 
 // --- HANDLERS --- //
-const handleQuit = () => console.log("Quit");
 const handleNext = () => console.log("Next");
 
 // --- SCREEN --- //

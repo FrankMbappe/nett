@@ -5,26 +5,64 @@ import { bytesToSize } from "../../../utils";
 import NettText from "../../Text";
 import TextIcon from "../../TextIcon";
 
-function FileBundle({ file: { name, extension, size } }) {
+const getDownloadStatus = (progress) => {
+	if (progress === 1) return { id: "downloaded", text: "File", icon: "pin" };
+	else if (progress > 0 && progress < 1)
+		return {
+			id: "downloading",
+			text: "Downloading...",
+			icon: "cloud-download-outline",
+		};
+	else
+		return {
+			id: "notyet",
+			text: "Tap to download the file",
+			icon: "download",
+		};
+};
+
+function FileBundle({
+	file: { name, extension, size },
+	downloadProgress = 1,
+	onPress,
+}) {
+	const downloadStatus = getDownloadStatus(downloadProgress);
+	console.log(downloadProgress);
+
 	return (
-		<TouchableOpacity style={styles.container}>
-			<TextIcon icon="pin" text="File" color={colors.medium} fontSize={11} />
+		<TouchableOpacity style={styles.container} onPress={onPress}>
+			{downloadStatus.id === "downloading" && (
+				<View
+					style={[
+						styles.downloadProgressBar,
+						{ width: downloadProgress * 100 + "%" },
+					]}
+				/>
+			)}
+			<View style={styles.subContainer}>
+				<TextIcon
+					icon={downloadStatus.icon}
+					text={downloadStatus.text}
+					color={colors.medium}
+					fontSize={11}
+				/>
 
-			<View style={styles.descriptionContainer}>
-				<View style={styles.extensionLabel}>
-					<NettText style={styles.extension} numberOfLines={1}>
-						{extension}
-					</NettText>
-				</View>
+				<View style={styles.descriptionContainer}>
+					<View style={styles.extensionLabel}>
+						<NettText style={styles.extension} numberOfLines={1}>
+							{extension}
+						</NettText>
+					</View>
 
-				<View style={{ flex: 1 }}>
-					<NettText style={styles.name} numberOfLines={2}>
-						{name}
-					</NettText>
+					<View style={{ flex: 1 }}>
+						<NettText style={styles.name} numberOfLines={2}>
+							{name}
+						</NettText>
 
-					<NettText style={{ fontSize: 12 }} numberOfLines={1}>
-						{`${extension.toUpperCase()} File | ${bytesToSize(size)}`}
-					</NettText>
+						<NettText style={{ fontSize: 12 }} numberOfLines={1}>
+							{`${extension.toUpperCase()} File | ${bytesToSize(size)}`}
+						</NettText>
+					</View>
 				</View>
 			</View>
 		</TouchableOpacity>
@@ -53,6 +91,14 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 	},
+	downloadProgressBar: {
+		position: "absolute",
+		borderRadius: 10,
+		borderTopEndRadius: 0,
+		borderBottomEndRadius: 0,
+		height: 100,
+		backgroundColor: "#b6d1bf",
+	},
 	extension: {
 		fontWeight: "bold",
 		textTransform: "uppercase",
@@ -67,7 +113,13 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		width: 50,
 	},
-	name: { fontSize: 16, fontWeight: "bold" },
+	name: {
+		fontSize: 16,
+		fontWeight: "bold",
+	},
+	subContainer: {
+		flex: 1,
+	},
 });
 
 export default FileBundle;
