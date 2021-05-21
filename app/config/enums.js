@@ -22,4 +22,11 @@ const accountStatus = {
 	ONLINE: 1,
 };
 
-export { buttons, countries, accountStatus };
+// Account types
+const accountTypes = {
+	teacher: "teacher",
+	student: "student",
+	consultant: "consultant",
+};
+
+export { buttons, countries, accountStatus, accountTypes };

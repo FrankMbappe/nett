@@ -457,18 +457,21 @@ const posts = [
 		],
 		comments: [
 			{
-				date: new Date().toISOString(),
-				userId: "usr-110",
+				id: "pos-110-com-001",
+				datePublished: new Date().toISOString(),
+				author: users.find((x) => x.id === "usr-110"),
 				text: "Pretty helpful, thanks sir !",
 				replies: [
 					{
+						id: "pos-110-com-002",
 						date: new Date().toISOString(),
-						userId: "user-210",
+						author: users.find((x) => x.id === "user-210"),
 						text: "@usr-110 You're welcome my child",
 					},
 					{
+						id: "pos-110-com-003",
 						date: new Date().toISOString(),
-						userId: "user-110",
+						author: users.find((x) => x.id === "user-110"),
 						text: "@usr-210 ('^ - ^)",
 					},
 				],
@@ -496,23 +499,27 @@ const posts = [
 		})),
 		comments: [
 			{
-				date: new Date().toISOString(),
-				userId: "usr-310",
+				id: "pos-111-com-001",
+				datePublished: new Date().toISOString(),
+				author: users.find((x) => x.id === "usr-310"),
 				text: "Tremendous quote here, I must take some notes",
 				replies: [
 					{
+						id: "pos-111-com-002",
 						date: new Date().toISOString(),
-						userId: "user-210",
+						author: users.find((x) => x.id === "user-210"),
 						text: "@usr-310 Lol, do so then",
 					},
 					{
+						id: "pos-111-com-003",
 						date: new Date().toISOString(),
-						userId: "user-310",
+						author: users.find((x) => x.id === "user-310"),
 						text: "@usr-210 Bet, I will",
 					},
 					{
+						id: "pos-111-com-004",
 						date: new Date().toISOString(),
-						userId: "user-100",
+						author: users.find((x) => x.id === "user-100"),
 						text: "@usr-110 I agree, totally",
 					},
 				],
@@ -549,23 +556,27 @@ const posts = [
 		})),
 		comments: [
 			{
-				date: new Date().toISOString(),
-				userId: "usr-310",
+				id: "pos-112-com-001",
+				datePublished: new Date().toISOString(),
+				author: users.find((x) => x.id === "usr-310"),
 				text: "Tremendous quote here, I must take some notes",
 				replies: [
 					{
+						id: "pos-112-com-002",
 						date: new Date().toISOString(),
-						userId: "user-210",
+						author: users.find((x) => x.id === "user-210"),
 						text: "@usr-310 Lol, do so then",
 					},
 					{
+						id: "pos-112-com-003",
 						date: new Date().toISOString(),
-						userId: "user-310",
+						author: users.find((x) => x.id === "user-310"),
 						text: "@usr-210 Bet, I will",
 					},
 					{
+						id: "pos-112-com-004",
 						date: new Date().toISOString(),
-						userId: "user-100",
+						author: users.find((x) => x.id === "user-100"),
 						text: "@usr-110 I agree, totally",
 					},
 				],
@@ -598,24 +609,28 @@ const posts = [
 		classroom: "cls-001",
 		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
 		likes: [
+			{ date: new Date().toISOString(), userId: "usr-100" },
 			{ date: new Date().toISOString(), userId: "usr-110" },
 			{ date: new Date().toISOString(), userId: "usr-111" },
 			{ date: new Date().toISOString(), userId: "usr-112" },
 		],
 		comments: [
 			{
-				date: new Date().toISOString(),
-				userId: "usr-110",
+				id: "pos-114-com-001",
+				datePublished: new Date().toISOString(),
+				author: users.find((x) => x.id === "usr-110"),
 				text: "Pretty helpful, thanks sir !",
 				replies: [
 					{
+						id: "pos-114-com-002",
 						date: new Date().toISOString(),
-						userId: "user-210",
+						author: users.find((x) => x.id === "user-210"),
 						text: "@usr-110 You're welcome my child",
 					},
 					{
+						id: "pos-114-com-003",
 						date: new Date().toISOString(),
-						userId: "user-110",
+						author: users.find((x) => x.id === "user-110"),
 						text: "@usr-210 ('^ - ^)",
 					},
 				],

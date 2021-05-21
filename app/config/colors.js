@@ -29,4 +29,12 @@ export default {
 	optimalLight: "#bfdcff",
 	warning: "#f05724",
 	warningLight: "#ffd6be",
+
+	// --- ACCOUNT TYPES --- //
+	teacher: "#34b14d",
+	teacherLight: "#e3fde9",
+	consultant: "#4a34b1",
+	consultantLight: "#f1e3fd",
+	student: "#708198",
+	studentLight: "#f1f6fe",
 };

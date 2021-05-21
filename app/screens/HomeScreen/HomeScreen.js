@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import { FlatList, SectionList, View } from "react-native";
+import { FlatList, SectionList } from "react-native";
 import { compareAsc, compareDesc } from "date-fns";
 
 import { ClassroomCard, EventCard, PostCard } from "../../components/cards";
-import ButtonIcon from "../../components/ButtonIcon";
-import NettTextInput from "../../components/TextInput";
 import SectionHeader from "../../components/SectionHeader";
 import Screen from "../../components/Screen";
-import TopBar from "../../components/TopBar";
 
 import { classrooms, posts, events } from "../../config/dummyData";
 
 import styles from "./styles";
-import colors from "../../config/colors";
 import HomeScreenHeader from "./HomeScreenHeader";
 
 // --- Sorting & Filtering lists --- //
@@ -36,7 +32,6 @@ function sortPosts(array = posts) {
 	);
 }
 
-// --- HomeScreen --- //
 function HomeScreen(props) {
 	// Lists
 	const [classroomList, setClassroomList] = useState(classrooms);
@@ -137,7 +132,7 @@ function HomeScreen(props) {
 				showsVerticalScrollIndicator={false}
 			/>
 
-			{/* TODO: Bottom bar */}
+			{/* // TODO: Bottom bar */}
 		</Screen>
 	);
 }

@@ -5,10 +5,11 @@ import { formatRelative } from "date-fns";
 import { FileBundle, ImageBundle, VideoBundle } from "./bundles";
 import Author from "./Author";
 import Badge from "../Badge";
+import CommentSection from "../CommentSection";
+import LikeCommentShare from "./LikeCommentShare";
 import NettText from "../Text";
 
 import colors from "../../config/colors";
-import LikeCommentShare from "./LikeCommentShare";
 
 function renderPostBundle(file, downloadProgress = 1) {
 	switch (file.type.toLowerCase()) {
@@ -28,72 +29,86 @@ function PostCard({
 	...otherProps
 }) {
 	const [likeList, setLikeList] = useState(likes);
+	const [modalIsVisible, setModalIsVisible] = useState(false);
+
 	const hasBeenLiked = likeList.some((x) => x.userId === userId);
 
 	return (
-		<TouchableHighlight
-			style={[styles.container, otherProps.style]}
-			onPress={otherProps.onPress}
-			underlayColor={colors.light}
-		>
-			<>
-				<View style={styles.headContainer}>
-					{/* Display badge only if the user has never seen the post */}
-					{!haveSeen.includes(userId) && <Badge style={{ marginEnd: 5 }} />}
+		<>
+			<TouchableHighlight
+				style={[styles.container, otherProps.style]}
+				onPress={otherProps.onPress}
+				underlayColor={colors.light}
+			>
+				<>
+					<View style={styles.headContainer}>
+						{/* Display badge only if the user has never seen the post */}
+						{!haveSeen.includes(userId) && <Badge style={{ marginEnd: 5 }} />}
 
-					<NettText style={styles.postType}>POST</NettText>
-					<NettText style={styles.createdOn}>
-						{formatRelative(new Date(createdOn), new Date())}
-					</NettText>
-				</View>
+						<NettText style={styles.postType}>POST</NettText>
+						<NettText style={styles.createdOn}>
+							{formatRelative(new Date(createdOn), new Date())}
+						</NettText>
+					</View>
 
-				{file && renderPostBundle(file)}
+					{file && renderPostBundle(file)}
 
-				<View style={styles.contentContainer}>
-					<NettText
-						style={[styles.text, { fontSize: 16 }]}
-						numberOfLines={file ? 4 : 0}
-					>
-						{text}
-					</NettText>
+					<View style={styles.contentContainer}>
+						<NettText
+							style={[styles.text, { fontSize: 16 }]}
+							numberOfLines={file ? 4 : 0}
+						>
+							{text}
+						</NettText>
 
-					<LikeCommentShare
-						isLiked={hasBeenLiked}
-						likeCount={likeList.length}
-						commentCount={
-							comments.length +
-							comments.flatMap((comment) => comment.replies).length
-						}
-						onPressLike={() => {
-							console.log("Liked");
-							if (hasBeenLiked)
-								setLikeList(likeList.filter((x) => x.userId !== userId));
-							else
-								setLikeList(
-									likeList.concat({
-										date: new Date().toISOString(),
-										userId: userId,
-									})
-								);
-							/* I use the function concat() to mutate the array while returning
+						<LikeCommentShare
+							isLiked={hasBeenLiked}
+							likeCount={likeList.length}
+							commentCount={
+								comments.length +
+								comments.flatMap((comment) => comment.replies).length
+							}
+							onPressLike={() => {
+								console.log("Liked");
+								if (hasBeenLiked)
+									setLikeList(likeList.filter((x) => x.userId !== userId));
+								else
+									setLikeList(
+										likeList.concat({
+											date: new Date().toISOString(),
+											userId: userId,
+										})
+									);
+								/* I use the function concat() to mutate the array while returning
 							   the mutated value. */
 
-							// TODO: Mutate the number of likes in the database
+								// TODO: Mutate the number of likes in the database
 
-							alert(likes.length);
-						}}
-						onPressComment={() => console.log("Commented on")}
-						onPressShare={() => console.log("Shared")}
-					/>
+								alert(likes.length);
+							}}
+							onPressComment={() => {
+								setModalIsVisible(true);
+							}}
+							onPressShare={() => console.log("Shared")}
+						/>
 
-					<Author
-						name={author.profile.fullName}
-						picUri={{ uri: author.profile.picUri }}
-						classroomName={classroomName}
-					/>
-				</View>
-			</>
-		</TouchableHighlight>
+						<Author
+							name={author.profile.fullName}
+							picUri={{ uri: author.profile.picUri }}
+							classroomName={classroomName}
+						/>
+					</View>
+				</>
+			</TouchableHighlight>
+
+			{/* Comment section */}
+			<CommentSection
+				isVisible={modalIsVisible}
+				isLiked={hasBeenLiked}
+				comments={comments}
+				onPressBack={() => setModalIsVisible(false)}
+			/>
+		</>
 	);
 }
 
