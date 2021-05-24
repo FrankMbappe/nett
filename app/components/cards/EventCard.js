@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Divider } from "react-native-elements";
 import {
 	differenceInDays,
@@ -70,12 +70,14 @@ function getLabel(opens, closes) {
 
 function EventCard({
 	event: { type, classroom, name, dateOpening, dateClosing },
+	onPress,
 }) {
 	const label = getLabel(dateOpening, dateClosing);
 
 	return (
-		<View
+		<TouchableOpacity
 			style={[styles.container, { backgroundColor: label.backgroundColor }]}
+			onPress={onPress}
 		>
 			<View style={styles.header}>
 				<NettText
@@ -109,7 +111,7 @@ function EventCard({
 			>
 				{label.distanceToNow}
 			</NettText>
-		</View>
+		</TouchableOpacity>
 	);
 }
 

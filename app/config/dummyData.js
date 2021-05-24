@@ -350,7 +350,7 @@ const consultants = [
 	},
 ];
 // --> ALL
-const users = [...teachers, ...students, ...consultants];
+const users = [...teachers, ...students, ...consultants, me];
 
 //
 // CLASSROOMS
@@ -464,14 +464,14 @@ const posts = [
 				replies: [
 					{
 						id: "pos-110-com-002",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-210"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-210"),
 						text: "@usr-110 You're welcome my child",
 					},
 					{
 						id: "pos-110-com-003",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-110"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-110"),
 						text: "@usr-210 ('^ - ^)",
 					},
 				],
@@ -506,20 +506,20 @@ const posts = [
 				replies: [
 					{
 						id: "pos-111-com-002",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-210"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-210"),
 						text: "@usr-310 Lol, do so then",
 					},
 					{
 						id: "pos-111-com-003",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-310"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-310"),
 						text: "@usr-210 Bet, I will",
 					},
 					{
 						id: "pos-111-com-004",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-100"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-100"),
 						text: "@usr-110 I agree, totally",
 					},
 				],
@@ -563,20 +563,20 @@ const posts = [
 				replies: [
 					{
 						id: "pos-112-com-002",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-210"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-210"),
 						text: "@usr-310 Lol, do so then",
 					},
 					{
 						id: "pos-112-com-003",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-310"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-310"),
 						text: "@usr-210 Bet, I will",
 					},
 					{
 						id: "pos-112-com-004",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-100"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-100"),
 						text: "@usr-110 I agree, totally",
 					},
 				],
@@ -623,14 +623,14 @@ const posts = [
 				replies: [
 					{
 						id: "pos-114-com-002",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-210"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-210"),
 						text: "@usr-110 You're welcome my child",
 					},
 					{
 						id: "pos-114-com-003",
-						date: new Date().toISOString(),
-						author: users.find((x) => x.id === "user-110"),
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-110"),
 						text: "@usr-210 ('^ - ^)",
 					},
 				],

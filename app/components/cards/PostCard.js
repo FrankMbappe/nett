@@ -10,6 +10,8 @@ import LikeCommentShare from "./LikeCommentShare";
 import NettText from "../Text";
 
 import colors from "../../config/colors";
+import { useCallback } from "react";
+import { useEffect } from "react";
 
 function renderPostBundle(file, downloadProgress = 1) {
 	switch (file.type.toLowerCase()) {
@@ -29,9 +31,41 @@ function PostCard({
 	...otherProps
 }) {
 	const [likeList, setLikeList] = useState(likes);
+	const [commentList, setCommentList] = useState(comments);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
 	const hasBeenLiked = likeList.some((x) => x.userId === userId);
+
+	const like = useCallback(() => {
+		/* If the post has been liked already, I remove the userId from the likeList
+		   otherwise I add the userId in the likeList */
+		if (hasBeenLiked) setLikeList(likeList.filter((x) => x.userId !== userId));
+		else
+			setLikeList(
+				likeList.concat({
+					date: new Date().toISOString(),
+					userId: userId,
+				})
+			);
+		/* I use the function concat() to mutate the array while returning
+			the mutated value. */
+	}, [hasBeenLiked, likeList]);
+	const comment = useCallback(() => {
+		setModalIsVisible(true);
+	});
+	const share = useCallback(() => {
+		console.log("Shared");
+	});
+	const publishComment = useCallback((text, image) => {
+		// TODO: commentList.push(new Comment)
+	});
+
+	useEffect(() => {
+		// TODO: Mutate the likeList in the database
+	}, [likeList]);
+	useEffect(() => {
+		// TODO: Mutate the commentList in the database
+	}, [commentList]);
 
 	return (
 		<>
@@ -68,28 +102,9 @@ function PostCard({
 								comments.length +
 								comments.flatMap((comment) => comment.replies).length
 							}
-							onPressLike={() => {
-								console.log("Liked");
-								if (hasBeenLiked)
-									setLikeList(likeList.filter((x) => x.userId !== userId));
-								else
-									setLikeList(
-										likeList.concat({
-											date: new Date().toISOString(),
-											userId: userId,
-										})
-									);
-								/* I use the function concat() to mutate the array while returning
-							   the mutated value. */
-
-								// TODO: Mutate the number of likes in the database
-
-								alert(likes.length);
-							}}
-							onPressComment={() => {
-								setModalIsVisible(true);
-							}}
-							onPressShare={() => console.log("Shared")}
+							onPressLike={like}
+							onPressComment={comment}
+							onPressShare={share}
 						/>
 
 						<Author
@@ -107,6 +122,8 @@ function PostCard({
 				isLiked={hasBeenLiked}
 				comments={comments}
 				onPressBack={() => setModalIsVisible(false)}
+				onPressLike={like}
+				onPublish={(input) => publishComment(...input)}
 			/>
 		</>
 	);

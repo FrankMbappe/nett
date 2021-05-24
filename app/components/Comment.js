@@ -1,10 +1,10 @@
+import React, { useState } from "react";
+import { View, StyleSheet, Image, Pressable, FlatList } from "react-native";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
-import React from "react";
-import { View, StyleSheet, Image, Pressable } from "react-native";
-import colors from "../config/colors";
-import { accountTypes } from "../config/enums";
 import Badge from "./Badge";
 import NettText from "./Text";
+import colors from "../config/colors";
+import { accountTypes } from "../config/enums";
 
 function getStyleFromAccountType(accountType) {
 	const style = (label = colors.appFront, back = colors.lighter) => ({
@@ -25,6 +25,7 @@ function getStyleFromAccountType(accountType) {
 // TODO: When a user publishes a comment as another type of user
 function Comment({
 	author: {
+		id,
 		type,
 		profile: { fullName, picUri },
 	},
@@ -35,62 +36,101 @@ function Comment({
 	onPressProfilePic,
 	replies = [],
 }) {
+	const [showReplies, setShowReplies] = useState(false);
 	const styleFromAccountType = getStyleFromAccountType(type);
 
 	return (
-		<View style={styles.container}>
-			<Pressable style={styles.picContainer} onPress={onPressProfilePic}>
-				<Image style={styles.pic} source={{ uri: picUri }} />
-			</Pressable>
+		<>
+			<View style={styles.container}>
+				<Pressable style={styles.picContainer} onPress={onPressProfilePic}>
+					<Image style={styles.pic} source={{ uri: picUri }} />
+				</Pressable>
 
-			<View style={styles.mainContainer}>
-				<View style={styles.authorInfoContainer}>
-					<NettText style={styles.authorName} numberOfLines={1}>
-						{fullName}
-					</NettText>
-					<Badge
-						style={styles.badge}
-						color={colors.appFront}
-						size={10}
-						useBorders={false}
-					/>
+				<View style={styles.mainContainer}>
+					<View style={styles.authorInfoContainer}>
+						<NettText style={styles.authorName} numberOfLines={1}>
+							{fullName}
+						</NettText>
+						<Badge
+							style={styles.badge}
+							color={colors.appFront}
+							size={10}
+							useBorders={false}
+						/>
+						<NettText
+							style={[
+								styles.authorAccountType,
+								{ color: styleFromAccountType.labelColor },
+							]}
+							numberOfLines={1}
+						>
+							{type}
+						</NettText>
+					</View>
+
 					<NettText
 						style={[
-							styles.authorAccountType,
-							{ color: styleFromAccountType.labelColor },
+							styles.comment,
+							{ backgroundColor: styleFromAccountType.backColor },
 						]}
-						numberOfLines={1}
 					>
-						{type}
+						{text}
 					</NettText>
-				</View>
 
-				<NettText
-					style={[
-						styles.comment,
-						{ backgroundColor: styleFromAccountType.backColor },
-					]}
-				>
-					{text}
-				</NettText>
-
-				<View style={styles.controls}>
-					<NettText style={styles.distanceFromNow} numberOfLines={1}>
-						{formatDistanceToNowStrict(parseISO(datePublished))}
-					</NettText>
-					<NettText style={styles.like} numberOfLines={1} onPress={onPressLike}>
-						Like
-					</NettText>
-					<NettText
-						style={styles.replies}
-						numberOfLines={1}
-						onPress={onPressReply}
-					>
-						{replies.length ? `Show ${replies.length} replies` : "Reply"}
-					</NettText>
+					<View style={styles.controlsContainer}>
+						<NettText style={styles.distanceFromNow} numberOfLines={1}>
+							{formatDistanceToNowStrict(parseISO(datePublished))}
+						</NettText>
+						<NettText
+							style={styles.control}
+							numberOfLines={1}
+							onPress={onPressLike}
+						>
+							{"Like"}
+						</NettText>
+						<NettText
+							style={styles.control}
+							numberOfLines={1}
+							onPress={() => onPressReply(id)}
+						>
+							{"Reply"}
+						</NettText>
+						{replies && replies.length > 0 && (
+							<NettText
+								style={styles.control}
+								numberOfLines={1}
+								onPress={() => setShowReplies(!showReplies)}
+							>
+								{showReplies
+									? "Hide replies"
+									: replies.length === 1
+									? `Show 1 reply`
+									: `Show ${replies.length} replies`}
+							</NettText>
+						)}
+					</View>
 				</View>
 			</View>
-		</View>
+			{replies && replies.length > 0 && showReplies && (
+				<FlatList
+					style={{ flex: 1, marginStart: 25 }}
+					data={replies}
+					showsHorizontalScrollIndicator={false}
+					keyExtractor={(item) => item.id}
+					renderItem={({ item }) => (
+						<Comment
+							author={item.author}
+							datePublished={item.datePublished}
+							text={item.text}
+							replies={item.replies}
+							onPressLike={() => alert("Like")}
+							onPressProfilePic={() => alert("Profile pic")}
+							onPressReply={(authorId) => onPressReply(authorId)}
+						/>
+					)}
+				/>
+			)}
+		</>
 	);
 }
 
@@ -140,24 +180,18 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 		marginBottom: 8,
 	},
-	controls: {
+	controlsContainer: {
 		flexDirection: "row",
 		alignItems: "center",
 	},
 	distanceFromNow: {
 		color: "#a3b4c3",
-		marginEnd: 15,
 		fontSize: 12,
 		fontWeight: "700",
 	},
-	like: {
+	control: {
 		color: "#687988",
-		marginEnd: 8,
-		fontSize: 12,
-		fontWeight: "700",
-	},
-	replies: {
-		color: "#687988",
+		marginStart: 8,
 		fontSize: 12,
 		fontWeight: "700",
 	},

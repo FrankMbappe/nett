@@ -61,7 +61,9 @@ function HomeScreen(props) {
 					data={eventList}
 					showsHorizontalScrollIndicator={false}
 					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => <EventCard event={item} />}
+					renderItem={({ item }) => (
+						<EventCard event={item} onPress={() => alert("Event")} />
+					)}
 					horizontal
 				/>,
 			],
