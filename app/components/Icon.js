@@ -13,6 +13,7 @@ function Icon({
 			style={{
 				width: size,
 				height: size,
+				borderRadius: size / 2,
 				backgroundColor,
 				alignItems: "center",
 				justifyContent: "center",

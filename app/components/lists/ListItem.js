@@ -21,11 +21,9 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 				style={[styles.card, style]}
 			>
 				<>
-					{otherProps.ImageComponent /* e.g., an Icon component */}
-
-					{
+					{otherProps.ImageComponent /* e.g., an Icon component */ ||
 						/*Basic tip in react to display a component only if a certain value is not null*/
-						otherProps.image && (
+						(otherProps.image && (
 							<Image
 								style={[
 									styles.image,
@@ -33,8 +31,7 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 								]}
 								source={otherProps.image}
 							/>
-						)
-					}
+						))}
 
 					<View style={styles.descriptionContainer}>
 						<NettText style={styles.name} numberOfLines={1}>
@@ -47,7 +44,7 @@ function ListItem({ style, imageIsRounded = false, ...otherProps }) {
 						)}
 					</View>
 
-					{otherProps.isChatItem && (
+					{otherProps.usesChevron && (
 						<MaterialCommunityIcons
 							name="chevron-right"
 							size={20}

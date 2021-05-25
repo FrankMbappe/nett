@@ -56,7 +56,7 @@ function UserChatListScreen(props) {
 				keyExtractor={(chat) => chat.id.toString()}
 				renderItem={({ item }) => (
 					<ListItem
-						isChatItem
+						usesChevron
 						style={styles.listItem}
 						image={item.picUri ? item.picUri : images.USER_DEFAULT}
 						name={item.user}

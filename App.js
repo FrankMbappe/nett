@@ -11,7 +11,11 @@ import { Dimensions, FlatList, ScrollView, View } from "react-native";
 import NettText from "./app/components/Text";
 import HomeScreen from "./app/screens/HomeScreen/HomeScreen";
 import countryCodes from "./app/config/countryCodes";
-import { ListItemSeparator } from "./app/components/lists";
+import { ListItem } from "./app/components/lists";
+import ShowAllScreen from "./app/screens/ShowAllScreen/ShowAllScreen";
+import { classrooms } from "./app/config/dummyData";
+import Icon from "./app/components/Icon";
+import colors from "./app/config/colors";
 
 //#region Testing Picker with dummy data
 
@@ -163,6 +167,29 @@ export default function App() {
 	// return <UserChatListScreen />;
 	// return categoryPickerExample();
 	// return <ProfileEditionScreen />;
-	return <HomeScreen />;
 	// return birthDatePicker();
+	// return <HomeScreen />;
+	return (
+		<ShowAllScreen
+			items={classrooms}
+			icon="google-classroom"
+			title="Classrooms"
+			renderItem={(item) => (
+				<ListItem
+					usesChevron
+					ImageComponent={
+						<Icon
+							name="school-outline"
+							backgroundColor={colors.okLight}
+							iconColor={colors.ok}
+							size={40}
+						/>
+					}
+					name={item.name}
+					description={`${item.participants.length} participants`}
+					onPress={() => alert(JSON.stringify(item.participants))}
+				/>
+			)}
+		/>
+	);
 }

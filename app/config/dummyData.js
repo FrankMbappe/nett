@@ -363,6 +363,7 @@ const classrooms = [
 		teacher: teachers.find((x) => x.id === "usr-210"),
 		students: [...students.filter((x) => "cls-001" in x.classrooms), me],
 		consultants: consultants.filter((x) => "cls-001" in x.classrooms),
+		participants: users.filter((x) => x.classrooms.includes("cls-001")),
 		postsPerDay: 2.32,
 	},
 	{
@@ -373,6 +374,7 @@ const classrooms = [
 		teacher: teachers.find((x) => x.id === "usr-211"),
 		students: [...students.filter((x) => "cls-002" in x.classrooms), me],
 		consultants: consultants.filter((x) => "cls-002" in x.classrooms),
+		participants: users.filter((x) => x.classrooms.includes("cls-002")),
 		postsPerDay: 1.04,
 	},
 	{
@@ -383,6 +385,7 @@ const classrooms = [
 		teacher: teachers.find((x) => x.id === "usr-210"),
 		students: [...students.filter((x) => "cls-003" in x.classrooms), me],
 		consultants: consultants.filter((x) => "cls-003" in x.classrooms),
+		participants: users.filter((x) => x.classrooms.includes("cls-003")),
 		postsPerDay: 0.89,
 	},
 ];
