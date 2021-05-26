@@ -83,9 +83,36 @@ import colors from "./app/config/colors";
 
 //#endregion
 
+//#region Testing ShowAllScreen
+const showAllScreemExample = (
+	<ShowAllScreen
+		items={[]}
+		icon="google-classroom"
+		title="Classrooms"
+		renderItem={(item) => (
+			<ListItem
+				usesChevron
+				ImageComponent={
+					<Icon
+						name="school-outline"
+						backgroundColor={colors.okLight}
+						iconColor={colors.ok}
+						size={40}
+					/>
+				}
+				name={item.name}
+				description={`${item.participants.length} participants`}
+				onPress={() => alert(JSON.stringify(item.participants))}
+			/>
+		)}
+	/>
+);
+//#endregion
+
 //#region  Testing DatePicker with dummy data
 // let days = [];
 // let years = [];
+// let months = ["January", "February", "March", "April", "May"];
 
 // for (let i = 1; i <= 31; i++) {
 // 	days.push(i.toString().padStart(2, "0"));
@@ -136,9 +163,9 @@ import colors from "./app/config/colors";
 // 				)}
 // 			/>
 // 			<FlatList
-// 				data={moment.months()}
+// 				data={months}
 // 				horizontal
-// 				keyExtractor={(item) => moment.months().indexOf(item).toString()}
+// 				keyExtractor={(item) => months.indexOf(item).toString()}
 // 				renderItem={(item) => (
 // 					<NettText style={{ fontSize: 60, marginEnd: 25 }}>
 // 						{item.item}
@@ -169,27 +196,5 @@ export default function App() {
 	// return <ProfileEditionScreen />;
 	// return birthDatePicker();
 	// return <HomeScreen />;
-	return (
-		<ShowAllScreen
-			items={classrooms}
-			icon="google-classroom"
-			title="Classrooms"
-			renderItem={(item) => (
-				<ListItem
-					usesChevron
-					ImageComponent={
-						<Icon
-							name="school-outline"
-							backgroundColor={colors.okLight}
-							iconColor={colors.ok}
-							size={40}
-						/>
-					}
-					name={item.name}
-					description={`${item.participants.length} participants`}
-					onPress={() => alert(JSON.stringify(item.participants))}
-				/>
-			)}
-		/>
-	);
+	return showAllScreemExample;
 }

@@ -6,14 +6,7 @@ import TextIcon from "../TextIcon";
 import Author from "./Author";
 
 function ClassroomCard({
-	classroom: {
-		name,
-		nbOfParticipants,
-		students,
-		consultants,
-		postsPerDay,
-		teacher,
-	},
+	classroom: { name, participants, postsPerDay, teacher },
 	...otherProps
 }) {
 	return (
@@ -27,11 +20,7 @@ function ClassroomCard({
 			<View style={styles.statsContainer}>
 				<TextIcon
 					icon="account-multiple"
-					text={
-						nbOfParticipants
-							? nbOfParticipants
-							: [...students, ...consultants].length + 1
-					}
+					text={participants.length + 1}
 					fontSize={12}
 					containerStyle={{ marginEnd: 12 }}
 				/>

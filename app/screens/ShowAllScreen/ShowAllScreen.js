@@ -5,6 +5,7 @@ import ButtonIcon from "../../components/ButtonIcon";
 import { ListItemSeparator } from "../../components/lists";
 import Screen from "../../components/Screen";
 import TextIcon from "../../components/TextIcon";
+import NettText from "../../components/Text";
 import TopBar from "../../components/TopBar";
 
 import styles from "./styles";
@@ -37,6 +38,7 @@ function ShowAllScreen({ icon, items, renderItem, title }) {
 				renderItem={({ item }) => renderItem(item)}
 				refreshing={refreshing}
 				onRefresh={() => setItemList(items)}
+				ListEmptyComponent={<NettText>Empty list</NettText>} //* Here
 				ItemSeparatorComponent={ListItemSeparator}
 			/>
 		</Screen>
