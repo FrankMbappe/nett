@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
 	authorAndClassroomsContainer: {},
 	inputContainer: {
 		flex: 1,
-		marginTop: 5,
 	},
 	input: {
 		flex: 1,
+		backgroundColor: colors.appBack,
 		alignItems: "flex-start",
 	},
 	characterCount: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 	},
 	bundleContainer: {
-		marginTop: 10,
+		marginTop: 5,
 	},
 
 	// --> BOTTOM BAR

@@ -61,7 +61,6 @@ function LoginWithPhoneScreen(props) {
 							name="phone"
 							placeholder={"Phone number"}
 							keyboardType={"phone-pad"}
-							maxLength={9}
 							textContentType="telephoneNumber"
 						/>
 					</View>

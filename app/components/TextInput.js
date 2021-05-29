@@ -23,7 +23,7 @@ function NettTextInput({
 					style={{ marginEnd: fontSize * 0.65 }}
 				/>
 			)}
-			<TextInput style={[{ width: "100%", fontSize }, style]} {...otherProps} />
+			<TextInput style={[styles.input, { fontSize }, style]} {...otherProps} />
 		</View>
 	);
 }
@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		width: "100%",
+	},
+	input: {
+		width: "100%",
+		color: colors.appFront,
 	},
 });
 
