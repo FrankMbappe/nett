@@ -657,4 +657,13 @@ const posts = [
 	},
 ];
 
-export { teachers, students, consultants, users, classrooms, posts, events };
+export {
+	teachers,
+	students,
+	consultants,
+	me,
+	users,
+	classrooms,
+	posts,
+	events,
+};

@@ -66,7 +66,14 @@ function NettPicker({
 					/>
 				</View>
 			</TouchableWithoutFeedback>
-			<Modal visible={modalIsVisible} animationType="slide">
+			<Modal
+				statusBarTranslucent
+				visible={modalIsVisible}
+				animationType="slide"
+				onRequestClose={() => {
+					setModalIsVisible(false);
+				}}
+			>
 				<Screen style={styles.modalScreen}>
 					<ButtonIcon
 						name="close"

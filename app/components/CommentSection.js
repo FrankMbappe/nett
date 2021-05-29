@@ -27,13 +27,16 @@ function CommentSection({
 		<Modal
 			visible={isVisible}
 			style={styles.modal}
-			animationType="slide"
+			animationType="fade"
+			statusBarTranslucent
 			onRequestClose={onPressBack}
 		>
 			<Screen style={styles.screen}>
 				<TopBar style={styles.topBar}>
 					<ButtonIcon name="arrow-left" size={25} onPress={onPressBack} />
-					<NettText style={styles.title}>{title}</NettText>
+					<NettText style={styles.title} numberOfLines={1}>
+						{title}
+					</NettText>
 					<ButtonIcon
 						color={isLiked ? colors.danger : colors.mediumLight}
 						name="heart"

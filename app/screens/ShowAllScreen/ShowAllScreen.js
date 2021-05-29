@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList } from "react-native";
+import { FlatList, Image } from "react-native";
 
 import ButtonIcon from "../../components/ButtonIcon";
 import { ListItemSeparator } from "../../components/lists";
@@ -9,6 +9,7 @@ import NettText from "../../components/Text";
 import TopBar from "../../components/TopBar";
 
 import styles from "./styles";
+import images from "../../config/images";
 
 function ShowAllScreen({ icon, items, renderItem, title }) {
 	const [itemList, setItemList] = useState(items);
@@ -38,7 +39,12 @@ function ShowAllScreen({ icon, items, renderItem, title }) {
 				renderItem={({ item }) => renderItem(item)}
 				refreshing={refreshing}
 				onRefresh={() => setItemList(items)}
-				ListEmptyComponent={<NettText>Empty list</NettText>} //* Here
+				ListEmptyComponent={
+					<Image
+						source={images.EMPTY_LIST}
+						style={{ width: 150, height: 150 }}
+					/>
+				} //* Here
 				ItemSeparatorComponent={ListItemSeparator}
 			/>
 		</Screen>

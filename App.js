@@ -13,9 +13,10 @@ import HomeScreen from "./app/screens/HomeScreen/HomeScreen";
 import countryCodes from "./app/config/countryCodes";
 import { ListItem } from "./app/components/lists";
 import ShowAllScreen from "./app/screens/ShowAllScreen/ShowAllScreen";
-import { classrooms } from "./app/config/dummyData";
+import { classrooms, me } from "./app/config/dummyData";
 import Icon from "./app/components/Icon";
 import colors from "./app/config/colors";
+import PostCreationScreen from "./app/screens/PostCreationScreen/PostCreationScreen";
 
 //#region Testing Picker with dummy data
 
@@ -196,5 +197,6 @@ export default function App() {
 	// return <ProfileEditionScreen />;
 	// return birthDatePicker();
 	// return <HomeScreen />;
-	return showAllScreemExample;
+	// return showAllScreemExample;
+	return <PostCreationScreen author={me} classroom={classrooms[0]} />;
 }
