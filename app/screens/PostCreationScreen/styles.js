@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	input: {
-		flex: 1,
+		height: 180,
 		backgroundColor: colors.appBack,
 		alignItems: "flex-start",
 	},
@@ -35,8 +35,13 @@ const styles = StyleSheet.create({
 	characterCountValue: {
 		fontWeight: "700",
 	},
-	bundleContainer: {
+	bundleContainer: {},
+	bundleAdderContainer: { marginTop: 10 },
+	fileLabel: {
+		fontSize: 14,
+		color: colors.medium,
 		marginTop: 5,
+		marginStart: 15,
 	},
 
 	// --> BOTTOM BAR

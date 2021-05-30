@@ -84,6 +84,7 @@ const styles = (fontSize) =>
 		image: {
 			width: fontSize * 3.5,
 			height: fontSize * 3.5,
+			backgroundColor: colors.light,
 		},
 		name: {
 			fontSize: fontSize,

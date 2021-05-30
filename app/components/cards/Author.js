@@ -60,6 +60,7 @@ const styles = (fontSize) =>
 			height: fontSize * 1.5,
 			borderRadius: fontSize * 0.75,
 			marginEnd: fontSize * 0.5,
+			backgroundColor: colors.light,
 		},
 	});
 

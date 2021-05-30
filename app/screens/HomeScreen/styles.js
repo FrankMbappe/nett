@@ -6,6 +6,7 @@ import colors from "../../config/colors";
 const styles = StyleSheet.create({
 	screen: {
 		alignItems: "center",
+		paddingBottom: 0,
 	},
 
 	// --> BOTTOM BAR

@@ -1,33 +1,33 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Keyboard } from "react-native";
-import { View } from "react-native";
+import { Keyboard, View, ScrollView } from "react-native";
+import { bytesToSize, capitalize } from "../../utils";
 import { Divider } from "react-native-elements";
-import BundleAdder from "../../components/BundleAdder";
-import NettButton from "../../components/Button";
-import ButtonIcon from "../../components/ButtonIcon";
-import { PostBundle } from "../../components/cards/bundles";
+
 import { ListItem } from "../../components/lists";
-import Screen from "../../components/Screen";
+import { PostBundle } from "../../components/cards/bundles";
+import BundleAdder from "../../components/BundleAdder";
+import ButtonIcon from "../../components/ButtonIcon";
+import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
 import NettTextInput from "../../components/TextInput";
+import Screen from "../../components/Screen";
 import TopBar from "../../components/TopBar";
+
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
-import { capitalize } from "../../utils";
 import styles from "./styles";
 
 function PostCreationScreen({
 	author: {
 		type,
 		profile: { fullName: authorName, picUri },
-		classrooms,
 	},
 	classroom,
+	bundle,
 	maxTextLength = 3000,
 }) {
-	//const [selectedClassroms, setSelectedClassroms] = useState([classroom]);
 	const [text, setText] = useState("");
-	const [file, setFile] = useState();
+	const [file, setFile] = useState(bundle);
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
 	useEffect(() => {
@@ -44,7 +44,11 @@ function PostCreationScreen({
 		};
 	}, []);
 
-	const onPublish = useCallback(() => console.log("Publish"));
+	useEffect(() => {
+		setFile(bundle);
+	}, [bundle]);
+
+	const onPublish = useCallback(() => console.log("Publish")); // TODO
 
 	return (
 		<Screen style={styles.screen}>
@@ -58,27 +62,28 @@ function PostCreationScreen({
 					style={styles.saveButton}
 				/>
 			</TopBar>
-			<View style={styles.mainContainer}>
-				<View style={styles.authorAndClassroomsContainer}>
+
+			{/* The Content of the ScrollView takes all the available space if
+				there's no PostBundle shown */}
+			<ScrollView
+				contentContainerStyle={!file && { flex: 1 }}
+				style={styles.mainContainer}
+			>
+				<View key="1" style={styles.authorAndClassroomsContainer}>
 					<ListItem
 						fontSize={15}
 						imageIsRounded
-						image={images.USER_DEFAULT}
-						// image={picUri ? { uri: picUri } : images.USER_DEFAULT}
+						image={picUri ? { uri: picUri } : images.USER_DEFAULT}
 						name={authorName}
 						description={`${capitalize(type)} in ${classroom.name}`}
 					/>
-					{/* <NettButton
-						fontSize={12}
-						icon="pen"
-						text="Modify"
-						type={buttons.TERTIARY}
-					/> */}
+					{/* TODO: Add multiple classrooms */}
 				</View>
-				<View style={styles.inputContainer}>
+
+				<View key="2" style={styles.inputContainer}>
 					<NettTextInput
 						autoFocus={true}
-						containerStyle={styles.input}
+						containerStyle={[styles.input, !file && { flex: 1 }]}
 						fontSize={19}
 						multiline
 						maxLength={maxTextLength}
@@ -86,29 +91,34 @@ function PostCreationScreen({
 						placeholder="Type something..."
 						value={text}
 					/>
-					<NettText style={styles.characterCount}>
-						<NettText style={styles.characterCountLabel}>
-							{"Remaining characters:  "}
-						</NettText>
-						<NettText
-							style={styles.characterCountValue}
-						>{`${text.length} / ${maxTextLength}`}</NettText>
-					</NettText>
 				</View>
+				<NettText key="3" style={styles.characterCount}>
+					<NettText style={styles.characterCountLabel}>
+						{"Remaining characters:  "}
+					</NettText>
+					<NettText
+						style={styles.characterCountValue}
+					>{`${text.length} / ${maxTextLength}`}</NettText>
+				</NettText>
 
+				{/* If a file has been added, the Bundle is shown here */}
 				{file && (
-					<>
-						<Divider style={{ marginTop: 10 }} />
+					<View key="4" style={{ marginTop: 10 }}>
+						<Divider />
 						<PostBundle file={file} />
-					</>
+						<NettText style={styles.fileLabel}>
+							{`${file.type} - ${bytesToSize(file.size)}`}
+						</NettText>
+					</View>
 				)}
+			</ScrollView>
 
-				<Divider style={{ marginTop: 10 }} />
-
-				{/* Adding a photo, video, file, etc. to the post */}
+			{/* Adding a photo, video, file, etc. to the post */}
+			<View style={styles.bundleAdderContainer}>
+				<Divider />
 				<BundleAdder
 					containerStyle={styles.bundleContainer}
-					isExpanded={!file && !isKeyboardVisible}
+					isExpanded={!isKeyboardVisible && !file}
 					onPressBundle={() => alert("Bundle")}
 					onPressMention={() => alert("Mention")}
 					onPressMedia={() => alert("Photo/Video")}
@@ -117,6 +127,7 @@ function PostCreationScreen({
 					onPressQuiz={() => alert("Quiz")}
 				/>
 			</View>
+
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={!text.length && !file}
