@@ -63,16 +63,30 @@ function QuizTakingScreen({
 					</NettText>
 				</View>
 				<NettText style={styles.title}>{title}</NettText>
-				<NettText>{currentQATimer}</NettText>
 			</View>
+
 			{currentQAIndex != null && (
 				<>
-					<QAIndicator
-						id={qas[currentQAIndex].id}
-						progress={0}
-						max={qas[currentQAIndex].timer}
-						isCorrect={false}
-					/>
+					<View style={styles.indicatorsBar}>
+						{qas.map(({ id, timer }, index) => {
+							const hasBeenDone = index < sessionList.length;
+							const isBeingDone = index === currentQAIndex;
+							const hasNotBeenDoneYet = !hasBeenDone && !isBeingDone;
+
+							return (
+								<QAIndicator
+									key={String(index)}
+									id={id}
+									progress={
+										isBeingDone ? currentQATimer : hasNotBeenDoneYet ? timer : 0
+									}
+									max={timer}
+									isCorrect={hasBeenDone ? sessionList[index].isCorrect : false}
+								/>
+							);
+						})}
+					</View>
+
 					<QATaker
 						qa={qas[currentQAIndex]}
 						remainingTime={currentQATimer}

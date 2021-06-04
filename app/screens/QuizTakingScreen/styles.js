@@ -32,6 +32,13 @@ const styles = StyleSheet.create({
 	header: {
 		padding: 10,
 	},
+	indicatorsBar: {
+		width: "100%",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-around",
+		padding: 10,
+	},
 });
 
 export default styles;

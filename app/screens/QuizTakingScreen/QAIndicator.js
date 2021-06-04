@@ -62,7 +62,7 @@ const styles = (state) =>
 			borderRadius: 25,
 			backgroundColor: state !== "active" ? colors.appBack : colors.okLight,
 			borderWidth: 2,
-			borderColor: colors.medium,
+			borderColor: colors.mediumLight,
 			justifyContent: "center",
 			alignItems: "center",
 			opacity: state !== "ended" ? 1 : 0.25,
