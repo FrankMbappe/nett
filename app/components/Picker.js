@@ -53,12 +53,12 @@ function NettPicker({
 							style={{ marginEnd: fontSize * 0.65 }}
 						/>
 					)}
-					<Text
+					<NettText
 						style={[styles.text, { fontSize }, otherProps.style]}
 						{...otherProps}
 					>
 						{selectedItem ? selectedItem : placeholder}
-					</Text>
+					</NettText>
 					<MaterialCommunityIcons
 						name={"chevron-down"}
 						size={fontSize * 1.5}

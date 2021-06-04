@@ -657,6 +657,94 @@ const posts = [
 	},
 ];
 
+//
+// QUIZZES
+const quizzes = [
+	{
+		id: "qzz-01",
+		creationDate: subDays(new Date(), 4).toISOString(),
+		title: "Second semester exams in Cardiology and Physiology",
+		dateOpening: subDays(new Date(), 1).toISOString(),
+		dateClosing: addDays(new Date(), 2).toISOString(),
+		secondsPerQa: 90,
+		qas: [
+			{
+				id: "1",
+				topic: "Cardiac Muscle & Physiology",
+				question: "How is cardiac muscle primarily controlled?",
+				answers: [
+					{
+						id: "1",
+						value: "On a voluntary basis via the somatic nervous system",
+					},
+					{
+						id: "2",
+						value: "On an involuntary basis via the autonomic nervous system",
+					},
+					{ id: "3", value: "None of the above" },
+				],
+				rightAnswers: ["1"],
+				timer: 10,
+			},
+			{
+				id: "2",
+				topic: "Cardiac Muscle & Physiology",
+				question: "How is cardiac muscle primarily controlled 2?",
+				answers: [
+					{
+						id: "1",
+						value: "On a voluntary basis via the somatic nervous system",
+					},
+					{
+						id: "2",
+						value: "On an involuntary basis via the autonomic nervous system",
+					},
+					{ id: "3", value: "None of the above" },
+				],
+				rightAnswers: ["1"],
+				timer: 10,
+			},
+			{
+				id: "3",
+				topic: "Cardiac Muscle & Physiology",
+				question: "How is cardiac muscle primarily controlled? 3",
+				answers: [
+					{
+						id: "1",
+						value: "On a voluntary basis via the somatic nervous system",
+					},
+					{
+						id: "2",
+						value: "On an involuntary basis via the autonomic nervous system",
+					},
+					{ id: "3", value: "None of the above" },
+				],
+				rightAnswers: ["1"],
+				timer: 10,
+			},
+			{
+				id: "4",
+				topic: "Cardiac Muscle & Physiology",
+				question: "How is cardiac muscle primarily controlled? 4",
+				answers: [
+					{
+						id: "1",
+						value: "On a voluntary basis via the somatic nervous system",
+					},
+					{
+						id: "2",
+						value: "On an involuntary basis via the autonomic nervous system",
+					},
+					{ id: "3", value: "None of the above" },
+				],
+				rightAnswers: ["1"],
+				timer: 10,
+			},
+		],
+		participated: ["usr-110", "usr-311"],
+	},
+];
+
 export {
 	teachers,
 	students,
@@ -666,4 +754,5 @@ export {
 	classrooms,
 	posts,
 	events,
+	quizzes,
 };

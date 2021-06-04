@@ -8,7 +8,7 @@ function StartTitle({ children, style, useLogo = true }) {
 			{useLogo && (
 				<Image source={images.APP_ICON} style={{ width: 75, height: 75 }} />
 			)}
-			<Text style={styles.textTitle}>{children}</Text>
+			<NettText style={styles.textTitle}>{children}</NettText>
 		</View>
 	);
 }

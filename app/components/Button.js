@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import { buttons } from "../config/enums";
+import NettText from "./Text";
 
 // --- Kind of buttons --- //
 const buttonTypes = {
@@ -43,7 +44,9 @@ function NettButton({
 					style={{ marginEnd: text ? fontSize * 0.65 : 0 }}
 				/>
 			)}
-			{text && <Text style={[styles(type).text, { fontSize }]}>{text}</Text>}
+			{text && (
+				<NettText style={[styles(type).text, { fontSize }]}>{text}</NettText>
+			)}
 		</TouchableOpacity>
 	);
 }

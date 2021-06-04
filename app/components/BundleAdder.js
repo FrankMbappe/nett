@@ -59,7 +59,7 @@ function BundleAdder({
 					<View style={styles.unexpandedContainer}>
 						{adders.map((x, index) => (
 							<ButtonIcon
-								key={index}
+								key={String(index)}
 								name={x.icon}
 								color={x.color}
 								onPress={() => {
@@ -74,8 +74,9 @@ function BundleAdder({
 
 			{isExpanded && (
 				<View style={styles.expandedContainer}>
-					{adders.map((x) => (
+					{adders.map((x, index) => (
 						<Pressable
+							key={String(index)}
 							style={styles.expandedIcon}
 							onPress={() => {
 								onPressBundle();

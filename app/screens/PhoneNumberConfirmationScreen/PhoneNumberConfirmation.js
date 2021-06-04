@@ -58,19 +58,21 @@ function PhoneNumberConfirmation({ phone }) {
 					<NettText style={styles.timerDescription}>
 						Time left before expiration:
 					</NettText>
-					<Text style={styles.timer}>
+					<NettText style={styles.timer}>
 						{timerLeft
 							? new Date(timerLeft * 1000).toISOString().substr(14, 5)
 							: "Expired"}
-					</Text>
+					</NettText>
 				</View>
 
 				{/* Resend code */}
 				<View style={styles.resendCodeContainer}>
 					<Divider style={styles.resendCodeDivider} />
 					<View style={styles.resendCodeTextContainer}>
-						<Text style={styles.resendCodeLabel}>Didn't receive the code?</Text>
-						<Text style={styles.resendCodeLink}>Resend</Text>
+						<NettText style={styles.resendCodeLabel}>
+							Didn't receive the code?
+						</NettText>
+						<NettText style={styles.resendCodeLink}>Resend</NettText>
 					</View>
 				</View>
 			</View>
