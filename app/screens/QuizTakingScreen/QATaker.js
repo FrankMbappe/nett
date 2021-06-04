@@ -4,55 +4,35 @@ import { View, StyleSheet } from "react-native";
 import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
 import { toggleAddRemove } from "../../utils";
-import QAIndicator from "./QAIndicator";
 
 function QATaker({
 	qa: { id, topic, question, answers, rightAnswers, timer },
 	remainingTime,
-	onTimerValueChanges,
 	onTimerEnd,
-	onQASubmit,
+	onSubmit,
 }) {
 	const [providedAnswers, setProvidedAnswers] = useState([]);
-	const [timerLeft, setTimerLeft] = useState(timer);
 
 	const session = useRef({
-		// Generate ID for the new session and add it as an id. id: randomUUID();
+		// TODO: Generate ID for the new session and add it as an id. id: randomUUID();
 		qaId: id,
 		remainingTime: timer,
 		isCorrect: false,
 	});
 
-	/* -- Whenever the timer value changes -- */
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			if (!timerLeft) {
-				onTimerEnd(session.current);
-				return;
-			}
-			session.current.remainingTime = timerLeft;
-			onTimerValueChanges(session.current, timerLeft);
-			setTimerLeft((prevTimerLeft) => prevTimerLeft - 1);
-		}, 1000);
-		return () => clearTimeout(timer);
-	}, [timerLeft]);
+		if (remainingTime <= 0) onTimerEnd(session.current);
+		session.current.remainingTime = remainingTime;
+	}, [remainingTime]);
 
-	// useEffect(() => {
-	// 	if (!remainingTime) onTimerEnd(session.current);
-	// 	onTimerValueChanges(session.current);
-	// 	session.current.remainingTime = remainingTime;
-	// }, [remainingTime])
-
-	/* -- Whenever another QA comes on -- */
 	useEffect(() => {
+		/* -- Whenever a new QA comes on -- */
 		// I clear the provided answers array
 		setProvidedAnswers([]);
-		// I set the timer left to the QA timer's value
-		setTimerLeft(timer);
 		// I mutate the current session object accordingly
 		session.current = {
 			qaId: id,
-			remainingTime: timerLeft,
+			remainingTime: remainingTime,
 			isCorrect: false,
 		};
 	}, [id]);
@@ -64,12 +44,6 @@ function QATaker({
 
 	return (
 		<View style={styles.container}>
-			<QAIndicator
-				id={id}
-				progress={timerLeft}
-				max={timer}
-				isCorrect={session.current.isCorrect}
-			/>
 			<NettText>{providedAnswers.length}</NettText>
 			<NettText>{topic}</NettText>
 			<NettText>{question}</NettText>
@@ -86,7 +60,7 @@ function QATaker({
 				</NettText>
 			))}
 
-			<NettButton text="Submit" onPress={() => onQASubmit(session.current)} />
+			<NettButton text="Submit" onPress={() => onSubmit(session.current)} />
 		</View>
 	);
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Image, View } from "react-native";
 
 import Screen from "../../components/Screen";
@@ -8,6 +8,7 @@ import styles from "./styles";
 import QATaker from "./QATaker";
 import { getNextItemIndex } from "../../utils";
 import QAIndicator from "./QAIndicator";
+import { isNull } from "lodash";
 
 function QuizTakingScreen({
 	author: {
@@ -21,20 +22,36 @@ function QuizTakingScreen({
 	const [currentQAIndex, setCurrentQAIndex] = useState(0);
 	const [currentQATimer, setCurrentQATimer] = useState(qas[0].timer);
 
-	const onQAEnd = (session) => {
-		console.log(JSON.stringify(session));
-		// I add the session to the quiz session list
-		setSessionList(sessionList.concat(session));
-		// I set the current QA to the next QA
-		setCurrentQAIndex(getNextItemIndex(currentQAIndex, qas));
-	};
+	const onSessionEnd = useCallback(
+		(session) => {
+			console.log(JSON.stringify(session));
+			// I add the session to the quiz session list
+			setSessionList(sessionList.concat(session));
+			// I set the current QA to the next QA
+			setCurrentQAIndex(getNextItemIndex(currentQAIndex, qas));
+		},
+		[sessionList, currentQAIndex]
+	);
 
 	useEffect(() => {
-		if (currentQAIndex === null) {
+		if (currentQAIndex !== null) {
+			// It means this was triggered by onSessionEnd()
+			// I set the current timer to the next QA's timer
+			setCurrentQATimer(qas[currentQAIndex].timer);
+		} else {
+			// No more available QAs, quiz ends
 			// displayQuizEnded()
 			alert("Quiz ended!");
 		}
 	}, [currentQAIndex]);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (!currentQATimer || isNull(currentQAIndex)) return;
+			setCurrentQATimer(currentQATimer - 1);
+		}, 1000);
+		return () => clearTimeout(timer);
+	}, [currentQATimer]);
 
 	return (
 		<Screen>
@@ -46,25 +63,24 @@ function QuizTakingScreen({
 					</NettText>
 				</View>
 				<NettText style={styles.title}>{title}</NettText>
+				<NettText>{currentQATimer}</NettText>
 			</View>
 			{currentQAIndex != null && (
 				<>
 					<QAIndicator
 						id={qas[currentQAIndex].id}
-						progress={currentQATimer}
+						progress={0}
 						max={qas[currentQAIndex].timer}
 						isCorrect={false}
 					/>
 					<QATaker
 						qa={qas[currentQAIndex]}
-						onTimerValueChanges={(_, value) => {
-							setCurrentQATimer(value);
-						}}
+						remainingTime={currentQATimer}
 						onTimerEnd={(session) => {
 							alert("Time over!");
-							onQAEnd(session);
+							onSessionEnd(session);
 						}}
-						onQASubmit={(session) => onQAEnd(session)}
+						onSubmit={(session) => onSessionEnd(session)}
 					/>
 				</>
 			)}

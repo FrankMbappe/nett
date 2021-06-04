@@ -12,15 +12,15 @@ import colors from "../../config/colors";
 
     PROGRESS
     ---
-    0 = Not yet started
-    100 = Ended
+    100 = Not yet started
+    0 = Ended (No time left)
     0 < value < 100 = Started 
 */
 
 function getState(progress, max) {
-	if (progress <= 0) return "standby";
+	if (progress === max) return "standby";
 	if (progress > 0 && progress < max) return "active";
-	else return "ended";
+	return "ended";
 }
 
 function getResultIcon(isCorrect) {
@@ -30,7 +30,7 @@ function getResultIcon(isCorrect) {
 
 function QAIndicator({
 	id,
-	max = -1,
+	max,
 	progress = -1,
 	isCorrect = false,
 	isDeterministic = false,
