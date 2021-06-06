@@ -24,8 +24,24 @@ function getState(progress, max) {
 }
 
 function getResultIcon(isCorrect) {
-	if (isCorrect) return <Icon name="check" iconColor={colors.ok} size={45} />;
-	else return <Icon name="close" iconColor={colors.danger} size={45} />;
+	if (isCorrect)
+		return (
+			<Icon
+				name="check"
+				iconColor={colors.ok}
+				size={45}
+				backgroundColor={colors.appBack}
+			/>
+		);
+	else
+		return (
+			<Icon
+				name="close"
+				iconColor={colors.danger}
+				size={45}
+				backgroundColor={colors.appBack}
+			/>
+		);
 }
 
 function QAIndicator({
@@ -45,7 +61,7 @@ function QAIndicator({
 		<View style={styles(state).container}>
 			{state === "active" ? (
 				<NettText style={styles(state).text}>{progress}</NettText>
-			) : isDeterministic ? (
+			) : state === "ended" && isDeterministic ? (
 				getResultIcon(isCorrect)
 			) : (
 				<NettText style={styles(state).text}>{id}</NettText>

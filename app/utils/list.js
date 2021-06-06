@@ -60,11 +60,17 @@ function getLastItem(list) {
  * Adds or removes an item of an array depending on if it is in that array or not
  * @param {*} item Item to add/remove
  * @param {*} list Array to add/remove the item
+ * @param {*} maxLength (Optional) Maximum length of the final array
  * @returns The mutated array
  */
-function toggleAddRemove(item, list) {
-	if (!list.includes(item)) return list.concat(item);
-	else {
+function toggleAddRemove(item, list, maxLength = null) {
+	const outOfBounds = maxLength !== null ? list.length + 1 > maxLength : false;
+	if (!list.includes(item)) {
+		// If the item will be out of bounds, I remove the first element of the
+		// array to give a place to the item we want to add.
+		if (outOfBounds) return list.slice(1).concat(item);
+		return list.concat(item);
+	} else {
 		return list.filter((x) => x !== item);
 	}
 }

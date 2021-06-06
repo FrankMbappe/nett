@@ -16,6 +16,7 @@ function QuizTakingScreen({
 	},
 	classroomName,
 	title,
+	isDeterministic,
 	qas = [],
 }) {
 	const [sessionList, setSessionList] = useState([]);
@@ -82,6 +83,7 @@ function QuizTakingScreen({
 									}
 									max={timer}
 									isCorrect={hasBeenDone ? sessionList[index].isCorrect : false}
+									isDeterministic={isDeterministic}
 								/>
 							);
 						})}

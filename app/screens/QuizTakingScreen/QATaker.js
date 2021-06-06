@@ -1,9 +1,18 @@
 import { isEqual } from "lodash";
 import React, { useState, useEffect, useRef } from "react";
+import { TouchableOpacity } from "react-native";
 import { View, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
+import colors from "../../config/colors";
 import { toggleAddRemove } from "../../utils";
+
+function getQuestionFontSize({ length }) {
+	if (length <= 50) return 18;
+	if (length > 50 && length <= 75) return 16;
+	return 14;
+}
 
 function QATaker({
 	qa: { id, topic, question, answers, rightAnswers, timer },
@@ -44,29 +53,90 @@ function QATaker({
 
 	return (
 		<View style={styles.container}>
-			<NettText>{providedAnswers.length}</NettText>
-			<NettText>{topic}</NettText>
-			<NettText>{question}</NettText>
-
-			{answers.map(({ id, value }) => (
+			<View style={styles.mainContainer}>
+				<NettText style={styles.topic}>{topic}</NettText>
 				<NettText
-					key={id}
-					style={{ padding: 10 }}
-					onPress={() =>
-						setProvidedAnswers(toggleAddRemove(id, providedAnswers))
-					}
+					style={[styles.question, { fontSize: getQuestionFontSize(question) }]}
 				>
-					{value}
+					{question}
 				</NettText>
-			))}
-
-			<NettButton text="Submit" onPress={() => onSubmit(session.current)} />
+				<FlatList
+					style={styles.answersFlatList}
+					data={answers}
+					keyExtractor={({ id }) => String(id)}
+					renderItem={({ item: { id, value } }) => (
+						<TouchableOpacity
+							key={id}
+							style={[
+								styles.answer,
+								providedAnswers.includes(id) && styles.selectedAnswer,
+							]}
+							onPress={() => {
+								setProvidedAnswers(
+									toggleAddRemove(id, providedAnswers, rightAnswers.length)
+								);
+							}}
+						>
+							<NettText style={styles.answerText}>{value}</NettText>
+						</TouchableOpacity>
+					)}
+				/>
+			</View>
+			<View style={styles.bottomBar}>
+				<NettButton text="Submit" onPress={() => onSubmit(session.current)} />
+			</View>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {},
+	container: { flex: 1 },
+	mainContainer: {
+		flex: 1,
+		backgroundColor: "salmon",
+		alignItems: "center",
+		padding: 5,
+		justifyContent: "space-around",
+	},
+	bottomBar: {
+		padding: 10,
+		width: "100%",
+		backgroundColor: colors.appBack,
+	},
+	topic: {
+		padding: 5,
+		fontSize: 12,
+		fontWeight: "bold",
+		color: colors.white,
+		backgroundColor: colors.quiteTransparentLight,
+		alignSelf: "center",
+		borderRadius: 10,
+	},
+	question: {
+		fontSize: 16,
+		fontWeight: "bold",
+		color: colors.white,
+		marginTop: 10,
+		textAlign: "center",
+	},
+	answersFlatList: {
+		marginTop: 10,
+	},
+	answer: {
+		paddingVertical: 15,
+		paddingHorizontal: 12,
+		backgroundColor: colors.quiteTransparentLight,
+		marginBottom: 5,
+		borderRadius: 10,
+	},
+	answerText: {
+		fontSize: 13,
+		flex: 1,
+		fontWeight: "700",
+	},
+	selectedAnswer: {
+		backgroundColor: colors.appBack,
+	},
 });
 
 export default QATaker;
