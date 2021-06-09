@@ -35,7 +35,10 @@ function QATaker({
 	});
 
 	useEffect(() => {
-		if (remainingTime <= 0) onTimerEnd(session.current);
+		const thereIsATimer = remainingTime != null;
+
+		if (thereIsATimer && remainingTime <= 0) onTimerEnd(session.current);
+
 		session.current.remainingTime = remainingTime;
 	}, [remainingTime]);
 

@@ -702,7 +702,7 @@ const quizzes = [
 					{ id: "3", value: "None of the above" },
 				],
 				rightAnswers: ["1"],
-				timer: 10,
+				timer: null,
 			},
 			{
 				id: "3",

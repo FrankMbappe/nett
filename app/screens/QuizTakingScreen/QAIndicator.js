@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Icon from "../../components/Icon";
 import NettText from "../../components/Text";
 import colors from "../../config/colors";
+import { timerStatus as t } from "../../config/enums";
 
 /* 
     let indicators = (isDeterministic = false) = [
@@ -18,9 +19,10 @@ import colors from "../../config/colors";
 */
 
 function getState(progress, max) {
-	if (progress === max) return "standby";
-	if (progress > 0 && progress < max) return "active";
-	return "ended";
+	if (progress === null) return t.noTimer;
+	if (progress === max) return t.standBy;
+	if (progress > 0 && progress < max) return t.active;
+	return t.ended;
 }
 
 function getBackColor(progress) {
@@ -69,13 +71,13 @@ function QAIndicator({
 				styles(state).container,
 				{
 					backgroundColor:
-						state === "active" ? getBackColor(progress) : colors.appBack,
+						state === t.active ? getBackColor(progress) : colors.appBack,
 				},
 			]}
 		>
-			{state === "active" ? (
+			{state === t.active ? (
 				<NettText style={styles(state).text}>{progress}</NettText>
-			) : state === "ended" && isDeterministic ? (
+			) : state === t.ended && isDeterministic ? (
 				getResultIcon(isCorrect)
 			) : (
 				<NettText style={styles(state).text}>{id}</NettText>
@@ -90,17 +92,17 @@ const styles = (state) =>
 			height: 50,
 			width: 50,
 			borderRadius: 25,
-			backgroundColor: state !== "active" ? colors.appBack : colors.ok,
+			backgroundColor: state !== t.active ? colors.appBack : colors.ok,
 			borderWidth: 2,
 			borderColor: colors.light,
 			justifyContent: "center",
 			alignItems: "center",
-			opacity: state !== "ended" ? 1 : 0.25,
+			opacity: state !== t.ended ? 1 : 0.25,
 		},
 		text: {
 			fontSize: 18,
 			fontWeight: "bold",
-			color: state != "active" ? colors.appFront : colors.white,
+			color: state != t.active ? colors.appFront : colors.white,
 		},
 	});
 

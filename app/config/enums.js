@@ -29,4 +29,11 @@ const accountTypes = {
 	consultant: "consultant",
 };
 
-export { buttons, countries, accountStatus, accountTypes };
+const timerStatus = {
+	active: "active",
+	standBy: "standBy",
+	ended: "ended",
+	noTimer: "noTimer",
+};
+
+export { buttons, countries, accountStatus, accountTypes, timerStatus };
