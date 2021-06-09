@@ -19,7 +19,10 @@ export default {
 	mediumLight: "#bababa",
 	medium: "#828282",
 	dark: nett.black,
-	quiteTransparentLight: "#ffffff80",
+	quiteTransparentLight: "#ffffff33",
+	barelyTransparentLight: "#ffffff66",
+	quiteTransparentDark: "#00000033",
+	barelyTransparentDark: "#00000066",
 
 	// --- SPECIAL --- //
 	danger: "#ef253c",

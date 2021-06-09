@@ -670,6 +670,24 @@ const quizzes = [
 		qas: [
 			{
 				id: "1",
+				topic: "Muscle Anatomy",
+				question:
+					"Within each sarcomere, contraction occurs when thin (actin) filaments are grabbed by thick (myosin) filaments and pulled toward the center of each sarcomere.",
+				answers: [
+					{
+						id: "1",
+						value: "True",
+					},
+					{
+						id: "2",
+						value: "False",
+					},
+				],
+				rightAnswers: ["2"],
+				timer: 10,
+			},
+			{
+				id: "2",
 				topic: "Cardiac Muscle & Physiology",
 				question: "How is cardiac muscle primarily controlled?",
 				answers: [
@@ -687,35 +705,22 @@ const quizzes = [
 				timer: 10,
 			},
 			{
-				id: "2",
-				topic: "Cardiac Muscle & Physiology",
-				question: "How is cardiac muscle primarily controlled 2?",
-				answers: [
-					{
-						id: "1",
-						value: "On a voluntary basis via the somatic nervous system",
-					},
-					{
-						id: "2",
-						value: "On an involuntary basis via the autonomic nervous system",
-					},
-					{ id: "3", value: "None of the above" },
-				],
-				rightAnswers: ["1"],
-				timer: 10,
-			},
-			{
 				id: "3",
-				topic: "Cardiac Muscle & Physiology",
-				question: "How is cardiac muscle primarily controlled? 3",
+				topic: "Body Cavities and Membranes",
+				question:
+					"The three membranes found in the dorsal cavity that cover the spinal cord and brain are collectively called ...?",
 				answers: [
 					{
 						id: "1",
-						value: "On a voluntary basis via the somatic nervous system",
+						value: "Peritoneal membranes",
 					},
 					{
 						id: "2",
-						value: "On an involuntary basis via the autonomic nervous system",
+						value: "Meninges",
+					},
+					{
+						id: "4",
+						value: "Serous membranes",
 					},
 					{ id: "3", value: "None of the above" },
 				],
@@ -725,24 +730,106 @@ const quizzes = [
 			{
 				id: "4",
 				topic: "Cardiac Muscle & Physiology",
-				question: "How is cardiac muscle primarily controlled? 4",
+				question:
+					"True or False: During gas exchange, carbon dioxide is transported across the capillary membrane to be exhaled while oxygen is transported across the capillary membrane to attach to the red blood cells.",
 				answers: [
 					{
 						id: "1",
-						value: "On a voluntary basis via the somatic nervous system",
+						value: "True",
 					},
 					{
 						id: "2",
-						value: "On an involuntary basis via the autonomic nervous system",
+						value: "False",
 					},
-					{ id: "3", value: "None of the above" },
+				],
+				rightAnswers: ["2"],
+				timer: 10,
+			},
+			{
+				id: "5",
+				topic: "Newborn Infant Reflexes NCLEX",
+				question:
+					"During an assessment of an infant, you note that when the infant's head is turned to the right side, the leg and arm on the right side will extend, while the leg and arm on the left side will flex. You document this as what type of reflex?",
+				answers: [
+					{
+						id: "1",
+						value: "Rooting Reflex",
+					},
+					{
+						id: "2",
+						value: "Sucking Reflex",
+					},
+					{
+						id: "3",
+						value: "Moro Reflex",
+					},
+					{
+						id: "4",
+						value: "Tonic Neck Reflex",
+					},
+				],
+				rightAnswers: ["4"],
+				timer: 10,
+			},
+			{
+				id: "6",
+				topic: "Newborn Infant Reflexes NCLEX",
+				question:
+					"When the Moro Reflex is stimulated in an infant, the infant will _____________the arms with the palms of the hands turned ___________ and then move the arms ___________ the body.",
+				answers: [
+					{
+						id: "1",
+						value: "flex, upward, away from",
+					},
+					{
+						id: "2",
+						value: "extend, upward, back to",
+					},
+					{
+						id: "3",
+						value: "flex, downward, back to",
+					},
+					{
+						id: "4",
+						value: "extend, downward, away from",
+					},
+				],
+				rightAnswers: ["2"],
+				timer: 10,
+			},
+			{
+				id: "7",
+				topic: "Newborn Infant Reflexes NCLEX",
+				question:
+					"The nurse wants to assess the crawling reflex in a newborn. How is this reflex assessed?",
+				answers: [
+					{
+						id: "1",
+						value:
+							"The nurse places the infant in the prone position and applies pressure with the hand to the sole of the foot. In response, the infant should attempt to push against the hand and move the arms and legs in a crawling like motion.",
+					},
+					{
+						id: "2",
+						value:
+							"The nurse places the infant in the supine position and applies pressure with the hand to the sole of the foot. In response, the infant should attempt to push against the hand and move the arms and legs in a crawling like motion.",
+					},
+					{
+						id: "3",
+						value:
+							"The nurse places the infant in the prone position and applies pressure with the hand to the neck. In response, the infant should attempt to move the arms and legs in a crawling like motion.",
+					},
+					{
+						id: "4",
+						value:
+							"The nurse places the infant in the supine position. In response, the infant should attempt to lift the head and move the arms and legs in a crawling like motion.",
+					},
 				],
 				rightAnswers: ["1"],
-				timer: 10,
+				timer: 90,
 			},
 		],
 		participated: ["usr-110", "usr-311"],
-		isDeterministic: false,
+		isDeterministic: true,
 	},
 ];
 

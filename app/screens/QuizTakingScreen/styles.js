@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.light,
 	},
 	title: {
-		fontWeight: "700",
 		fontSize: 28,
-		marginVertical: 10,
+		fontWeight: "700",
+		marginTop: 10,
 		textAlign: "center",
 	},
 	authorAndClassroomContainer: {
@@ -30,14 +30,15 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	header: {
-		padding: 10,
+		paddingHorizontal: 10,
 	},
 	indicatorsBar: {
-		width: "100%",
-		flexDirection: "row",
 		alignItems: "center",
+		flexDirection: "row",
 		justifyContent: "space-around",
 		padding: 10,
+		marginTop: 10,
+		width: "100%",
 	},
 });
 

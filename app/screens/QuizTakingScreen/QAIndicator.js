@@ -23,6 +23,12 @@ function getState(progress, max) {
 	return "ended";
 }
 
+function getBackColor(progress) {
+	if (progress <= 5) return colors.danger;
+	if (progress <= 15) return colors.warning;
+	return colors.ok;
+}
+
 function getResultIcon(isCorrect) {
 	if (isCorrect)
 		return (
@@ -58,7 +64,15 @@ function QAIndicator({
 	}, [progress]);
 
 	return (
-		<View style={styles(state).container}>
+		<View
+			style={[
+				styles(state).container,
+				{
+					backgroundColor:
+						state === "active" ? getBackColor(progress) : colors.appBack,
+				},
+			]}
+		>
 			{state === "active" ? (
 				<NettText style={styles(state).text}>{progress}</NettText>
 			) : state === "ended" && isDeterministic ? (
@@ -76,9 +90,9 @@ const styles = (state) =>
 			height: 50,
 			width: 50,
 			borderRadius: 25,
-			backgroundColor: state !== "active" ? colors.appBack : colors.okLight,
+			backgroundColor: state !== "active" ? colors.appBack : colors.ok,
 			borderWidth: 2,
-			borderColor: colors.mediumLight,
+			borderColor: colors.light,
 			justifyContent: "center",
 			alignItems: "center",
 			opacity: state !== "ended" ? 1 : 0.25,
@@ -86,6 +100,7 @@ const styles = (state) =>
 		text: {
 			fontSize: 18,
 			fontWeight: "bold",
+			color: state != "active" ? colors.appFront : colors.white,
 		},
 	});
 

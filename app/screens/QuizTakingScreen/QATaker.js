@@ -1,17 +1,22 @@
 import { isEqual } from "lodash";
 import React, { useState, useEffect, useRef } from "react";
-import { TouchableOpacity } from "react-native";
-import { View, StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import {
+	View,
+	StyleSheet,
+	TouchableOpacity,
+	ScrollView,
+	Image,
+} from "react-native";
 import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
 import colors from "../../config/colors";
+import images from "../../config/images";
 import { toggleAddRemove } from "../../utils";
 
 function getQuestionFontSize({ length }) {
-	if (length <= 50) return 18;
-	if (length > 50 && length <= 75) return 16;
-	return 14;
+	if (length <= 50) return 30;
+	if (length > 50 && length <= 75) return 26;
+	return 20;
 }
 
 function QATaker({
@@ -54,17 +59,31 @@ function QATaker({
 	return (
 		<View style={styles.container}>
 			<View style={styles.mainContainer}>
-				<NettText style={styles.topic}>{topic}</NettText>
-				<NettText
-					style={[styles.question, { fontSize: getQuestionFontSize(question) }]}
+				<Image
+					style={styles.mainImageBackground}
+					source={{
+						uri: "https://www.freevector.com/uploads/vector/preview/30374/Colorful-Plait-Background.jpg",
+					}}
+				/>
+				<ScrollView
+					contentContainerStyle={styles.mainSubContentContainer}
+					style={styles.mainSubContainer}
 				>
-					{question}
-				</NettText>
-				<FlatList
-					style={styles.answersFlatList}
-					data={answers}
-					keyExtractor={({ id }) => String(id)}
-					renderItem={({ item: { id, value } }) => (
+					<NettText style={styles.topic}>{topic}</NettText>
+					<View style={styles.questionContainer}>
+						<NettText
+							style={[
+								styles.question,
+								{ fontSize: getQuestionFontSize(question) },
+							]}
+						>
+							{question}
+						</NettText>
+					</View>
+					<NettText style={styles.answersLength}>
+						{answers.length + " available answers"}
+					</NettText>
+					{answers.map(({ id, value }) => (
 						<TouchableOpacity
 							key={id}
 							style={[
@@ -79,11 +98,15 @@ function QATaker({
 						>
 							<NettText style={styles.answerText}>{value}</NettText>
 						</TouchableOpacity>
-					)}
-				/>
+					))}
+				</ScrollView>
 			</View>
 			<View style={styles.bottomBar}>
-				<NettButton text="Submit" onPress={() => onSubmit(session.current)} />
+				<NettButton
+					disabled={providedAnswers.length <= 0}
+					text="Submit"
+					onPress={() => onSubmit(session.current)}
+				/>
 			</View>
 		</View>
 	);
@@ -93,48 +116,68 @@ const styles = StyleSheet.create({
 	container: { flex: 1 },
 	mainContainer: {
 		flex: 1,
-		backgroundColor: "salmon",
-		alignItems: "center",
-		padding: 5,
-		justifyContent: "space-around",
 	},
-	bottomBar: {
-		padding: 10,
+	mainImageBackground: {
+		position: "absolute",
+		height: "100%",
 		width: "100%",
-		backgroundColor: colors.appBack,
+	},
+	mainSubContainer: {
+		flex: 1,
+		backgroundColor: colors.barelyTransparentDark,
+		paddingVertical: 5,
+		paddingHorizontal: 10,
+	},
+	mainSubContentContainer: {
+		alignItems: "center",
+		paddingBottom: 25,
 	},
 	topic: {
-		padding: 5,
+		alignSelf: "center",
+		backgroundColor: colors.quiteTransparentLight,
+		borderRadius: 10,
+		color: colors.white,
 		fontSize: 12,
 		fontWeight: "bold",
-		color: colors.white,
-		backgroundColor: colors.quiteTransparentLight,
-		alignSelf: "center",
-		borderRadius: 10,
+		margin: 10,
+		paddingHorizontal: 15,
+		paddingVertical: 5,
+	},
+	questionContainer: {
+		height: 150,
+		justifyContent: "center",
 	},
 	question: {
 		fontSize: 16,
 		fontWeight: "bold",
 		color: colors.white,
-		marginTop: 10,
 		textAlign: "center",
 	},
-	answersFlatList: {
-		marginTop: 10,
+	answersLength: {
+		marginTop: 5,
+		marginBottom: 10,
+		color: colors.white,
+		opacity: 0.75,
 	},
 	answer: {
-		paddingVertical: 15,
-		paddingHorizontal: 12,
-		backgroundColor: colors.quiteTransparentLight,
-		marginBottom: 5,
+		backgroundColor: colors.barelyTransparentLight,
 		borderRadius: 10,
+		marginBottom: 5,
+		paddingHorizontal: 12,
+		paddingVertical: 15,
+		width: "100%",
 	},
 	answerText: {
-		fontSize: 13,
-		flex: 1,
+		fontSize: 16,
 		fontWeight: "700",
 	},
 	selectedAnswer: {
+		backgroundColor: colors.appBack,
+	},
+	bottomBar: {
+		paddingTop: 10,
+		paddingHorizontal: 10,
+		width: "100%",
 		backgroundColor: colors.appBack,
 	},
 });
