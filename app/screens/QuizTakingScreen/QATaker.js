@@ -64,9 +64,7 @@ function QATaker({
 			<View style={styles.mainContainer}>
 				<Image
 					style={styles.mainImageBackground}
-					source={{
-						uri: "https://www.freevector.com/uploads/vector/preview/30374/Colorful-Plait-Background.jpg",
-					}}
+					source={images.QUIZ_BACKGROUND}
 				/>
 				<ScrollView
 					contentContainerStyle={styles.mainSubContentContainer}

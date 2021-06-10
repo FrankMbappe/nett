@@ -9,6 +9,8 @@ const images = {
 	TEACHER_ACCOUNT: require("../assets/icon_teacher_account.png"),
 	STUDENT_ACCOUNT: require("../assets/icon_student_account.png"),
 	CONSULT_ACCOUNT: require("../assets/icon_consult_account.png"),
+	QUIZ_BACKGROUND: require("../assets/quiz_background.jpg"),
+	CLASSROOM_BACKGROUND: require("../assets/classroom_background.jpg"),
 };
 
 export default images;

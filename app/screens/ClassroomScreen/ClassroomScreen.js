@@ -1,81 +1,107 @@
 import React, { useState } from "react";
-import { FlatList } from "react-native";
-import {
-	ListItem,
-	ListItemDeleteAction,
-	ListItemSeparator,
-} from "../../components/lists";
+import { View, FlatList, Image, TouchableHighlight } from "react-native";
+import ButtonIcon from "../../components/ButtonIcon";
+import Icon from "../../components/Icon";
+import TopBar from "../../components/TopBar";
 import Screen from "../../components/Screen";
-
-import images from "../../config/images";
+import colors from "../../config/colors";
+import NettText from "../../components/Text";
 import styles from "./styles";
+import { PostCard } from "../../components/cards";
+import { posts } from "../../config/dummyData";
+import images from "../../config/images";
+import { compareDesc } from "date-fns";
 
-// Dummy data
-const chats = [
-	{
-		id: 1,
-		picUri: images.random,
-		user: "Paul Zebaze",
-		lastMessage: "Hey what's up? Hope you enjoy!",
-	},
-	{
-		id: 2,
-		user: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ligula lectus, posuere vel tempor a, pharetra quis risus. Etiam sed cursus orci. Sed id sollicitudin elit, eget scelerisque erat. Ut finibus nec augue ut suscipit. Phasellus scelerisque lacus eu viverra ultrices. Curabitur porttitor, ex eu sodales pharetra, ipsum elit pellentesque risus, ac ornare tellus augue ut urna. Quisque lorem est, feugiat non lacinia id, egestas vitae tellus. Praesent in bibendum justo, eget convallis arcu. Aenean rhoncus gravida dui sit amet tristique. Donec nec orci porttitor, cursus libero in, consectetur magna. Integer tincidunt mi eget laoreet pretium. Aenean accumsan convallis tellus id porttitor.",
-		lastMessage:
-			"Curabitur eu ullamcorper lectus. Duis maximus arcu quis cursus ultricies. Sed at orci in neque sagittis venenatis et vel massa. Morbi efficitur varius aliquam. Etiam quis sapien sit amet massa ullamcorper consectetur quis sit amet nisi. Sed nec rhoncus magna. Phasellus eleifend, leo eu consectetur finibus, massa nisl iaculis ligula, et sagittis nisi tortor consequat metus.",
-	},
-	{
-		id: 3,
-		user: "Kayleen Green",
-		lastMessage: "No, not today unfortunately",
-	},
+const topics = [
+	"Genomics",
+	"Metabolism",
+	"Hyperglycemia",
+	"Cardiac muscle",
+	"AIDS",
 ];
 
-// --- SCREEN --- //
-function UserChatListScreen(props) {
-	// Declaration
-	const [items, setItems] = useState(chats);
-	const [refreshing, setRefreshing] = useState(false);
+function sortPosts(array = posts) {
+	// Sort: Most recent post first
+	return array.sort((x, y) =>
+		compareDesc(new Date(x.createdOn), new Date(y.createdOn))
+	);
+}
 
-	// Handlers
-	const handleDelete = (item) => {
-		console.log("Deletion triggered: ", item);
+function ClassroomScreen({
+	userId,
+	classroom: {
+		id,
+		name,
+		teacher: { profile: teacherProfile },
+	},
+}) {
+	const [isAtInitScrollPosition, setIsAtInitScrollPosition] = useState(true);
 
-		// Delete the item from the current array
-		setItems(items.filter((i) => i.id !== item.id));
-
-		// TODO: Call the server to delete that item as well
-	};
-
-	// Render
 	return (
 		<Screen style={styles.screen}>
-			<FlatList
-				style={styles.flatList}
-				data={items}
-				keyExtractor={(chat) => chat.id.toString()}
-				renderItem={({ item }) => (
-					<ListItem
-						usesChevron
-						style={styles.listItem}
-						image={item.picUri ? item.picUri : images.USER_DEFAULT}
-						name={item.user}
-						description={item.lastMessage}
-						imageIsRounded={true}
-						onPress={() => console.log("Item selected: ", item)}
-						renderRightActions={() => (
-							<ListItemDeleteAction onPress={() => handleDelete(item)} />
-						)}
-					/>
-				)}
-				ItemSeparatorComponent={ListItemSeparator}
-				refreshing={refreshing}
-				onRefresh={() => {
-					setItems(chats); // TODO: Call the server to get the new list of items
-				}}
-			/>
+			<TopBar style={styles.topBar}>
+				<ButtonIcon name="arrow-left" size={25} />
+				<Icon
+					name="school"
+					iconColor={colors.ok}
+					backgroundColor={colors.okLight}
+					style={styles.classroomPic}
+				/>
+				<View style={styles.topBarTitleContainer}>
+					<NettText style={styles.topBarTitle} numberOfLines={1}>
+						{name}
+					</NettText>
+					<NettText style={styles.topBarCaption} numberOfLines={1}>
+						{`Held by ${teacherProfile.fullName}`}
+					</NettText>
+				</View>
+				<ButtonIcon name="magnify" />
+				<ButtonIcon name="dots-vertical" />
+			</TopBar>
+
+			<View style={styles.topicFlatListContainer}>
+				<FlatList
+					contentContainerStyle={[styles.topicFlatListContent]}
+					style={[
+						styles.topicFlatList,
+						!isAtInitScrollPosition && {
+							borderBottomColor: colors.light,
+						},
+					]}
+					data={topics}
+					keyExtractor={(_, index) => String(index)}
+					renderItem={({ item }) => (
+						<NettText style={styles.topic}>{item}</NettText>
+					)}
+					horizontal
+					showsHorizontalScrollIndicator={false}
+				/>
+			</View>
+
+			<View style={styles.postFlatListContainer}>
+				<Image
+					source={images.CLASSROOM_BACKGROUND}
+					style={styles.postFlatListBackground}
+				/>
+				<FlatList
+					contentContainerStyle={styles.postFlatListContent}
+					onScroll={(event) =>
+						setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
+					}
+					data={sortPosts(posts.filter((x) => x.classroom === id))}
+					keyExtractor={(_, index) => String(index)}
+					showsVerticalScrollIndicator={false}
+					renderItem={({ item }) => (
+						<PostCard userId="usr-100" post={item} classroomName={name} />
+					)}
+				/>
+			</View>
+
+			<TouchableHighlight style={styles.footer}>
+				<NettText>{`15 persons connected`}</NettText>
+			</TouchableHighlight>
 		</Screen>
 	);
 }
 
-export default UserChatListScreen;
+export default ClassroomScreen;

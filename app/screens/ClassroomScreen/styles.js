@@ -1,19 +1,66 @@
 import { StyleSheet } from "react-native";
+import colors from "../../config/colors";
 
-// <--- UserChatListScreen styles ---> //
+// <--- ClassroomScreen styles ---> //
 
 const styles = StyleSheet.create({
 	screen: {
-		alignItems: "center",
-		justifyContent: "center",
+		padding: 0,
+	},
+	topBar: {},
+	classroomPic: {},
+	topBarTitleContainer: {
+		flex: 1,
+		marginStart: 10,
+	},
+	topBarTitle: {
+		fontWeight: "bold",
+		fontSize: 15,
+	},
+	topBarCaption: {
+		fontSize: 12,
+		color: colors.medium,
 	},
 
-	// --> FLATLIST
-	flatList: {
+	topicFlatListContainer: {
+		paddingHorizontal: 7,
+	},
+	topicFlatListContent: {
+		paddingVertical: 10,
+	},
+	topicFlatList: {
+		borderColor: colors.appBack,
+		borderWidth: 2,
+	},
+	topic: {
+		alignSelf: "center",
+		fontSize: 12,
+		paddingVertical: 7,
+		paddingHorizontal: 12,
+		borderRadius: 15,
+		backgroundColor: colors.optimalLight,
+		color: colors.optimal,
+		marginEnd: 5,
+	},
+
+	postFlatListContainer: {
+		flex: 1,
+	},
+	postFlatListContent: {
+		paddingHorizontal: 15,
+	},
+	postFlatListBackground: {
+		position: "absolute",
+		height: "100%",
 		width: "100%",
 	},
-	listItem: {
-		paddingVertical: 7,
+
+	footer: {
+		position: "absolute",
+		width: "100%",
+		bottom: 0,
+		backgroundColor: colors.appBack,
+		padding: 15,
 	},
 });
 

@@ -20,6 +20,7 @@ import PostCreationScreen from "./app/screens/PostCreationScreen/PostCreationScr
 import QuizTakingScreen from "./app/screens/QuizTakingScreen/QuizTakingScreen";
 import QACreationScreen from "./app/screens/QACreationScreen/QACreationScreen";
 import QuizCreationScreen from "./app/screens/QuizCreationScreen/QuizCreationScreen";
+import ClassroomScreen from "./app/screens/ClassroomScreen/ClassroomScreen";
 
 //#region Testing Picker with dummy data
 
@@ -197,7 +198,7 @@ export default function App() {
 	// return <AccountTypeSelection />;
 	// return <UserChatListScreen />;
 	// return categoryPickerExample();
-	return <ProfileEditionScreen />;
+	// return <ProfileEditionScreen />;
 	// return birthDatePicker();
 	// return <HomeScreen />;
 	// return showAllScreemExample;
@@ -211,4 +212,5 @@ export default function App() {
 	// );
 	// return <QACreationScreen />;
 	// return <QuizCreationScreen />;
+	return <ClassroomScreen classroom={classrooms[0]} />;
 }
