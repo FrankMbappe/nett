@@ -8,6 +8,7 @@ function TextIcon({
 	containerStyle,
 	icon,
 	text,
+	spacing,
 	color = colors.appFront,
 	fontSize = 14,
 	...otherProps
@@ -18,7 +19,7 @@ function TextIcon({
 				name={icon}
 				size={fontSize * 1.5}
 				color={color}
-				style={{ marginEnd: fontSize * 0.4 }}
+				style={{ marginEnd: spacing ?? fontSize * 0.4 }}
 			/>
 			<NettText
 				{...otherProps}

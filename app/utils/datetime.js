@@ -1,3 +1,5 @@
+import { formatDuration } from "date-fns";
+
 const MONTH_NAMES = [
 	"January",
 	"February",
@@ -40,7 +42,6 @@ function getFormattedDate(date, prefomattedDate = false, hideYear = false) {
 	return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
 }
 
-// --- Main function
 function timeAgo(dateToString) {
 	if (!dateToString) {
 		return null;
@@ -76,4 +77,25 @@ function timeAgo(dateToString) {
 	return getFormattedDate(date); // 10. January 2017. at 10:20
 }
 
-export default timeAgo;
+function secondsToTime(seconds) {
+	seconds = Math.round(seconds);
+	var hours = Math.floor(seconds / (60 * 60));
+
+	var divisor_for_minutes = seconds % (60 * 60);
+	var minutes = Math.floor(divisor_for_minutes / 60);
+
+	var divisor_for_seconds = divisor_for_minutes % 60;
+	var seconds = Math.ceil(divisor_for_seconds);
+
+	return {
+		hours: hours,
+		minutes: minutes,
+		seconds: seconds,
+	};
+}
+
+function formatTime(time) {
+	return formatDuration(secondsToTime(time));
+}
+
+export { timeAgo, secondsToTime, formatTime };

@@ -19,6 +19,7 @@ import colors from "./app/config/colors";
 import PostCreationScreen from "./app/screens/PostCreationScreen/PostCreationScreen";
 import QuizTakingScreen from "./app/screens/QuizTakingScreen/QuizTakingScreen";
 import QACreationScreen from "./app/screens/QACreationScreen/QACreationScreen";
+import QuizCreationScreen from "./app/screens/QuizCreationScreen/QuizCreationScreen";
 
 //#region Testing Picker with dummy data
 
@@ -208,5 +209,6 @@ export default function App() {
 	// 		{...quizzes[0]}
 	// 	/>
 	// );
-	return <QACreationScreen />;
+	// return <QACreationScreen />;
+	return <QuizCreationScreen />;
 }

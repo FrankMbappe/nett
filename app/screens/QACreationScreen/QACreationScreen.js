@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
 
 import ButtonIcon from "../../components/ButtonIcon";
@@ -11,9 +11,11 @@ import TopBar from "../../components/TopBar";
 
 import { buttons } from "../../config/enums";
 import { capitalize } from "lodash";
-import { formatWordCount } from "../../utils";
+import { formatTime, formatWordCount } from "../../utils";
 import styles from "./styles";
 import colors from "../../config/colors";
+import TextIcon from "../../components/TextIcon";
+import Label from "../../components/Label";
 
 function getQuestionFontSize({ length }) {
 	if (length <= 50) return 30;
@@ -22,7 +24,7 @@ function getQuestionFontSize({ length }) {
 }
 
 function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
-	const [timer, setTimer] = useState();
+	const [timer, setTimer] = useState(60);
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState([
 		{
@@ -51,8 +53,23 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 			</TopBar>
 
 			<ScrollView style={styles.mainContainer}>
-				{timer ? (
-					<NettButton />
+				{timer != null ? (
+					<View style={styles.allottedTimeContainer}>
+						<TextIcon
+							containerStyle={styles.allottedTimeTextContainer}
+							style={styles.allottedTimeText}
+							icon="clock-outline"
+							text={`Allotted time: ${formatTime(timer)}`}
+							fontSize={14}
+							numberOfLines={1}
+						/>
+						<ButtonIcon name="pencil" color={colors.medium} />
+						<ButtonIcon
+							name="delete"
+							color={colors.danger}
+							onPress={() => setTimer(null)}
+						/>
+					</View>
 				) : (
 					<NettButton
 						style={styles.addTimerButton}
@@ -66,7 +83,7 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 				<Divider style={styles.divider} />
 
 				<>
-					<NettText style={styles.label}>{"Question"}</NettText>
+					<Label style={styles.label} value="Question" />
 					<View style={styles.questionContainer}>
 						<NettTextInput
 							autoFocus={false}
@@ -93,9 +110,10 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 				<Divider style={styles.divider} />
 
 				<>
-					<NettText style={styles.label}>
-						{capitalize(formatWordCount(answers.length, "answer"))}
-					</NettText>
+					<Label
+						style={styles.label}
+						value={capitalize(formatWordCount(answers.length, "answer"))}
+					/>
 
 					<NettText style={styles.labelDescription}>
 						{"Right answers are shown in green, and wrong answers in red."}
@@ -105,7 +123,7 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 						const frontColor = isRight ? colors.ok : colors.danger;
 						const backColor = isRight ? colors.okLight : colors.dangerLight;
 						return (
-							<TouchableOpacity
+							<View
 								key={String(id)}
 								style={[
 									styles.answerContainer,
@@ -123,7 +141,7 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 									color={colors.danger}
 									onPress={() => setAnswers(answers.filter((x) => x.id !== id))}
 								/>
-							</TouchableOpacity>
+							</View>
 						);
 					})}
 

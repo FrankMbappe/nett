@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import colors from "../../config/colors";
 
-// <--- PostCreationScreen styles ---> //
+// <--- QACreationScreen styles ---> //
 
 const styles = StyleSheet.create({
 	screen: {},
@@ -26,10 +26,31 @@ const styles = StyleSheet.create({
 		shadowRadius: 4.65,
 		elevation: 7,
 	},
-	label: {
-		fontSize: 16,
+	allottedTimeContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: colors.lighter,
+		paddingVertical: 5,
+		paddingHorizontal: 8,
+		borderRadius: 10,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+		shadowOpacity: 0.27,
+		shadowRadius: 4.65,
+		elevation: 6,
+		margin: 5,
+	},
+	allottedTimeTextContainer: {
+		flex: 1,
+	},
+	allottedTimeText: {
 		fontWeight: "bold",
-		marginStart: 10,
+	},
+	label: {
+		marginBottom: 0,
 	},
 	labelDescription: {
 		color: colors.medium,
