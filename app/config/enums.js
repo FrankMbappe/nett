@@ -29,6 +29,7 @@ const accountTypes = {
 	consultant: "consultant",
 };
 
+// Timer status
 const timerStatus = {
 	active: "active",
 	standBy: "standBy",
@@ -36,4 +37,17 @@ const timerStatus = {
 	noTimer: "noTimer",
 };
 
-export { buttons, countries, accountStatus, accountTypes, timerStatus };
+// Genders
+const genders = {
+	male: "male",
+	female: "female",
+};
+
+export {
+	buttons,
+	countries,
+	accountStatus,
+	accountTypes,
+	timerStatus,
+	genders,
+};

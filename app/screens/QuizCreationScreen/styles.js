@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 		color: colors.medium,
 		alignSelf: "center",
 		fontSize: 15,
-		marginBottom: 15,
+		marginVertical: 15,
 	},
 	addQAButton: {
 		position: "absolute",

@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
 		marginVertical: 30,
 	},
 
+	genderSelector: {
+		marginTop: 10,
+	},
+
 	// --> BOTTOM BAR
 	bottomBar: {
 		backgroundColor: colors.appBack,

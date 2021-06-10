@@ -15,12 +15,12 @@ import colors from "../../config/colors";
 import NettTextInput from "../../components/TextInput";
 import { quizzes } from "../../config/dummyData";
 import { QACard } from "../../components/cards";
-import { formatWordCount } from "../../utils";
+import { capitalize, formatWordCount } from "../../utils";
 
 function QuizCreationScreen({}) {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [qaList, setqaList] = useState(quizzes[0].qas);
+	const [qaList, setqaList] = useState([]);
 
 	const onPublish = useCallback(() => console.log("Publish")); // TODO
 	const onSave = useCallback(() => console.log("Save")); // TODO
@@ -57,10 +57,12 @@ function QuizCreationScreen({}) {
 				<Divider style={styles.divider} />
 
 				<>
-					<Label value={`${formatWordCount(qaList.length, "QA")} added`} />
+					<Label
+						value={`${capitalize(formatWordCount(qaList.length, "QA"))} added`}
+					/>
 					{qaList.length <= 0 && (
 						<NettText style={styles.qaTip}>
-							{"Tap the '+' floating button to add a new QA"}
+							{"Tap the '+' floating button to add a new QA."}
 						</NettText>
 					)}
 					<View style={styles.qaListContainer}>
@@ -78,7 +80,12 @@ function QuizCreationScreen({}) {
 			/>
 
 			<View style={styles.bottomBar}>
-				<NettButton onPress={onSave} text="SAVE" type={buttons.SECONDARY} />
+				<NettButton
+					disabled={title.length <= 0}
+					onPress={onSave}
+					text="SAVE"
+					type={buttons.SECONDARY}
+				/>
 				<NettButton
 					disabled={qaList.length <= 0}
 					onPress={onPublish}

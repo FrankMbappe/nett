@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Screen from "../../components/Screen";
 import * as Yup from "yup";
 
@@ -13,6 +13,9 @@ import styles from "./styles";
 import { ScrollView, View } from "react-native";
 import StartTitle from "../../components/start/Title";
 import DatePicker from "../../components/DatePicker";
+import BinarySelector from "../../components/BinarySelector";
+import { genders } from "../../config/enums";
+import { capitalize } from "lodash";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -23,6 +26,8 @@ const validationSchema = Yup.object().shape({
 // * app without completing the profile creation process (ProfileCreation)
 // * It will be also used as an argument to be edited using this same screen
 function ProfileEditionScreen({ profile }) {
+	const gender = useRef(genders.male);
+
 	return (
 		<Screen style={styles.screen}>
 			<Form
@@ -75,6 +80,13 @@ function ProfileEditionScreen({ profile }) {
 
 						{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
 						<DatePicker fontSize={16} />
+
+						<BinarySelector
+							left={capitalize(genders.male)}
+							right={capitalize(genders.female)}
+							style={styles.genderSelector}
+							onSelectionChange={(selection) => (gender.current = selection)}
+						/>
 					</View>
 				</ScrollView>
 				<View style={styles.bottomBar}>

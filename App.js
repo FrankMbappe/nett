@@ -197,7 +197,7 @@ export default function App() {
 	// return <AccountTypeSelection />;
 	// return <UserChatListScreen />;
 	// return categoryPickerExample();
-	// return <ProfileEditionScreen />;
+	return <ProfileEditionScreen />;
 	// return birthDatePicker();
 	// return <HomeScreen />;
 	// return showAllScreemExample;
@@ -210,5 +210,5 @@ export default function App() {
 	// 	/>
 	// );
 	// return <QACreationScreen />;
-	return <QuizCreationScreen />;
+	// return <QuizCreationScreen />;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import images from "../../config/images";
+import NettText from "../Text";
 
 function StartTitle({ children, style, useLogo = true }) {
 	return (
