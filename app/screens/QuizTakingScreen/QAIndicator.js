@@ -76,7 +76,7 @@ function QAIndicator({
 			]}
 		>
 			{state === t.active ? (
-				<NettText style={styles(state).text}>{progress}</NettText>
+				<NettText style={styles(state).text}>{`${progress}s`}</NettText>
 			) : state === t.ended && isDeterministic ? (
 				getResultIcon(isCorrect)
 			) : (

@@ -829,7 +829,7 @@ const quizzes = [
 			},
 		],
 		participated: ["usr-110", "usr-311"],
-		isDeterministic: true,
+		isDeterministic: false,
 	},
 ];
 

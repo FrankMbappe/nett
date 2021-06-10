@@ -18,6 +18,7 @@ import Icon from "./app/components/Icon";
 import colors from "./app/config/colors";
 import PostCreationScreen from "./app/screens/PostCreationScreen/PostCreationScreen";
 import QuizTakingScreen from "./app/screens/QuizTakingScreen/QuizTakingScreen";
+import QACreationScreen from "./app/screens/QACreationScreen/QACreationScreen";
 
 //#region Testing Picker with dummy data
 
@@ -200,11 +201,12 @@ export default function App() {
 	// return <HomeScreen />;
 	// return showAllScreemExample;
 	// return <PostCreationScreen author={me} classroom={classrooms[0]} />;
-	return (
-		<QuizTakingScreen
-			author={me}
-			classroomName={classrooms[0].name}
-			{...quizzes[0]}
-		/>
-	);
+	// return (
+	// 	<QuizTakingScreen
+	// 		author={me}
+	// 		classroomName={classrooms[0].name}
+	// 		{...quizzes[0]}
+	// 	/>
+	// );
+	return <QACreationScreen />;
 }
