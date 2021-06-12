@@ -6,7 +6,10 @@ import colors from "../../config/colors";
 const styles = StyleSheet.create({
 	screen: {
 		padding: 0,
+		paddingTop: 5,
 	},
+
+	// --> TOPBAR
 	topBar: {},
 	classroomPic: {},
 	topBarTitleContainer: {
@@ -22,6 +25,7 @@ const styles = StyleSheet.create({
 		color: colors.medium,
 	},
 
+	// --> TOPICS
 	topicFlatListContainer: {
 		paddingHorizontal: 7,
 	},
@@ -43,6 +47,7 @@ const styles = StyleSheet.create({
 		marginEnd: 5,
 	},
 
+	// --> POSTS
 	postFlatListContainer: {
 		flex: 1,
 	},
@@ -55,6 +60,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 
+	// --- FOOTER --- //
 	footer: {
 		position: "absolute",
 		width: "100%",

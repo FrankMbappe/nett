@@ -1,25 +1,19 @@
+import { indexOf } from "lodash";
+
 /**
  * Returns the next item of an array from a specified index
  * @param {*} list Array to get the next item
- * @param {*} currentIndex Current position in the array
+ * @param {*} currentItem Item at the current position in the array
  * @returns The next item of the array
  */
-function getNextItem(currentIndex = 0, list) {
-	const targetIndex = getNextItemIndex(currentIndex, list);
-	if (!targetIndex) return null;
-	else return list[targetIndex];
-}
-
-/**
- * Returns the next item's index of an array from a specified index
- * @param {*} list Array to get the next item
- * @param {*} currentIndex Current position in the array
- * @returns The next item's index of the array
- */
-function getNextItemIndex(currentIndex = 0, list) {
-	if (!list || !list.length) return null;
-	if (currentIndex + 1 <= list.length - 1) return currentIndex + 1;
-	else return null;
+function getNextItem(list, currentItem = null) {
+	if (currentItem != null) {
+		const currentIndex = indexOf(list, currentItem);
+		const nextIndex = getNextIndex(currentIndex, list);
+		if (!nextIndex) return null;
+		else return list[nextIndex];
+	}
+	return list[0];
 }
 
 /**
@@ -28,10 +22,26 @@ function getNextItemIndex(currentIndex = 0, list) {
  * @param {*} currentIndex Current position in the array
  * @returns The previous item of the array
  */
-function getPreviousItem(currentIndex, list) {
-	const targetIndex = getPreviousItemIndex(currentIndex, list);
-	if (!targetIndex) return null;
-	else return list[targetIndex];
+function getPreviousItem(list, currentItem = null) {
+	if (currentItem != null) {
+		const currentIndex = indexOf(list, currentItem);
+		const previousIndex = getPreviousIndex(currentIndex, list);
+		if (!previousIndex) return null;
+		else return list[previousIndex];
+	}
+	return getLastItem(list);
+}
+
+/**
+ * Returns the next item's index of an array from a specified index
+ * @param {*} list Array to get the next item
+ * @param {*} currentIndex Current position in the array
+ * @returns The next item's index of the array
+ */
+function getNextIndex(currentIndex = 0, list) {
+	if (!list || !list.length) return null;
+	if (currentIndex + 1 <= list.length - 1) return currentIndex + 1;
+	else return null;
 }
 
 /**
@@ -40,7 +50,7 @@ function getPreviousItem(currentIndex, list) {
  * @param {*} currentIndex Current position in the array
  * @returns The previous item's index of the array
  */
-function getPreviousItemIndex(currentIndex, list) {
+function getPreviousIndex(currentIndex, list) {
 	if (!list || !list.length) return null;
 	if (currentIndex - 1 >= 0) return currentIndex - 1;
 	else return null;
@@ -134,14 +144,20 @@ function areEqual(left, right, objectComparator = null) {
 	return equal;
 }
 
+function removeFirstIndex(list) {
+	if (list.length === 1) return [];
+	return list.slice(1);
+}
+
 export {
 	getNextItem,
-	getNextItemIndex,
+	getNextIndex as getNextItemIndex,
 	getPreviousItem,
-	getPreviousItemIndex,
+	getPreviousIndex as getPreviousItemIndex,
 	getLastItem,
 	toggleAddRemove,
 	toggleAddRemoveObject,
 	includesObject,
 	areEqual,
+	removeFirstIndex,
 };

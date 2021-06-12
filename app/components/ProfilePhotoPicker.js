@@ -9,13 +9,18 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
-import images from "../config/images";
 
-function NettImagePicker({ style, size = 150, onPicPress, onPicChangerPress }) {
+function ProfilePhotoPicker({
+	style,
+	picSource,
+	onPicPress,
+	onPicChangerPress,
+	size = 150,
+}) {
 	return (
 		<View style={[styles(size).container, style]} onPress={onPicPress}>
 			<TouchableOpacity style={styles(size).imageContainer}>
-				<Image style={styles(size).image} source={images.random} />
+				<Image style={styles(size).image} source={picSource} />
 			</TouchableOpacity>
 			<TouchableHighlight
 				underlayColor={colors.appPrimaryDark}
@@ -54,6 +59,7 @@ const styles = (size) =>
 			width: "100%",
 			height: "100%",
 			borderRadius: size / 2,
+			backgroundColor: colors.light,
 		},
 		imageContainer: {
 			width: "100%",
@@ -62,4 +68,4 @@ const styles = (size) =>
 		},
 	});
 
-export default NettImagePicker;
+export default ProfilePhotoPicker;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Image, View } from "react-native";
 
 import Screen from "../../components/Screen";
@@ -9,6 +9,7 @@ import QATaker from "./QATaker";
 import { getNextItemIndex } from "../../utils";
 import QAIndicator from "./QAIndicator";
 import { isNull } from "lodash";
+import { ScrollView } from "react-native";
 
 function QuizTakingScreen({
 	author: {
@@ -22,6 +23,7 @@ function QuizTakingScreen({
 	const [sessionList, setSessionList] = useState([]);
 	const [currentQAIndex, setCurrentQAIndex] = useState(0);
 	const [currentQATimer, setCurrentQATimer] = useState(qas[0].timer);
+	const indicatorScrollView = useRef();
 
 	const onSessionEnd = useCallback(
 		(session) => {
@@ -39,6 +41,10 @@ function QuizTakingScreen({
 			// It means this was triggered by onSessionEnd()
 			// I set the current timer to the next QA's timer
 			setCurrentQATimer(qas[currentQAIndex].timer);
+			indicatorScrollView.current.scrollTo({
+				x: 60 * currentQAIndex, // 60 => 50 (Indicator's width) + 10 (marginEnd)
+				animated: true,
+			});
 		} else {
 			// No more available QAs, quiz ends
 			// displayQuizEnded()
@@ -68,25 +74,36 @@ function QuizTakingScreen({
 
 			{currentQAIndex != null && (
 				<>
-					<View style={styles.indicatorsBar}>
-						{qas.map(({ id, timer }, index) => {
-							const hasBeenDone = index < sessionList.length;
-							const isBeingDone = index === currentQAIndex;
-							const hasNotBeenDoneYet = !hasBeenDone && !isBeingDone;
+					<View>
+						<ScrollView horizontal ref={indicatorScrollView}>
+							<View style={styles.indicatorsBar}>
+								{qas.map(({ id, timer }, index) => {
+									const hasBeenDone = index < sessionList.length;
+									const isBeingDone = index === currentQAIndex;
+									const hasNotBeenDoneYet = !hasBeenDone && !isBeingDone;
 
-							return (
-								<QAIndicator
-									key={String(index)}
-									id={id}
-									progress={
-										isBeingDone ? currentQATimer : hasNotBeenDoneYet ? timer : 0
-									}
-									max={timer}
-									isCorrect={hasBeenDone ? sessionList[index].isCorrect : false}
-									isDeterministic={isDeterministic}
-								/>
-							);
-						})}
+									return (
+										<QAIndicator
+											key={String(index)}
+											id={id}
+											progress={
+												isBeingDone
+													? currentQATimer
+													: hasNotBeenDoneYet
+													? timer
+													: 0
+											}
+											max={timer}
+											isCorrect={
+												hasBeenDone ? sessionList[index].isCorrect : false
+											}
+											isDeterministic={isDeterministic}
+											style={styles.indicator}
+										/>
+									);
+								})}
+							</View>
+						</ScrollView>
 					</View>
 
 					<QATaker

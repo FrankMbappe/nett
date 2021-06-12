@@ -1,21 +1,23 @@
-import React, { useRef } from "react";
-import Screen from "../../components/Screen";
+import React, { useEffect, useRef, useState } from "react";
+import { ScrollView, View } from "react-native";
+import { capitalize } from "lodash";
+import * as ImagePicker from "expo-image-picker";
 import * as Yup from "yup";
 
-import NettImagePicker from "../../components/ImagePicker";
+import BinarySelector from "../../components/BinarySelector";
+import DatePicker from "../../components/DatePicker";
+import ProfilePhotoPicker from "../../components/ProfilePhotoPicker";
 import {
 	NettForm as Form,
 	NettFormField as Field,
 	NettFormSubmitButton as SubmitButton,
 } from "../../components/forms";
-
-import styles from "./styles";
-import { ScrollView, View } from "react-native";
+import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
-import DatePicker from "../../components/DatePicker";
-import BinarySelector from "../../components/BinarySelector";
+
 import { genders } from "../../config/enums";
-import { capitalize } from "lodash";
+import styles from "./styles";
+import images from "../../config/images";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -25,8 +27,32 @@ const validationSchema = Yup.object().shape({
 // * The profile passed as an argument will be used when the user closes the
 // * app without completing the profile creation process (ProfileCreation)
 // * It will be also used as an argument to be edited using this same screen
+
 function ProfileEditionScreen({ profile }) {
+	const [picUri, setPicUri] = useState();
 	const gender = useRef(genders.male);
+
+	const requestPermission = async () => {
+		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (!granted) alert("You need to enable permission to access the library");
+	};
+	const selectImage = async () => {
+		try {
+			const result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				quality: 0.5,
+			});
+			if (!result.cancelled) {
+				setPicUri(result.uri);
+			}
+		} catch (error) {
+			console.log("Error occured while reading an image.");
+		}
+	};
+
+	useEffect(() => {
+		requestPermission();
+	}, []);
 
 	return (
 		<Screen style={styles.screen}>
@@ -49,10 +75,11 @@ function ProfileEditionScreen({ profile }) {
 					</StartTitle>
 
 					{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
-					<NettImagePicker
-						style={styles.imagePicker}
+					<ProfilePhotoPicker
+						style={styles.profilePhotoPicker}
 						size={200}
-						onPicChangerPress={() => console.log("Change")}
+						picSource={picUri != null ? { uri: picUri } : images.USER_DEFAULT}
+						onPicChangerPress={selectImage}
 					/>
 
 					<View style={{ width: "85%" }}>

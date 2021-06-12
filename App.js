@@ -203,14 +203,16 @@ export default function App() {
 	// return <HomeScreen />;
 	// return showAllScreemExample;
 	// return <PostCreationScreen author={me} classroom={classrooms[0]} />;
-	// return (
-	// 	<QuizTakingScreen
-	// 		author={me}
-	// 		classroomName={classrooms[0].name}
-	// 		{...quizzes[0]}
-	// 	/>
-	// );
+	//
+	return (
+		<QuizTakingScreen
+			author={me}
+			classroomName={classrooms[0].name}
+			{...quizzes[0]}
+		/>
+	);
+
 	// return <QACreationScreen />;
 	// return <QuizCreationScreen />;
-	return <ClassroomScreen classroom={classrooms[0]} />;
+	// return <ClassroomScreen classroom={classrooms[0]} />;
 }

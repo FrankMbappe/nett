@@ -55,6 +55,7 @@ function getResultIcon(isCorrect) {
 function QAIndicator({
 	id,
 	max,
+	style,
 	progress = -1,
 	isCorrect = false,
 	isDeterministic = false,
@@ -73,6 +74,7 @@ function QAIndicator({
 					backgroundColor:
 						state === t.active ? getBackColor(progress) : colors.appBack,
 				},
+				style,
 			]}
 		>
 			{state === t.active ? (

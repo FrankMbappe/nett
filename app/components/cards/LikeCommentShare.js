@@ -4,8 +4,6 @@ import colors from "../../config/colors";
 import { numberFormat } from "../../utils";
 import ButtonIcon from "../ButtonIcon";
 
-// TODO: Number format: 2,580 -> 2.6k
-
 function LikeCommentShare({
 	onPressLike,
 	onPressComment,

@@ -38,7 +38,9 @@ const styles = StyleSheet.create({
 		justifyContent: "space-around",
 		padding: 10,
 		marginTop: 10,
-		width: "100%",
+	},
+	indicator: {
+		marginEnd: 10,
 	},
 });
 

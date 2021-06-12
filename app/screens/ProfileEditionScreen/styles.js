@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 	},
 
 	// --> IMAGE PICKER
-	imagePicker: {
+	profilePhotoPicker: {
 		marginVertical: 30,
 	},
 
