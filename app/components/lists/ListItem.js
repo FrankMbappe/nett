@@ -11,6 +11,11 @@ function ListItem({
 	style,
 	fontSize = 18,
 	imageIsRounded = false,
+	imageStyle,
+	nameStyle,
+	descriptionStyle,
+	nameNumberOfLines = 1,
+	descriptionNumberOfLines = 2,
 	...otherProps
 }) {
 	return (
@@ -24,7 +29,7 @@ function ListItem({
 				style={[styles(fontSize).card, style]}
 			>
 				<>
-					{otherProps.ImageComponent /* e.g., an Icon component */ ||
+					{otherProps.ImageComponent /* e.g., an Icon component */ ??
 						/*Basic tip in react to display a component only if a certain value is not null*/
 						(otherProps.image && (
 							<Image
@@ -33,17 +38,24 @@ function ListItem({
 									{
 										borderRadius: imageIsRounded ? fontSize * 1.75 : 0,
 									},
+									imageStyle,
 								]}
 								source={otherProps.image}
 							/>
 						))}
 
 					<View style={styles(fontSize).descriptionContainer}>
-						<NettText style={styles(fontSize).name} numberOfLines={1}>
+						<NettText
+							style={styles(fontSize).name}
+							numberOfLines={nameNumberOfLines}
+						>
 							{otherProps.name}
 						</NettText>
 						{otherProps.description && (
-							<NettText style={styles(fontSize).description} numberOfLines={2}>
+							<NettText
+								style={styles(fontSize).description}
+								numberOfLines={descriptionNumberOfLines}
+							>
 								{otherProps.description}
 							</NettText>
 						)}
@@ -84,7 +96,6 @@ const styles = (fontSize) =>
 		image: {
 			width: fontSize * 3.5,
 			height: fontSize * 3.5,
-			backgroundColor: colors.light,
 		},
 		name: {
 			fontSize: fontSize,

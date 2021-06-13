@@ -833,6 +833,35 @@ const quizzes = [
 	},
 ];
 
+//
+// NOTIFICATIONS
+const notifications = [
+	{
+		id: "ntf-001",
+		pushed: subDays(new Date(), 1).toISOString(),
+		authorId: "usr-210",
+		content: "@usr-110 replied to your comment in @cls-001",
+	},
+	{
+		id: "ntf-002",
+		pushed: subHours(new Date(), 4).toISOString(),
+		authorId: "usr-211",
+		content: "@usr-111 published a new post in @cls-001",
+	},
+	{
+		id: "ntf-003",
+		pushed: subMinutes(new Date(), 18).toISOString(),
+		authorId: "usr-310",
+		content: "@usr-310 published a new quiz in @cls-002",
+	},
+	{
+		id: "ntf-004",
+		pushed: subHours(new Date(), 20).toISOString(),
+		authorId: "usr-311",
+		content: "@usr-311 also replied to @usr-111 's comment in @cls-001",
+	},
+];
+
 export {
 	teachers,
 	students,
@@ -843,4 +872,5 @@ export {
 	posts,
 	events,
 	quizzes,
+	notifications,
 };

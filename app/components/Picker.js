@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	FlatList,
 	Modal,
@@ -34,6 +34,10 @@ function NettPicker({
 }) {
 	const [itemList, setItemList] = useState(items);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
+
+	useEffect(() => {
+		setItemList(items);
+	}, [modalIsVisible]);
 
 	return (
 		<>
@@ -83,6 +87,7 @@ function NettPicker({
 					/>
 					{hasSearchBar && (
 						<NettTextInput
+							autoFocus={true}
 							containerStyle={styles.searchBar}
 							icon="magnify"
 							fontSize={15}

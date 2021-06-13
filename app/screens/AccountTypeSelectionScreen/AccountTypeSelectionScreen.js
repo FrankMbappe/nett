@@ -9,6 +9,7 @@ import StartTitle from "../../components/start/Title";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
+import { tabNavigators } from "../../config/navigators";
 
 // --- CONSTANTS --- //
 const options = [
@@ -32,12 +33,12 @@ const options = [
 	},
 ];
 
-// --- HANDLERS --- //
-const handleNext = () => console.log("Next");
-
 // --- SCREEN --- //
-function LoginWithPhoneScreen(props) {
+function AccountTypeSelection({ navigation }) {
 	const [selectedType, setSelectedType] = useState();
+
+	// --- HANDLERS --- //
+	const handleNext = () => navigation.navigate(tabNavigators.Home);
 
 	return (
 		<Screen style={styles.screen}>
@@ -74,4 +75,4 @@ function LoginWithPhoneScreen(props) {
 	);
 }
 
-export default LoginWithPhoneScreen;
+export default AccountTypeSelection;

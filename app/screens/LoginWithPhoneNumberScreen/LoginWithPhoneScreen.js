@@ -14,6 +14,7 @@ import StartTitle from "../../components/start/Title";
 import styles from "./styles";
 import { countries } from "../../config/enums";
 import NettPicker from "../../components/Picker";
+import { screens } from "../../config/navigators";
 
 const validationSchema = Yup.object().shape({
 	phone: Yup.string().label("Phone number").required(),
@@ -22,7 +23,7 @@ const validationSchema = Yup.object().shape({
 const initialDialCode = countries.find((x) => x.key === "CM");
 
 // --- SCREEN --- //
-function LoginWithPhoneScreen(props) {
+function LoginWithPhoneScreen({ navigation }) {
 	const [dialCode, setDialCode] = useState(initialDialCode.value);
 
 	return (
@@ -31,7 +32,12 @@ function LoginWithPhoneScreen(props) {
 				initialValues={{
 					phone: "",
 				}}
-				onSubmit={({ phone }) => console.log(dialCode + phone)}
+				// onSubmit={({ phone }) => console.log(dialCode + phone)}
+				onSubmit={({ phone }) =>
+					navigation.navigate(screens.PhoneNumberConfirmation, {
+						phone: dialCode + phone,
+					})
+				}
 				validationSchema={validationSchema}
 			>
 				{/* --- Main container --- */}

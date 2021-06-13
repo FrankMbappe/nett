@@ -11,7 +11,15 @@ import TopBar from "../../components/TopBar";
 import styles from "./styles";
 import images from "../../config/images";
 
-function ShowAllScreen({ icon, items, renderItem, title }) {
+function ShowAllScreen({
+	icon,
+	renderItem,
+	title,
+	onPressBackButton,
+	items = [],
+	useBackButton = false,
+	fontSize = 20,
+}) {
 	const [itemList, setItemList] = useState(items);
 	const [refreshing, setRefreshing] = useState(false);
 
@@ -22,12 +30,19 @@ function ShowAllScreen({ icon, items, renderItem, title }) {
 	return (
 		<Screen>
 			<TopBar style={styles.topBar}>
-				<ButtonIcon name="arrow-left" size={25} />
+				{useBackButton && (
+					<ButtonIcon
+						name="arrow-left"
+						size={fontSize}
+						onPress={onPressBackButton}
+						containerStyle={styles.backButton}
+					/>
+				)}
 				<TextIcon
 					containerStyle={styles.titleContainer}
 					icon={icon}
 					text={title}
-					fontSize={20}
+					fontSize={fontSize}
 					style={styles.title}
 				/>
 			</TopBar>

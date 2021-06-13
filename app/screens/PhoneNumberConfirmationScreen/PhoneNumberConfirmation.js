@@ -11,13 +11,10 @@ import StartBottomBar from "../../components/start/BottomBar";
 
 import styles from "./styles";
 import { buttons } from "../../config/enums";
-
-// --- HANDLERS --- //
-const handlePrevious = () => console.log("Previous");
-const handleNext = () => console.log("Next");
+import { screens } from "../../config/navigators";
 
 // --- SCREEN --- //
-function PhoneNumberConfirmation({ phone }) {
+function PhoneNumberConfirmation({ route: { params }, navigation }) {
 	//#region - TIMER COUNTDOWN
 	const [timerLeft, setTimerLeft] = useState(35);
 	useEffect(() => {
@@ -29,13 +26,17 @@ function PhoneNumberConfirmation({ phone }) {
 	}, [timerLeft]);
 	//#endregion
 
+	// --- HANDLERS --- //
+	const handlePrevious = () => navigation.goBack();
+	const handleNext = () => navigation.navigate(screens.AccountTypeSelection);
+
 	return (
 		<Screen style={styles.screen}>
 			{/* --- Main Box --- */}
 			<View style={styles.mainContainer}>
 				{/* Title */}
 				<StartTitle style={styles.titleContainer}>
-					Confirm your phone number: {phone}
+					Confirm your phone number: {params.phone}
 				</StartTitle>
 
 				{/* Input */}

@@ -4,9 +4,15 @@ import colors from "../../config/colors";
 // <--- ShowAllScreen styles ---> //
 
 const styles = StyleSheet.create({
+	topBar: {
+		paddingHorizontal: 5,
+		height: 50,
+	},
+	backButton: {
+		marginEnd: 15,
+	},
 	titleContainer: {
 		flex: 1,
-		marginStart: 15,
 	},
 	title: {
 		fontWeight: "bold",
