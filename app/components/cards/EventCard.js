@@ -10,106 +10,59 @@ import {
 import Badge from "../Badge";
 import NettText from "../Text";
 import colors from "../../config/colors";
-
-function getLabel(opens, closes) {
-	const openingDate = new Date(opens);
-	const closingDate = new Date(closes);
-	const now = new Date();
-
-	const label = (
-		date,
-		prefix,
-		front = colors.appFront,
-		back = colors.appBack
-	) => ({
-		backgroundColor: back,
-		color: front,
-		distanceToNow:
-			prefix + formatDistanceToNowStrict(date, { addSuffix: true }),
-	});
-
-	// --- It hasn't started yet ('^-^) --- //
-	if (openingDate > now) {
-		const prefix = "Will start ";
-
-		// In less than 1 hour: It's already there
-		if (differenceInHours(openingDate, now) < 1)
-			return label(openingDate, prefix, colors.danger, colors.dangerLight);
-
-		// Today: Get ready
-		if (differenceInHours(openingDate, now) < 24)
-			return label(openingDate, prefix, colors.warning, colors.warningLight);
-
-		// In less than 3 days: Coming soon
-		if (differenceInDays(openingDate, now) < 3)
-			return label(openingDate, prefix, colors.optimal, colors.optimalLight);
-
-		// Else: It's okay (^-^)
-		return label(openingDate, prefix);
-	}
-
-	// --- It has already started (*o*) --- //
-	else if (closingDate > now) {
-		const prefix = "Will end ";
-
-		// In less than 10 minutes: Hurry up!
-		if (differenceInMinutes(closingDate, now) < 10)
-			return label(closingDate, prefix, colors.danger, colors.dangerLight);
-
-		// In less than 30 minutes: It'll be over soon
-		if (differenceInMinutes(closingDate, now) < 30)
-			return label(closingDate, prefix, colors.warning, colors.warningLight);
-
-		// Else: It's okay (^-^)
-		return label(closingDate, prefix, colors.ok, colors.okLight);
-	}
-
-	// --- It has been closed already :( --- //
-	return label(closingDate, "Closed ");
-}
+import { getEventProps } from "../../utils";
 
 function EventCard({
 	event: { type, classroom, name, dateOpening, dateClosing },
 	onPress,
 }) {
-	const label = getLabel(dateOpening, dateClosing);
+	const properties = getEventProps(dateOpening, dateClosing);
 
 	return (
 		<TouchableOpacity
-			style={[styles.container, { backgroundColor: label.backgroundColor }]}
+			style={[
+				styles.container,
+				{ backgroundColor: properties.backgroundColor },
+			]}
 			onPress={onPress}
 		>
 			<View style={styles.header}>
 				<NettText
-					style={[styles.type, { color: label.color }]}
+					style={[styles.type, { color: properties.color }]}
 					numberOfLines={1}
 				>
 					{type}
 				</NettText>
 				<Badge
 					style={styles.badge}
-					color={label.color}
+					color={properties.color}
 					size={7}
 					useBorders={false}
 				/>
 				<NettText
-					style={[styles.classroom, { color: label.color }]}
+					style={[styles.classroom, { color: properties.color }]}
 					numberOfLines={1}
 				>
 					{classroom}
 				</NettText>
 			</View>
 			<Divider
-				style={[styles.divider, { backgroundColor: label.backgroundColor }]}
+				style={[
+					styles.divider,
+					{ backgroundColor: properties.backgroundColor },
+				]}
 			/>
-			<NettText style={[styles.name, { color: label.color }]} numberOfLines={3}>
+			<NettText
+				style={[styles.name, { color: properties.color }]}
+				numberOfLines={3}
+			>
 				{name}
 			</NettText>
 			<NettText
-				style={[styles.distanceToNow, { color: label.color }]}
+				style={[styles.distanceToNow, { color: properties.color }]}
 				numberOfLines={1}
 			>
-				{label.distanceToNow}
+				{properties.distanceToNow}
 			</NettText>
 		</TouchableOpacity>
 	);

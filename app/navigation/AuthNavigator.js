@@ -2,11 +2,11 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import WelcomeScreen from "../screens/WelcomeScreen/WelcomeScreen";
-import { screens } from "../config/navigators";
 import LoginWithPhoneScreen from "../screens/LoginWithPhoneNumberScreen/LoginWithPhoneScreen";
 import PhoneNumberConfirmationScreen from "../screens/PhoneNumberConfirmationScreen/PhoneNumberConfirmation";
 import AccountTypeSelectionScreen from "../screens/AccountTypeSelectionScreen/AccountTypeSelectionScreen";
 import ProfileEditionScreen from "../screens/ProfileEditionScreen/ProfileEditionScreen";
+import { screens } from "../config/navigators";
 
 const Stack = createStackNavigator();
 const AuthNavigator = () => (

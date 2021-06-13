@@ -12,6 +12,8 @@ const screens = {
 	QuizCreation: "QuizCreation",
 	QuizTaking: "QuizTaking",
 	ShowAll: "ShowAll",
+	ShowAllClassrooms: "ShowAllClassrooms",
+	ShowAllEvents: "ShowAllEvents",
 	Welcome: "Welcome",
 };
 

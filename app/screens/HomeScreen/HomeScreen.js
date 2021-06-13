@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FlatList, SectionList } from "react-native";
 import { compareAsc, compareDesc } from "date-fns";
 
@@ -10,6 +10,7 @@ import { classrooms, posts, events } from "../../config/dummyData";
 
 import styles from "./styles";
 import HomeScreenHeader from "./HomeScreenHeader";
+import { screens } from "../../config/navigators";
 
 // --- Sorting & Filtering lists --- //
 function filterSections(array) {
@@ -32,7 +33,7 @@ function sortPosts(array = posts) {
 	);
 }
 
-function HomeScreen(props) {
+function HomeScreen({ navigation }) {
 	// Lists
 	const [classroomList, setClassroomList] = useState(classrooms);
 	const [postList, setPostList] = useState(sortPosts);
@@ -43,58 +44,69 @@ function HomeScreen(props) {
 	const [refreshing, setRefreshing] = useState(false);
 
 	// Sections
-	const sections = [
-		/* "xxList.length && { Object }": The section will be rendered only when
+	const sections = useMemo(
+		() => [
+			/* "xxList.length && { Object }": The section will be rendered only when
 		   its number of children will be greater than zero. */
-		eventList.length && {
-			Title: (
-				<SectionHeader
-					expand
-					icon="clock-outline"
-					title="Scheduled events"
-					onExpansion={() => alert("Shown")}
-				/>
-			),
-			data: [
-				<FlatList
-					style={{ flexGrow: 0 }}
-					data={eventList}
-					showsHorizontalScrollIndicator={false}
-					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => (
-						<EventCard event={item} onPress={() => alert("Event")} />
-					)}
-					horizontal
-				/>,
-			],
-		},
-		classroomList.length && {
-			Title: (
-				<SectionHeader
-					expand
-					icon="google-classroom"
-					title="Classrooms"
-					onExpansion={() => alert("Shown")}
-				/>
-			),
-			data: [
-				classroomList.length && (
-					<FlatList
-						style={{ flexGrow: 0 }}
-						data={classroomList}
-						showsHorizontalScrollIndicator={false}
-						keyExtractor={(item) => item.id}
-						renderItem={({ item }) => <ClassroomCard classroom={item} />}
-						horizontal
+			eventList.length && {
+				Title: (
+					<SectionHeader
+						expand
+						icon="clock-outline"
+						title="Scheduled events"
+						onExpansion={() =>
+							navigation.navigate(screens.ShowAllEvents, {
+								data: eventList,
+							})
+						}
 					/>
 				),
-			],
-		},
-		postList && {
-			Title: <SectionHeader title="Recent updates" />,
-			data: postList,
-		},
-	];
+				data: [
+					<FlatList
+						style={{ flexGrow: 0 }}
+						data={eventList}
+						showsHorizontalScrollIndicator={false}
+						keyExtractor={(item) => item.id}
+						renderItem={({ item }) => (
+							<EventCard event={item} onPress={() => alert("Event")} />
+						)}
+						horizontal
+					/>,
+				],
+			},
+			classroomList.length && {
+				Title: (
+					<SectionHeader
+						expand
+						icon="google-classroom"
+						title="Classrooms"
+						onExpansion={() =>
+							navigation.navigate(screens.ShowAllClassrooms, {
+								data: classroomList,
+							})
+						}
+					/>
+				),
+				data: [
+					classroomList.length && (
+						<FlatList
+							style={{ flexGrow: 0 }}
+							data={classroomList}
+							showsHorizontalScrollIndicator={false}
+							keyExtractor={(item) => item.id}
+							renderItem={({ item }) => <ClassroomCard classroom={item} />}
+							horizontal
+						/>
+					),
+				],
+			},
+			postList && {
+				Title: <SectionHeader title="Recent updates" />,
+				data: postList,
+			},
+		],
+		[classroomList, postList, eventList]
+	);
 
 	return (
 		<Screen style={styles.screen}>

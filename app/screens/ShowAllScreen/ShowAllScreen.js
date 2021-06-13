@@ -33,7 +33,7 @@ function ShowAllScreen({
 				{useBackButton && (
 					<ButtonIcon
 						name="arrow-left"
-						size={fontSize}
+						size={fontSize * 1.25}
 						onPress={onPressBackButton}
 						containerStyle={styles.backButton}
 					/>

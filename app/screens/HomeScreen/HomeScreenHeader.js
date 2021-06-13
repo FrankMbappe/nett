@@ -22,7 +22,7 @@ function HomeScreenHeader({ isAtInitScrollPosition }) {
 				fontSize={14}
 				placeholder="Topics, classrooms, ..."
 			/>
-			<ButtonIcon name="bell-outline" size={25} badge />
+			<ButtonIcon name="message-outline" size={25} badge />
 		</TopBar>
 	);
 }

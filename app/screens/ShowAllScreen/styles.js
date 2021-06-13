@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 		height: 50,
 	},
 	backButton: {
-		marginEnd: 15,
+		marginEnd: 10,
 	},
 	titleContainer: {
 		flex: 1,

@@ -9,49 +9,13 @@ import NotificationsScreen from "./app/screens/NotificationsScreen/Notifications
 
 import { screens } from "./app/config/navigators";
 import colors from "./app/config/colors";
-
-const HomeTab = createBottomTabNavigator();
-const HomeTabNavigator = () => (
-	<HomeTab.Navigator
-		tabBarOptions={{
-			keyboardHidesTabBar: true,
-			activeTintColor: colors.appPrimary,
-			inactiveTintColor: colors.mediumLight,
-		}}
-	>
-		<HomeTab.Screen
-			name={screens.Home}
-			component={HomeScreen}
-			options={{
-				tabBarIcon: ({ color, size }) => (
-					<MaterialCommunityIcons
-						name="home"
-						size={size * 1.05}
-						color={color}
-					/>
-				),
-			}}
-		/>
-		<HomeTab.Screen
-			name={screens.Notifications}
-			component={NotificationsScreen}
-			options={{
-				tabBarIcon: ({ color, size }) => (
-					<MaterialCommunityIcons
-						name="bell"
-						size={size * 1.05}
-						color={color}
-					/>
-				),
-			}}
-		/>
-	</HomeTab.Navigator>
-);
+import NavigationTheme from "./app/navigation/NavigationTheme";
+import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
 	return (
-		<NavigationContainer>
-			<AuthNavigator />
+		<NavigationContainer theme={NavigationTheme}>
+			<AppNavigator />
 		</NavigationContainer>
 	);
 }
