@@ -14,7 +14,7 @@ import { buttons } from "../../config/enums";
 import { screens } from "../../config/navigators";
 
 // --- SCREEN --- //
-function PhoneNumberConfirmation({ route: { params }, navigation }) {
+function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
 	//#region - TIMER COUNTDOWN
 	const [timerLeft, setTimerLeft] = useState(35);
 	useEffect(() => {
@@ -106,4 +106,4 @@ function PhoneNumberConfirmation({ route: { params }, navigation }) {
 	);
 }
 
-export default PhoneNumberConfirmation;
+export default PhoneNumberConfirmationScreen;

@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "react-native";
 
+import styles from "./styles";
 import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
-
-import styles from "./styles";
 import NettButton from "../../components/Button";
-import { buttons } from "../../config/enums";
+
+import { screens } from "../../config/navigators";
 
 function WelcomeScreen({ navigation }) {
 	return (
@@ -15,11 +15,10 @@ function WelcomeScreen({ navigation }) {
 				<StartTitle style={styles.titleContainer}>Welcome on Nett!</StartTitle>
 			</View>
 			<View style={styles.bottomBar}>
-				<NettButton style={styles.loginButton} text="Login" />
 				<NettButton
-					style={styles.registerButton}
-					text="Register"
-					type={buttons.TERTIARY}
+					style={styles.loginButton}
+					text="Get started"
+					onPress={() => navigation.navigate(screens.LoginWithPhoneNumber)}
 				/>
 			</View>
 		</Screen>

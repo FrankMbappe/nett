@@ -60,7 +60,7 @@ const styles = (buttonType, disabled = false) => {
 			flexDirection: "row",
 			paddingHorizontal: 30,
 			paddingVertical: 15,
-			borderRadius: 10,
+			borderRadius: 25,
 			opacity: disabled ? 0.25 : 1,
 		},
 		text: {

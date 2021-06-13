@@ -12,6 +12,7 @@ const screens = {
 	QuizCreation: "QuizCreation",
 	QuizTaking: "QuizTaking",
 	ShowAll: "ShowAll",
+	Welcome: "Welcome",
 };
 
 const tabNavigators = {

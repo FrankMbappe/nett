@@ -34,7 +34,7 @@ const options = [
 ];
 
 // --- SCREEN --- //
-function AccountTypeSelection({ navigation }) {
+function AccountTypeSelectionScreen({ navigation }) {
 	const [selectedType, setSelectedType] = useState();
 
 	// --- HANDLERS --- //
@@ -75,4 +75,4 @@ function AccountTypeSelection({ navigation }) {
 	);
 }
 
-export default AccountTypeSelection;
+export default AccountTypeSelectionScreen;
