@@ -365,6 +365,244 @@ const classrooms = [
 		consultants: consultants.filter((x) => "cls-001" in x.classrooms),
 		participants: users.filter((x) => x.classrooms.includes("cls-001")),
 		postsPerDay: 2.32,
+		posts: [
+			// Simple
+			{
+				id: "pos-110",
+				author: users.find((x) => x.id === "usr-210"),
+				createdOn: "2021-05-10T11:36:21+01:00",
+				classroom: "cls-001",
+				text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+				likes: [
+					{ date: new Date().toISOString(), userId: "usr-110" },
+					{ date: new Date().toISOString(), userId: "usr-111" },
+					{ date: new Date().toISOString(), userId: "usr-112" },
+				],
+				comments: [
+					{
+						id: "pos-110-com-001",
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-110"),
+						text: "Pretty helpful, thanks sir !",
+						replies: [
+							{
+								id: "pos-110-com-002",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-210"),
+								text: "@usr-110 You're welcome my child",
+							},
+							{
+								id: "pos-110-com-003",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-110"),
+								text: "@usr-210 ('^ - ^)",
+							},
+						],
+						likes: [
+							{ date: new Date().toISOString(), userId: "usr-210" },
+							{ date: new Date().toISOString(), userId: "usr-112" },
+						],
+					},
+				],
+				shares: 12,
+				tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+				haveSeen: ["usr-100"],
+			},
+
+			// With photo
+			{
+				id: "pos-111",
+				author: users.find((x) => x.id === "usr-210"),
+				createdOn: "2021-05-12T16:52:43+00:00",
+				classroom: "cls-001",
+				text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+				likes: users.map((x) => ({
+					date: new Date().toISOString(),
+					userId: x.id,
+				})),
+				comments: [
+					{
+						id: "pos-111-com-001",
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-310"),
+						text: "Tremendous quote here, I must take some notes",
+						replies: [
+							{
+								id: "pos-111-com-002",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-210"),
+								text: "@usr-310 Lol, do so then",
+							},
+							{
+								id: "pos-111-com-003",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-310"),
+								text: "@usr-210 Bet, I will",
+							},
+							{
+								id: "pos-111-com-004",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-100"),
+								text: "@usr-110 I agree, totally",
+							},
+						],
+						likes: [
+							{ date: new Date().toISOString(), userId: "usr-210" },
+							{ date: new Date().toISOString(), userId: "usr-112" },
+							{ date: new Date().toISOString(), userId: "usr-111" },
+							{ date: new Date().toISOString(), userId: "usr-310" },
+						],
+					},
+				],
+				shares: 12,
+				file: {
+					uri: "https://picsum.photos/id/1029/200/300",
+					type: "image",
+					size: "148",
+					name: "1029",
+					extension: "jpg",
+				},
+				tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+				haveSeen: [],
+			},
+
+			// With video
+			{
+				id: "pos-112",
+				author: users.find((x) => x.id === "usr-210"),
+				createdOn: "2020-12-25T11:36:21+01:00",
+				classroom: "cls-001",
+				text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+				likes: users.map((x) => ({
+					date: new Date().toISOString(),
+					userId: x.id,
+				})),
+				comments: [
+					{
+						id: "pos-112-com-001",
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-310"),
+						text: "Tremendous quote here, I must take some notes",
+						replies: [
+							{
+								id: "pos-112-com-002",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-210"),
+								text: "@usr-310 Lol, do so then",
+							},
+							{
+								id: "pos-112-com-003",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-310"),
+								text: "@usr-210 Bet, I will",
+							},
+							{
+								id: "pos-112-com-004",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-100"),
+								text: "@usr-110 I agree, totally",
+							},
+						],
+						likes: [
+							{ date: new Date().toISOString(), userId: "usr-210" },
+							{ date: new Date().toISOString(), userId: "usr-112" },
+							{ date: new Date().toISOString(), userId: "usr-111" },
+							{ date: new Date().toISOString(), userId: "usr-310" },
+						],
+					},
+				],
+				shares: 12,
+				file: {
+					uri: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
+					type: "video",
+					size: "2048",
+					length: "160",
+					name: "Big_Buck_Bunny_360_10s_2MB",
+					extension: "mp4",
+				},
+				tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+				haveSeen: ["usr-100"],
+			},
+
+			// With other file type
+			{
+				id: "pos-114",
+				author: users.find((x) => x.id === "usr-211"),
+				createdOn: "2021-05-11T18:10:57+01:00",
+				classroom: "cls-001",
+				text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
+				likes: [
+					{ date: new Date().toISOString(), userId: "usr-100" },
+					{ date: new Date().toISOString(), userId: "usr-110" },
+					{ date: new Date().toISOString(), userId: "usr-111" },
+					{ date: new Date().toISOString(), userId: "usr-112" },
+				],
+				comments: [
+					{
+						id: "pos-114-com-001",
+						datePublished: new Date().toISOString(),
+						author: users.find((x) => x.id === "usr-110"),
+						text: "Pretty helpful, thanks sir !",
+						replies: [
+							{
+								id: "pos-114-com-002",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-210"),
+								text: "@usr-110 You're welcome my child",
+							},
+							{
+								id: "pos-114-com-003",
+								datePublished: new Date().toISOString(),
+								author: users.find((x) => x.id === "usr-110"),
+								text: "@usr-210 ('^ - ^)",
+							},
+						],
+						likes: [
+							{ date: new Date().toISOString(), userId: "usr-210" },
+							{ date: new Date().toISOString(), userId: "usr-112" },
+						],
+					},
+				],
+				file: {
+					uri: "http",
+					type: "file",
+					size: 78523,
+					length: "160",
+					name: "General Recommendations on Headaches and Earaches by Doctor Roselyn Sanchez",
+					extension: "pdf",
+				},
+				shares: 12,
+				tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
+				haveSeen: [],
+			},
+		],
+		topics: [
+			{
+				id: "cls-001-top-001",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "Genomics",
+			},
+			{
+				id: "cls-001-top-002",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "Metabolism",
+			},
+			{
+				id: "cls-001-top-003",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "Hyperglycemia",
+			},
+			{
+				id: "cls-001-top-004",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "Cardiac muscle",
+			},
+			{
+				id: "cls-001-top-005",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "AIDS",
+			},
+		],
 	},
 	{
 		id: "cls-002",
@@ -376,6 +614,8 @@ const classrooms = [
 		consultants: consultants.filter((x) => "cls-002" in x.classrooms),
 		participants: users.filter((x) => x.classrooms.includes("cls-002")),
 		postsPerDay: 1.04,
+		posts: [],
+		topic: [],
 	},
 	{
 		id: "cls-003",
@@ -387,8 +627,30 @@ const classrooms = [
 		consultants: consultants.filter((x) => "cls-003" in x.classrooms),
 		participants: users.filter((x) => x.classrooms.includes("cls-003")),
 		postsPerDay: 0.89,
+		posts: [],
+		topics: [
+			{
+				id: "cls-003-top-001",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "Metabolism",
+			},
+			{
+				id: "cls-003-top-002",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "Cardiac muscle",
+			},
+			{
+				id: "cls-003-top-003",
+				created: subDays(new Date(), 3).toISOString(),
+				title: "AIDS",
+			},
+		],
 	},
 ];
+
+//
+// POSTS
+const posts = classrooms.flatMap(({ posts }) => posts);
 
 //
 // EVENTS
@@ -440,220 +702,6 @@ const events = [
 		name: "General Nursing Semester Test",
 		dateOpening: addDays(new Date(), 11).toISOString(),
 		dateClosing: addDays(new Date(), 12).toISOString(),
-	},
-];
-
-//
-// POSTS
-const posts = [
-	// Simple
-	{
-		id: "pos-110",
-		author: users.find((x) => x.id === "usr-210"),
-		createdOn: "2021-05-10T11:36:21+01:00",
-		classroom: "cls-001",
-		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
-		likes: [
-			{ date: new Date().toISOString(), userId: "usr-110" },
-			{ date: new Date().toISOString(), userId: "usr-111" },
-			{ date: new Date().toISOString(), userId: "usr-112" },
-		],
-		comments: [
-			{
-				id: "pos-110-com-001",
-				datePublished: new Date().toISOString(),
-				author: users.find((x) => x.id === "usr-110"),
-				text: "Pretty helpful, thanks sir !",
-				replies: [
-					{
-						id: "pos-110-com-002",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-210"),
-						text: "@usr-110 You're welcome my child",
-					},
-					{
-						id: "pos-110-com-003",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-110"),
-						text: "@usr-210 ('^ - ^)",
-					},
-				],
-				likes: [
-					{ date: new Date().toISOString(), userId: "usr-210" },
-					{ date: new Date().toISOString(), userId: "usr-112" },
-				],
-			},
-		],
-		shares: 12,
-		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
-		haveSeen: ["usr-100"],
-	},
-
-	// With photo
-	{
-		id: "pos-111",
-		author: users.find((x) => x.id === "usr-210"),
-		createdOn: "2021-05-12T16:52:43+00:00",
-		classroom: "cls-001",
-		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
-		likes: users.map((x) => ({
-			date: new Date().toISOString(),
-			userId: x.id,
-		})),
-		comments: [
-			{
-				id: "pos-111-com-001",
-				datePublished: new Date().toISOString(),
-				author: users.find((x) => x.id === "usr-310"),
-				text: "Tremendous quote here, I must take some notes",
-				replies: [
-					{
-						id: "pos-111-com-002",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-210"),
-						text: "@usr-310 Lol, do so then",
-					},
-					{
-						id: "pos-111-com-003",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-310"),
-						text: "@usr-210 Bet, I will",
-					},
-					{
-						id: "pos-111-com-004",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-100"),
-						text: "@usr-110 I agree, totally",
-					},
-				],
-				likes: [
-					{ date: new Date().toISOString(), userId: "usr-210" },
-					{ date: new Date().toISOString(), userId: "usr-112" },
-					{ date: new Date().toISOString(), userId: "usr-111" },
-					{ date: new Date().toISOString(), userId: "usr-310" },
-				],
-			},
-		],
-		shares: 12,
-		file: {
-			uri: "https://picsum.photos/id/1029/200/300",
-			type: "image",
-			size: "148",
-			name: "1029",
-			extension: "jpg",
-		},
-		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
-		haveSeen: [],
-	},
-
-	// With video
-	{
-		id: "pos-112",
-		author: users.find((x) => x.id === "usr-210"),
-		createdOn: "2020-12-25T11:36:21+01:00",
-		classroom: "cls-001",
-		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
-		likes: users.map((x) => ({
-			date: new Date().toISOString(),
-			userId: x.id,
-		})),
-		comments: [
-			{
-				id: "pos-112-com-001",
-				datePublished: new Date().toISOString(),
-				author: users.find((x) => x.id === "usr-310"),
-				text: "Tremendous quote here, I must take some notes",
-				replies: [
-					{
-						id: "pos-112-com-002",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-210"),
-						text: "@usr-310 Lol, do so then",
-					},
-					{
-						id: "pos-112-com-003",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-310"),
-						text: "@usr-210 Bet, I will",
-					},
-					{
-						id: "pos-112-com-004",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-100"),
-						text: "@usr-110 I agree, totally",
-					},
-				],
-				likes: [
-					{ date: new Date().toISOString(), userId: "usr-210" },
-					{ date: new Date().toISOString(), userId: "usr-112" },
-					{ date: new Date().toISOString(), userId: "usr-111" },
-					{ date: new Date().toISOString(), userId: "usr-310" },
-				],
-			},
-		],
-		shares: 12,
-		file: {
-			uri: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
-			type: "video",
-			size: "2048",
-			length: "160",
-			name: "Big_Buck_Bunny_360_10s_2MB",
-			extension: "mp4",
-		},
-		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
-		haveSeen: ["usr-100"],
-	},
-
-	// With other file type
-	{
-		id: "pos-114",
-		author: users.find((x) => x.id === "usr-211"),
-		createdOn: "2021-05-11T18:10:57+01:00",
-		classroom: "cls-001",
-		text: "Dear students, repetition is the mother of success. Keep doing what you do on and on until it becomes genuinely natural.",
-		likes: [
-			{ date: new Date().toISOString(), userId: "usr-100" },
-			{ date: new Date().toISOString(), userId: "usr-110" },
-			{ date: new Date().toISOString(), userId: "usr-111" },
-			{ date: new Date().toISOString(), userId: "usr-112" },
-		],
-		comments: [
-			{
-				id: "pos-114-com-001",
-				datePublished: new Date().toISOString(),
-				author: users.find((x) => x.id === "usr-110"),
-				text: "Pretty helpful, thanks sir !",
-				replies: [
-					{
-						id: "pos-114-com-002",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-210"),
-						text: "@usr-110 You're welcome my child",
-					},
-					{
-						id: "pos-114-com-003",
-						datePublished: new Date().toISOString(),
-						author: users.find((x) => x.id === "usr-110"),
-						text: "@usr-210 ('^ - ^)",
-					},
-				],
-				likes: [
-					{ date: new Date().toISOString(), userId: "usr-210" },
-					{ date: new Date().toISOString(), userId: "usr-112" },
-				],
-			},
-		],
-		file: {
-			uri: "http",
-			type: "file",
-			size: 78523,
-			length: "160",
-			name: "General Recommendations on Headaches and Earaches by Doctor Roselyn Sanchez",
-			extension: "pdf",
-		},
-		shares: 12,
-		tags: ["inspiration", "motivation", "FakeItTillYouMakeIt"],
-		haveSeen: [],
 	},
 ];
 

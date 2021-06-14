@@ -1,9 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { screens } from "../config/navigators";
+import { navigators, screens } from "../config/navigators";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import ShowAllClassroomsScreen from "../screens/ShowAllClassroomsScreen.js/ShowAllClassroomsScreen";
 import ShowAllEventsScreen from "../screens/ShowAllEventsScreen/ShowAllEventsScreen";
+import ClassroomNavigator from "./ClassroomNavigator";
 
 const Stack = createStackNavigator();
 const HomeNavigator = () => (
@@ -17,6 +18,7 @@ const HomeNavigator = () => (
 			name={screens.ShowAllEvents}
 			component={ShowAllEventsScreen}
 		/>
+		<Stack.Screen name={navigators.Classroom} component={ClassroomNavigator} />
 	</Stack.Navigator>
 );
 

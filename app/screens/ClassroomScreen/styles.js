@@ -6,11 +6,13 @@ import colors from "../../config/colors";
 const styles = StyleSheet.create({
 	screen: {
 		padding: 0,
-		paddingTop: 5,
+		paddingTop: 0,
 	},
 
 	// --> TOPBAR
-	topBar: {},
+	topBar: {
+		backgroundColor: colors.appBack,
+	},
 	classroomPic: {},
 	topBarTitleContainer: {
 		flex: 1,
@@ -28,9 +30,10 @@ const styles = StyleSheet.create({
 	// --> TOPICS
 	topicFlatListContainer: {
 		paddingHorizontal: 7,
+		backgroundColor: colors.appBack,
 	},
 	topicFlatListContent: {
-		paddingVertical: 10,
+		paddingVertical: 7,
 	},
 	topicFlatList: {
 		borderColor: colors.appBack,
@@ -48,16 +51,9 @@ const styles = StyleSheet.create({
 	},
 
 	// --> POSTS
-	postFlatListContainer: {
-		flex: 1,
-	},
+
 	postFlatListContent: {
 		paddingHorizontal: 15,
-	},
-	postFlatListBackground: {
-		position: "absolute",
-		height: "100%",
-		width: "100%",
 	},
 
 	// --- FOOTER --- //
@@ -65,8 +61,15 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		width: "100%",
 		bottom: 0,
-		backgroundColor: colors.appBack,
-		padding: 15,
+		backgroundColor: colors.optimal,
+		justifyContent: "center",
+		paddingHorizontal: 10,
+		height: 30,
+	},
+	footerText: {
+		color: colors.white,
+		fontWeight: "bold",
+		fontSize: 12,
 	},
 });
 

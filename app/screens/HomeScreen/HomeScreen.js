@@ -10,7 +10,7 @@ import { classrooms, posts, events } from "../../config/dummyData";
 
 import styles from "./styles";
 import HomeScreenHeader from "./HomeScreenHeader";
-import { screens } from "../../config/navigators";
+import { navigators, screens } from "../../config/navigators";
 
 // --- Sorting & Filtering lists --- //
 function filterSections(array) {
@@ -93,8 +93,26 @@ function HomeScreen({ navigation }) {
 							style={{ flexGrow: 0 }}
 							data={classroomList}
 							showsHorizontalScrollIndicator={false}
-							keyExtractor={(item) => item.id}
-							renderItem={({ item }) => <ClassroomCard classroom={item} />}
+							keyExtractor={({ id }) => String(id)}
+							renderItem={({
+								item: {
+									id,
+									name,
+									participants,
+									postsPerDay,
+									teacher: { profile },
+								},
+							}) => (
+								<ClassroomCard
+									name={name}
+									nbOfParticipants={participants.length}
+									postsPerDay={postsPerDay}
+									teacherProfile={profile}
+									onPress={() =>
+										navigation.navigate(navigators.Classroom, { id: id })
+									}
+								/>
+							)}
 							horizontal
 						/>
 					),

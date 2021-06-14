@@ -17,8 +17,9 @@ const screens = {
 	Welcome: "Welcome",
 };
 
-const tabNavigators = {
+const navigators = {
 	Home: "HomeTabNavigator",
+	Classroom: "ClassroomNavigator",
 };
 
-export { screens, tabNavigators };
+export { screens, navigators };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { View, FlatList, Image, TouchableHighlight } from "react-native";
 import ButtonIcon from "../../components/ButtonIcon";
 import Icon from "../../components/Icon";
@@ -8,39 +8,49 @@ import colors from "../../config/colors";
 import NettText from "../../components/Text";
 import styles from "./styles";
 import { PostCard } from "../../components/cards";
-import { posts } from "../../config/dummyData";
+import { classrooms, users } from "../../config/dummyData";
 import images from "../../config/images";
 import { compareDesc } from "date-fns";
 
-const topics = [
-	"Genomics",
-	"Metabolism",
-	"Hyperglycemia",
-	"Cardiac muscle",
-	"AIDS",
-];
-
-function sortPosts(array = posts) {
+const sortPosts = (posts) => {
 	// Sort: Most recent post first
-	return array.sort((x, y) =>
+	return posts.sort((x, y) =>
 		compareDesc(new Date(x.createdOn), new Date(y.createdOn))
 	);
-}
+};
+const getData = (classroomId) => {
+	return classrooms.find(({ id }) => id === classroomId);
+};
+const getTeacherData = (teacherId) => {
+	return users.find(({ id }) => id === teacherId).profile;
+};
 
 function ClassroomScreen({
-	userId,
-	classroom: {
-		id,
-		name,
-		teacher: { profile: teacherProfile },
+	route: {
+		params: { id: classroomId },
 	},
+	navigation,
 }) {
 	const [isAtInitScrollPosition, setIsAtInitScrollPosition] = useState(true);
+	const [
+		{
+			name,
+			posts,
+			topics,
+			teacher: { id: teacherId },
+		},
+		setClassroom,
+	] = useState(getData(classroomId));
+	const { fullName } = useMemo(() => getTeacherData(teacherId), [teacherId]);
 
 	return (
-		<Screen style={styles.screen}>
+		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
 			<TopBar style={styles.topBar}>
-				<ButtonIcon name="arrow-left" size={25} />
+				<ButtonIcon
+					name="arrow-left"
+					size={25}
+					onPress={() => navigation.goBack()}
+				/>
 				<Icon
 					name="school"
 					iconColor={colors.ok}
@@ -52,53 +62,49 @@ function ClassroomScreen({
 						{name}
 					</NettText>
 					<NettText style={styles.topBarCaption} numberOfLines={1}>
-						{`Held by ${teacherProfile.fullName}`}
+						{`Held by ${fullName}`}
 					</NettText>
 				</View>
 				<ButtonIcon name="magnify" />
 				<ButtonIcon name="dots-vertical" />
 			</TopBar>
 
-			<View style={styles.topicFlatListContainer}>
-				<FlatList
-					contentContainerStyle={[styles.topicFlatListContent]}
-					style={[
-						styles.topicFlatList,
-						!isAtInitScrollPosition && {
-							borderBottomColor: colors.light,
-						},
-					]}
-					data={topics}
-					keyExtractor={(_, index) => String(index)}
-					renderItem={({ item }) => (
-						<NettText style={styles.topic}>{item}</NettText>
-					)}
-					horizontal
-					showsHorizontalScrollIndicator={false}
-				/>
-			</View>
+			{topics != null && topics.length > 0 && (
+				<View style={styles.topicFlatListContainer}>
+					<FlatList
+						contentContainerStyle={[styles.topicFlatListContent]}
+						style={[
+							styles.topicFlatList,
+							!isAtInitScrollPosition && {
+								borderBottomColor: colors.light,
+							},
+						]}
+						data={topics}
+						keyExtractor={({ id }) => String(id)}
+						renderItem={({ item: { title } }) => (
+							<NettText style={styles.topic}>{title}</NettText>
+						)}
+						horizontal
+						showsHorizontalScrollIndicator={false}
+					/>
+				</View>
+			)}
 
-			<View style={styles.postFlatListContainer}>
-				<Image
-					source={images.CLASSROOM_BACKGROUND}
-					style={styles.postFlatListBackground}
-				/>
-				<FlatList
-					contentContainerStyle={styles.postFlatListContent}
-					onScroll={(event) =>
-						setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
-					}
-					data={sortPosts(posts.filter((x) => x.classroom === id))}
-					keyExtractor={(_, index) => String(index)}
-					showsVerticalScrollIndicator={false}
-					renderItem={({ item }) => (
-						<PostCard userId="usr-100" post={item} classroomName={name} />
-					)}
-				/>
-			</View>
+			<FlatList
+				contentContainerStyle={styles.postFlatListContent}
+				onScroll={(event) =>
+					setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
+				}
+				data={sortPosts(posts)}
+				keyExtractor={({ id }) => String(id)}
+				showsVerticalScrollIndicator={false}
+				renderItem={({ item }) => <PostCard userId="usr-100" post={item} />} // TODO: userId = current user
+			/>
 
 			<TouchableHighlight style={styles.footer}>
-				<NettText>{`15 persons connected`}</NettText>
+				<NettText
+					style={styles.footerText}
+				>{`15 online participants`}</NettText>
 			</TouchableHighlight>
 		</Screen>
 	);

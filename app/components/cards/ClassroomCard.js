@@ -6,21 +6,22 @@ import TextIcon from "../TextIcon";
 import Author from "./Author";
 
 function ClassroomCard({
-	classroom: { name, participants, postsPerDay, teacher },
-	...otherProps
+	name,
+	nbOfParticipants,
+	postsPerDay,
+	style,
+	teacherProfile: { fullName, picUri },
+	onPress,
 }) {
 	return (
-		<TouchableOpacity
-			style={[styles.container, otherProps.style]}
-			onPress={otherProps.onPress}
-		>
+		<TouchableOpacity style={[styles.container, style]} onPress={onPress}>
 			<NettText style={styles.name} numberOfLines={3}>
 				{name}
 			</NettText>
 			<View style={styles.statsContainer}>
 				<TextIcon
 					icon="account-multiple"
-					text={participants.length + 1}
+					text={nbOfParticipants}
 					fontSize={12}
 					containerStyle={{ marginEnd: 12 }}
 				/>
@@ -30,10 +31,7 @@ function ClassroomCard({
 					fontSize={12}
 				/>
 			</View>
-			<Author
-				name={teacher.profile.fullName}
-				picUri={{ uri: teacher.profile.picUri }}
-			/>
+			<Author name={fullName} picUri={{ uri: picUri }} />
 		</TouchableOpacity>
 	);
 }

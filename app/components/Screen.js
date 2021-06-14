@@ -4,10 +4,13 @@ import Constants from "expo-constants";
 
 import colors from "../config/colors";
 
-function Screen({ children, style, backImage }) {
+function Screen({ children, style, backImage, backImageStyle }) {
 	return (
 		<SafeAreaView style={[styles.container, styles.screen, style]}>
-			<Image style={styles.backgroundImage} source={backImage} />
+			<Image
+				style={[styles.backgroundImage, backImageStyle]}
+				source={backImage}
+			/>
 			<View style={[styles.container, style]}>{children}</View>
 		</SafeAreaView>
 	);
