@@ -1,5 +1,5 @@
 // Screens
-const screens = {
+const screens = Object.freeze({
 	AccountTypeSelection: "AccountTypeSelection",
 	Classroom: "Classroom",
 	Home: "Home",
@@ -15,11 +15,11 @@ const screens = {
 	ShowAllClassrooms: "ShowAllClassrooms",
 	ShowAllEvents: "ShowAllEvents",
 	Welcome: "Welcome",
-};
+});
 
-const navigators = {
-	Home: "HomeTabNavigator",
+const navigators = Object.freeze({
+	Home: "HomeNavigator",
 	Classroom: "ClassroomNavigator",
-};
+});
 
 export { screens, navigators };

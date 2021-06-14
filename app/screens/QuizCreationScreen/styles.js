@@ -34,22 +34,7 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 	},
 	addQAButton: {
-		position: "absolute",
-		backgroundColor: colors.appPrimary,
-		height: 60,
-		width: 60,
-		borderRadius: 30,
-		bottom: 100,
-		end: 20,
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
-		shadowOpacity: 0.27,
-		shadowRadius: 4.65,
-
-		elevation: 6,
+		bottom: 75,
 	},
 	qaListContainer: {},
 

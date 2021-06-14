@@ -7,7 +7,7 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import HomeScreen from "./app/screens/HomeScreen/HomeScreen";
 import NotificationsScreen from "./app/screens/NotificationsScreen/NotificationsScreen";
 
-import { screens } from "./app/config/navigators";
+import { screens } from "./app/navigation/routes";
 import colors from "./app/config/colors";
 import NavigationTheme from "./app/navigation/NavigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";

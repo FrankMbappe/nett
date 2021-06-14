@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import NotificationsScreen from "../screens/NotificationsScreen/NotificationsScreen";
 import colors from "../config/colors";
-import { screens } from "../config/navigators";
+import { screens } from "./routes";
 import HomeNavigator from "./HomeNavigator";
 
 const Tab = createBottomTabNavigator();

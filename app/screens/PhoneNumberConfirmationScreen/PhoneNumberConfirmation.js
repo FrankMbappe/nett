@@ -11,7 +11,7 @@ import StartBottomBar from "../../components/start/BottomBar";
 
 import styles from "./styles";
 import { buttons } from "../../config/enums";
-import { screens } from "../../config/navigators";
+import { screens } from "../../navigation/routes";
 
 // --- SCREEN --- //
 function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {

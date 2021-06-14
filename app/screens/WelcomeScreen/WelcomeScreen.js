@@ -6,7 +6,7 @@ import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
 import NettButton from "../../components/Button";
 
-import { screens } from "../../config/navigators";
+import { screens } from "../../navigation/routes";
 
 function WelcomeScreen({ navigation }) {
 	return (

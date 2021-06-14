@@ -14,7 +14,7 @@ import StartTitle from "../../components/start/Title";
 import styles from "./styles";
 import { countries } from "../../config/enums";
 import NettPicker from "../../components/Picker";
-import { screens } from "../../config/navigators";
+import { screens } from "../../navigation/routes";
 
 const validationSchema = Yup.object().shape({
 	phone: Yup.string().label("Phone number").required(),

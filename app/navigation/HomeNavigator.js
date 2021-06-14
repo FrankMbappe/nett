@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { navigators, screens } from "../config/navigators";
+import { navigators, screens } from "./routes";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import ShowAllClassroomsScreen from "../screens/ShowAllClassroomsScreen.js/ShowAllClassroomsScreen";
 import ShowAllEventsScreen from "../screens/ShowAllEventsScreen/ShowAllEventsScreen";

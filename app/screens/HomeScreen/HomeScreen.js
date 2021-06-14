@@ -10,7 +10,7 @@ import { classrooms, posts, events } from "../../config/dummyData";
 
 import styles from "./styles";
 import HomeScreenHeader from "./HomeScreenHeader";
-import { navigators, screens } from "../../config/navigators";
+import { navigators, screens } from "../../navigation/routes";
 
 // --- Sorting & Filtering lists --- //
 function filterSections(array) {

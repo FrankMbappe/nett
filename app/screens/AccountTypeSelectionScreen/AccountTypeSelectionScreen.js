@@ -9,7 +9,7 @@ import StartTitle from "../../components/start/Title";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
-import { navigators } from "../../config/navigators";
+import { navigators } from "../../navigation/routes";
 
 // --- CONSTANTS --- //
 const options = [

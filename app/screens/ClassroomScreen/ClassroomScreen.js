@@ -8,9 +8,11 @@ import colors from "../../config/colors";
 import NettText from "../../components/Text";
 import styles from "./styles";
 import { PostCard } from "../../components/cards";
-import { classrooms, users } from "../../config/dummyData";
+import { classrooms, me, users } from "../../config/dummyData";
 import images from "../../config/images";
 import { compareDesc } from "date-fns";
+import FloatingButton from "../../components/FloatingButton";
+import { screens } from "../../navigation/routes";
 
 const sortPosts = (posts) => {
 	// Sort: Most recent post first
@@ -24,6 +26,9 @@ const getData = (classroomId) => {
 const getTeacherData = (teacherId) => {
 	return users.find(({ id }) => id === teacherId).profile;
 };
+
+//
+//
 
 function ClassroomScreen({
 	route: {
@@ -98,7 +103,19 @@ function ClassroomScreen({
 				data={sortPosts(posts)}
 				keyExtractor={({ id }) => String(id)}
 				showsVerticalScrollIndicator={false}
-				renderItem={({ item }) => <PostCard userId="usr-100" post={item} />} // TODO: userId = current user
+				renderItem={({ item }) => <PostCard userId={me.id} post={item} />} // TODO: userId = current user
+			/>
+
+			<FloatingButton
+				icon="pencil"
+				onPress={
+					() =>
+						navigation.navigate(screens.PostCreation, {
+							authorId: me.id,
+							classroomName: name,
+						}) // TODO: authorId = current user
+				}
+				style={styles.createPostButton}
 			/>
 
 			<TouchableHighlight style={styles.footer}>

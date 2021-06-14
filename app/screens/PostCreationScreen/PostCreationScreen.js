@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize } from "../../utils";
 import { Divider } from "react-native-elements";
@@ -16,19 +16,26 @@ import TopBar from "../../components/TopBar";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
+import { users } from "../../config/dummyData";
+import { screens } from "../../navigation/routes";
+
+const getAuthor = (authorId) => {
+	return users.find(({ id }) => id === authorId);
+};
 
 function PostCreationScreen({
-	author: {
-		type,
-		profile: { fullName: authorName, picUri },
+	route: {
+		params: { authorId, classroomName, bundledFile, maxTextLength = 3000 },
 	},
-	classroom,
-	bundle,
-	maxTextLength = 3000,
+	navigation,
 }) {
 	const [text, setText] = useState("");
-	const [file, setFile] = useState(bundle);
+	const [file, setFile] = useState(bundledFile);
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+	const {
+		type,
+		profile: { fullName: authorName, picUri },
+	} = useMemo(() => getAuthor(authorId), [authorId]);
 
 	useEffect(() => {
 		const keyboardDidShow = Keyboard.addListener("keyboardDidShow", () => {
@@ -45,15 +52,19 @@ function PostCreationScreen({
 	}, []);
 
 	useEffect(() => {
-		setFile(bundle);
-	}, [bundle]);
+		setFile(bundledFile);
+	}, [bundledFile]);
 
 	const onPublish = useCallback(() => console.log("Publish")); // TODO
 
 	return (
 		<Screen style={styles.screen}>
 			<TopBar style={styles.topBar}>
-				<ButtonIcon name="arrow-left" size={25} />
+				<ButtonIcon
+					name="arrow-left"
+					size={25}
+					onPress={() => navigation.goBack()}
+				/>
 				<NettText style={styles.topBarTitle}>{"New post"}</NettText>
 				<NettButton
 					text={"Save".toUpperCase()}
@@ -75,7 +86,7 @@ function PostCreationScreen({
 						imageIsRounded
 						image={picUri ? { uri: picUri } : images.USER_DEFAULT}
 						name={authorName}
-						description={`${capitalize(type)} in ${classroom.name}`}
+						description={`${capitalize(type)} in ${classroomName}`}
 					/>
 					{/* TODO: Add multiple classrooms */}
 				</View>
@@ -119,12 +130,11 @@ function PostCreationScreen({
 				<BundleAdder
 					containerStyle={styles.bundleContainer}
 					isExpanded={!isKeyboardVisible && !file}
-					onPressBundle={() => alert("Bundle")}
 					onPressMention={() => alert("Mention")}
 					onPressMedia={() => alert("Photo/Video")}
 					onPressFile={() => alert("File")}
 					onPressTutorial={() => alert("Tutorial")}
-					onPressQuiz={() => alert("Quiz")}
+					onPressQuiz={() => navigation.navigate(screens.QuizCreation)}
 				/>
 			</View>
 

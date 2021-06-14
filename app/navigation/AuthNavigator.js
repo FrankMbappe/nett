@@ -6,7 +6,7 @@ import LoginWithPhoneScreen from "../screens/LoginWithPhoneNumberScreen/LoginWit
 import PhoneNumberConfirmationScreen from "../screens/PhoneNumberConfirmationScreen/PhoneNumberConfirmation";
 import AccountTypeSelectionScreen from "../screens/AccountTypeSelectionScreen/AccountTypeSelectionScreen";
 import ProfileEditionScreen from "../screens/ProfileEditionScreen/ProfileEditionScreen";
-import { screens } from "../config/navigators";
+import { screens } from "./routes";
 
 const Stack = createStackNavigator();
 const AuthNavigator = () => (

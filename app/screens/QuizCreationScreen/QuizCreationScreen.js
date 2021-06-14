@@ -16,6 +16,7 @@ import NettTextInput from "../../components/TextInput";
 import { quizzes } from "../../config/dummyData";
 import { QACard } from "../../components/cards";
 import { capitalize, formatWordCount } from "../../utils";
+import FloatingButton from "../../components/FloatingButton";
 
 function QuizCreationScreen({}) {
 	const [title, setTitle] = useState("");
@@ -73,11 +74,7 @@ function QuizCreationScreen({}) {
 				</>
 			</ScrollView>
 
-			<ButtonIcon
-				containerStyle={styles.addQAButton}
-				name="plus"
-				color={colors.white}
-			/>
+			<FloatingButton icon="plus" style={styles.addQAButton} />
 
 			<View style={styles.bottomBar}>
 				<NettButton
