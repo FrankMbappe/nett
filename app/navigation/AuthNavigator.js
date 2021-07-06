@@ -6,7 +6,8 @@ import LoginWithPhoneScreen from "../screens/LoginWithPhoneNumberScreen/LoginWit
 import PhoneNumberConfirmationScreen from "../screens/PhoneNumberConfirmationScreen/PhoneNumberConfirmation";
 import AccountTypeSelectionScreen from "../screens/AccountTypeSelectionScreen/AccountTypeSelectionScreen";
 import ProfileEditionScreen from "../screens/ProfileEditionScreen/ProfileEditionScreen";
-import { screens } from "./routes";
+import { navigators, screens } from "./routes";
+import HomeNavigator from "./HomeNavigator";
 
 const Stack = createStackNavigator();
 const AuthNavigator = () => (
@@ -28,6 +29,7 @@ const AuthNavigator = () => (
 			name={screens.ProfileEdition}
 			component={ProfileEditionScreen}
 		/>
+		<Stack.Screen name={navigators.Home} component={HomeNavigator} />
 	</Stack.Navigator>
 );
 

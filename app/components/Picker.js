@@ -20,23 +20,28 @@ import Screen from "./Screen";
 import colors from "../config/colors";
 
 function NettPicker({
+	// Picker props
 	hasSearchBar,
 	icon,
-	onSelectItem,
-	pickerItemStyle,
 	placeholder,
-	selectedItem,
-
-	flatListKey = "value",
 	fontSize = 20,
-	items = [],
+
+	// List of items
+	onChangeSearchText,
+	listItems = [],
+	listItemKey = "value",
+	selectedListItem,
+	onSelectListItem,
+	listItemStyle,
+	showListItemValue,
+
 	...otherProps
 }) {
-	const [itemList, setItemList] = useState(items);
+	const [itemList, setItemList] = useState(listItems);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
 	useEffect(() => {
-		setItemList(items);
+		setItemList(listItems);
 	}, [modalIsVisible]);
 
 	return (
@@ -61,7 +66,7 @@ function NettPicker({
 						style={[styles.text, { fontSize }, otherProps.style]}
 						{...otherProps}
 					>
-						{selectedItem ? selectedItem : placeholder}
+						{selectedListItem ? selectedListItem : placeholder}
 					</NettText>
 					<MaterialCommunityIcons
 						name={"chevron-down"}
@@ -92,26 +97,16 @@ function NettPicker({
 							icon="magnify"
 							fontSize={15}
 							placeholder="Search an item..."
-							onChangeText={(text) => {
-								setItemList(
-									items
-										.slice()
-										.sort(firstBy("value").thenBy("label").thenBy("key"))
-										.filter((x) =>
-											(x.key + x.label + x.value)
-												.toLowerCase()
-												.includes(text.toLowerCase())
-										)
-								);
-							}}
+							onChangeText={(text) => onChangeSearchText(text)}
 						/>
 					)}
 					<FlatList
 						data={itemList}
-						keyExtractor={(item) => item[flatListKey].toString()}
+						keyExtractor={(item) => String(item[listItemKey])}
 						ItemSeparatorComponent={ListItemSeparator}
 						ListHeaderComponent={
-							itemList.length !== items.length && (
+							listItems != null &&
+							itemList.length !== listItems.length && (
 								<NettText
 									style={styles.searchResultLabel}
 								>{`Results - ${itemList.length}`}</NettText>
@@ -119,11 +114,11 @@ function NettPicker({
 						}
 						renderItem={({ item }) => (
 							<NettPickerItem
-								style={pickerItemStyle}
-								label={item.label}
+								style={listItemStyle}
+								label={showListItemValue(item)}
 								onPress={() => {
 									setModalIsVisible(false);
-									onSelectItem(item);
+									onSelectListItem(item);
 								}}
 								fontSize={15}
 							/>

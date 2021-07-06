@@ -9,7 +9,7 @@ import StartTitle from "../../components/start/Title";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
-import { navigators } from "../../navigation/routes";
+import { screens } from "../../navigation/routes";
 
 // --- CONSTANTS --- //
 const options = [
@@ -38,7 +38,7 @@ function AccountTypeSelectionScreen({ navigation }) {
 	const [selectedType, setSelectedType] = useState();
 
 	// --- HANDLERS --- //
-	const handleNext = () => navigation.navigate(navigators.Home);
+	const handleNext = () => navigation.navigate(screens.ProfileEdition);
 
 	return (
 		<Screen style={styles.screen}>
