@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import * as Yup from "yup";
 import countriesApi from "../../api/countries";
+import authApi from "../../api/auth";
 
 import useApi from "../../hooks/useApi";
 import {
@@ -23,7 +24,6 @@ const validationSchema = Yup.object().shape({
 	phone: Yup.string().label("Phone number").required(),
 });
 
-// --- SCREEN --- //
 function LoginWithPhoneScreen({ navigation }) {
 	const [dialCode, setDialCode] = useState("+237");
 	const [searchText, setSearchText] = useState("");
@@ -35,16 +35,18 @@ function LoginWithPhoneScreen({ navigation }) {
 		request: loadCountries,
 	} = useApi(countriesApi.getCountries);
 
+	// const verifyPhoneNumberApi = useApi(authApi.register);
+
 	useEffect(() => {
 		loadCountries(searchText);
 	}, [searchText]);
 
 	return (
 		<Screen style={styles.screen}>
-			{error && (
+			{error && !isLoading && (
 				<>
 					<NettText style={{ padding: 15, fontSize: 18 }}>
-						Couldn't retrieve the countries
+						Couldn't connect to the server
 					</NettText>
 					<NettButton text="Retry" onPress={loadCountries} />
 				</>
@@ -58,11 +60,22 @@ function LoginWithPhoneScreen({ navigation }) {
 					initialValues={{
 						phone: "",
 					}}
-					onSubmit={({ phone }) =>
+					onSubmit={({ phone }) => {
+						const fullPhoneNumber = dialCode + phone;
+
+						// Here, I attempt to verify the phone number
+						// const result = await verifyPhoneNumberApi.request(fullPhoneNumber);
+						// if (result != null) {
+						// 	alert(JSON.stringify(result));
 						navigation.navigate(screens.PhoneNumberConfirmation, {
-							phone: dialCode + phone,
-						})
-					}
+							phone: fullPhoneNumber,
+						});
+						// } else {
+						// 	alert(
+						// 		"An error occurred while verifying your phone number. Please retry"
+						// 	);
+						// }
+					}}
 					validationSchema={validationSchema}
 				>
 					{/* --- Main container --- */}

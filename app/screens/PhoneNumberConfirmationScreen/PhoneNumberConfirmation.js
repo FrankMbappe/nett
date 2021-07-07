@@ -15,6 +15,8 @@ import { screens } from "../../navigation/routes";
 
 // --- SCREEN --- //
 function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
+	const [text, setText] = useState("");
+
 	//#region - TIMER COUNTDOWN
 	const [timerLeft, setTimerLeft] = useState(35);
 	useEffect(() => {
@@ -28,7 +30,10 @@ function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
 
 	// --- HANDLERS --- //
 	const handlePrevious = () => navigation.goBack();
-	const handleNext = () => navigation.navigate(screens.AccountTypeSelection);
+	const handleNext = () => {
+		// TODO: Confirm phone number with text property
+		navigation.navigate(screens.AccountTypeSelection);
+	};
 
 	return (
 		<Screen style={styles.screen}>
@@ -51,6 +56,7 @@ function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
 						icon={"key"}
 						fontSize={18}
 						maxLength={4}
+						onChangeText={(text) => setText(text)}
 					/>
 				</View>
 
