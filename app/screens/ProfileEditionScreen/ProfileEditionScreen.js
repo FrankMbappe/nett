@@ -5,7 +5,6 @@ import * as ImagePicker from "expo-image-picker";
 import * as Yup from "yup";
 
 import BinarySelector from "../../components/BinarySelector";
-import DatePicker from "../../components/DatePicker";
 import ProfilePhotoPicker from "../../components/ProfilePhotoPicker";
 import {
 	NettForm as Form,
@@ -14,6 +13,7 @@ import {
 } from "../../components/forms";
 import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
+import DatePicker from "../../components/DatePicker";
 
 import { genders } from "../../config/enums";
 import styles from "./styles";
@@ -106,7 +106,7 @@ function ProfileEditionScreen({ profile }) {
 						/>
 
 						{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
-						<DatePicker fontSize={16} />
+						<DatePicker label="Birthdate" fontSize={16} />
 
 						<BinarySelector
 							left={capitalize(genders.male)}
