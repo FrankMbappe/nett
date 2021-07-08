@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		elevation: 3,
 		flex: 1,
+		width: 320,
 		flexGrow: 0,
 		margin: 5,
 		maxWidth: 350,

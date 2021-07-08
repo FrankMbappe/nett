@@ -62,7 +62,7 @@ function Comment({
 							]}
 							numberOfLines={1}
 						>
-							{type}
+							{_type}
 						</NettText>
 					</View>
 

@@ -6,7 +6,7 @@ function FileRenderer({ file }) {
 	if (!file) return null;
 
 	if (startsWith(file.mimetype, "image"))
-		return <ImageBundle imageUri={file.uri} />;
+		return <ImageBundle imageUri={"http://192.168.8.101:3000/" + file.uri} />;
 
 	if (startsWith(file.mimetype, "video"))
 		return <VideoBundle duration="10:00" />;

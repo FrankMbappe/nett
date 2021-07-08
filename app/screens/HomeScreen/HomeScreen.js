@@ -9,13 +9,10 @@ import ActivityIndicator from "../../components/ActivityIndicator";
 import HomeScreenHeader from "./HomeScreenHeader";
 import Screen from "../../components/Screen";
 import SectionHeader from "../../components/SectionHeader";
-
 import { navigators, screens } from "../../navigation/routes";
 import styles from "./styles";
 import currentUser from "../../config/test";
 import { userFullName } from "../../utils";
-import NettText from "../../components/Text";
-import NettButton from "../../components/Button";
 import ApiError from "../../components/ApiError";
 
 // --- Sorting & Filtering lists --- //
@@ -58,8 +55,6 @@ function HomeScreen({ navigation }) {
 	// Getting data from API
 	useEffect(() => {
 		loadClassrooms();
-		setPostList(getPosts(classrooms));
-		setEventList(getEvents(classrooms));
 	}, []);
 	useEffect(() => {
 		setPostList(getPosts(classrooms));

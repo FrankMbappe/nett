@@ -1,7 +1,6 @@
 import React from "react";
 
 import ShowAllScreen from "../ShowAllScreen/ShowAllScreen";
-
 import { ListItem } from "../../components/lists";
 
 import { notifications, users } from "../../config/dumb";
