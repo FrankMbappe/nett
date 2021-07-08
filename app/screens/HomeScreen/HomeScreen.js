@@ -13,11 +13,17 @@ import SectionHeader from "../../components/SectionHeader";
 import { navigators, screens } from "../../navigation/routes";
 import styles from "./styles";
 import currentUser from "../../config/test";
+import { userFullName } from "../../utils";
+import NettText from "../../components/Text";
+import NettButton from "../../components/Button";
+import ApiError from "../../components/ApiError";
 
 // --- Sorting & Filtering lists --- //
-function filterSections(array) {
+function filterSections(sections) {
 	// Filter: Only sections containing at least 1 item
-	return array.filter((x) => (x ? x.data.length > 0 : false));
+	return sections.filter((section) =>
+		section ? section.data.length > 0 : false
+	);
 }
 function getEvents(classrooms) {
 	// TODO
@@ -52,6 +58,8 @@ function HomeScreen({ navigation }) {
 	// Getting data from API
 	useEffect(() => {
 		loadClassrooms();
+		setPostList(getPosts(classrooms));
+		setEventList(getEvents(classrooms));
 	}, []);
 	useEffect(() => {
 		setPostList(getPosts(classrooms));
@@ -126,11 +134,11 @@ function HomeScreen({ navigation }) {
 							},
 						}) => (
 							<ClassroomCard
-								name={name}
-								nbOfParticipants={
-									(participations && participations.length) ?? 0
-								}
-								teacherProfile={profile}
+								classroom={{
+									name,
+									nbOfParticipants: participations.length + 1,
+								}}
+								teacher={{ fullName: userFullName({ ...profile }), ...profile }}
 								onPress={() =>
 									navigation.navigate(navigators.Classroom, {
 										classroomId: _id,
@@ -155,14 +163,7 @@ function HomeScreen({ navigation }) {
 	return (
 		<Screen style={styles.screen}>
 			{/* When an error occurs */}
-			{error && !isLoading && (
-				<>
-					<NettText style={{ padding: 15, fontSize: 18 }}>
-						Couldn't connect to the server
-					</NettText>
-					<NettButton text="Retry" onPress={loadCountries} />
-				</>
-			)}
+			{error && !isLoading && <ApiError onPressRetry={loadClassrooms} />}
 
 			{/* Screen body */}
 			{!error && (
@@ -174,7 +175,7 @@ function HomeScreen({ navigation }) {
 					<SectionList
 						keyExtractor={(_, index) => String(index)}
 						contentContainerStyle={{ alignItems: "center" }}
-						style={{ flex: 1 }}
+						style={{ flex: 1, opacity: error || isLoading ? 0 : 1 }}
 						sections={filterSections(sections)}
 						onRefresh={loadClassrooms}
 						onScroll={(event) =>
@@ -188,10 +189,22 @@ function HomeScreen({ navigation }) {
 							else
 								return (
 									<PostCard
-										userId={currentUser.id}
-										post={post}
-										classroomName={
-											classrooms.find((x) => x.id === post.classroom).name
+										currentUserId={currentUser.id}
+										post={{
+											...post,
+											author: {
+												fullName: userFullName({ ...post.author.profile }),
+												picUri: post.author.profile.picUri,
+											},
+											classroom: post.classroom
+												? classrooms.find(
+														(classroom) => classroom._id === post.classroom
+												  ).name
+												: "Classroom",
+										}}
+										onLike={() => alert("Call endpoint /like")}
+										onPublishComment={(text) =>
+											alert("Call endpoint /comment with " + text)
 										}
 									/>
 								);

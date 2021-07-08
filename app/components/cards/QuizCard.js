@@ -1,12 +1,16 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import colors from "../../config/colors";
 import { formatWordCount } from "../../utils";
+
 import NettText from "../Text";
 import TextIcon from "../TextIcon";
+import colors from "../../config/colors";
 
 function QACard({
+	// Data
 	qa: { id, topic, question, answers, rightAnswers, timer },
+
+	// UI
 	onPress,
 }) {
 	return (

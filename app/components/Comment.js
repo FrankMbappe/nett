@@ -25,19 +25,17 @@ function getStyleFromAccountType(accountType) {
 // TODO: When a user publishes a comment as another type of user
 function Comment({
 	author: {
-		id,
-		type,
+		_id,
+		_type,
 		profile: { fullName, picUri },
 	},
 	text,
-	datePublished,
+	creationDate,
 	onPressLike,
 	onPressReply,
 	onPressProfilePic,
-	replies = [],
 }) {
-	const [showReplies, setShowReplies] = useState(false);
-	const styleFromAccountType = getStyleFromAccountType(type);
+	const styleFromAccountType = getStyleFromAccountType(_type);
 
 	return (
 		<>
@@ -79,7 +77,7 @@ function Comment({
 
 					<View style={styles.controlsContainer}>
 						<NettText style={styles.distanceFromNow} numberOfLines={1}>
-							{formatDistanceToNowStrict(parseISO(datePublished))}
+							{formatDistanceToNowStrict(parseISO(creationDate))}
 						</NettText>
 						<NettText
 							style={styles.control}
@@ -95,41 +93,9 @@ function Comment({
 						>
 							{"Reply"}
 						</NettText>
-						{replies && replies.length > 0 && (
-							<NettText
-								style={styles.control}
-								numberOfLines={1}
-								onPress={() => setShowReplies(!showReplies)}
-							>
-								{showReplies
-									? "Hide replies"
-									: replies.length === 1
-									? `Show 1 reply`
-									: `Show ${replies.length} replies`}
-							</NettText>
-						)}
 					</View>
 				</View>
 			</View>
-			{replies && replies.length > 0 && showReplies && (
-				<FlatList
-					style={{ flex: 1, marginStart: 25 }}
-					data={replies}
-					showsHorizontalScrollIndicator={false}
-					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => (
-						<Comment
-							author={item.author}
-							datePublished={item.datePublished}
-							text={item.text}
-							replies={item.replies}
-							onPressLike={() => alert("Like")}
-							onPressProfilePic={() => alert("Profile pic")}
-							onPressReply={(authorId) => onPressReply(authorId)}
-						/>
-					)}
-				/>
-			)}
 		</>
 	);
 }

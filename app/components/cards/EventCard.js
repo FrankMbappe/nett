@@ -1,19 +1,16 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Divider } from "react-native-elements";
-import {
-	differenceInDays,
-	differenceInHours,
-	differenceInMinutes,
-	formatDistanceToNowStrict,
-} from "date-fns";
+
 import Badge from "../Badge";
 import NettText from "../Text";
-import colors from "../../config/colors";
 import { getEventProps } from "../../utils";
 
 function EventCard({
+	// Data
 	event: { type, classroom, name, dateOpening, dateClosing },
+
+	// UI
 	onPress,
 }) {
 	const properties = getEventProps(dateOpening, dateClosing);

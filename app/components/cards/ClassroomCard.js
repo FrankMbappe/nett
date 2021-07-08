@@ -1,40 +1,36 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import colors from "../../config/colors";
-import images from "../../config/images";
-import { userFullName } from "../../utils";
+
+import Author from "./Author";
 import NettText from "../Text";
 import TextIcon from "../TextIcon";
-import Author from "./Author";
+import colors from "../../config/colors";
+import { formatWordCount } from "../../utils";
 
 function ClassroomCard({
-	name,
-	nbOfParticipants,
+	// Data
+	classroom: { name: classroomName, nbOfParticipants },
+	teacher: { fullName: teacherFullName, picUri: teacherPicUri },
+
+	// UI
 	style,
-	teacherProfile,
 	onPress,
 }) {
-	const teacherFullName = userFullName({ ...teacherProfile });
-
 	return (
 		<TouchableOpacity style={[styles.container, style]} onPress={onPress}>
 			<NettText style={styles.name} numberOfLines={3}>
-				{name}
+				{classroomName}
 			</NettText>
 			<View style={styles.statsContainer}>
 				<TextIcon
 					icon="account-multiple"
-					text={nbOfParticipants}
+					text={`${formatWordCount(nbOfParticipants, "participant")}`}
 					fontSize={12}
 				/>
 			</View>
 			<Author
-				name={teacherFullName}
-				picUri={
-					teacherProfile.picUri
-						? { uri: teacherProfile.picUri }
-						: images.USER_DEFAULT
-				}
+				user={{ fullName: teacherFullName, picUri: teacherPicUri }}
+				name={classroomName}
 			/>
 		</TouchableOpacity>
 	);
@@ -45,7 +41,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.appBack,
 		borderRadius: 10,
 		elevation: 3,
-		height: 180,
+		height: 170,
 		margin: 5,
 		padding: 10,
 		shadowColor: "#000",

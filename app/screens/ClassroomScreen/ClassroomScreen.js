@@ -3,64 +3,60 @@ import { View, FlatList, TouchableHighlight } from "react-native";
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
 
-import ButtonIcon from "../../components/ButtonIcon";
-import Icon from "../../components/Icon";
-import TopBar from "../../components/TopBar";
-import Screen from "../../components/Screen";
-import colors from "../../config/colors";
-import NettText from "../../components/Text";
-import styles from "./styles";
 import { PostCard } from "../../components/cards";
-import images from "../../config/images";
-import FloatingButton from "../../components/FloatingButton";
-import { screens } from "../../navigation/routes";
-import currentUser from "../../config/test";
 import ActivityIndicator from "../../components/ActivityIndicator";
+import ButtonIcon from "../../components/ButtonIcon";
+import FloatingButton from "../../components/FloatingButton";
+import Icon from "../../components/Icon";
+import NettText from "../../components/Text";
+import Screen from "../../components/Screen";
+import TopBar from "../../components/TopBar";
+import { screens } from "../../navigation/routes";
 import { userFullName } from "../../utils";
+import colors from "../../config/colors";
+import images from "../../config/images";
+import styles from "./styles";
+
+import currentUser from "../../config/test";
+import NettButton from "../../components/Button";
+import ApiError from "../../components/ApiError";
 
 function ClassroomScreen({ route, navigation }) {
 	// Getting params
 	const { classroomId } = route.params;
 
-	// API
+	// API calls
 	const {
 		data: classroom,
 		error,
 		isLoading,
 		request: loadClassroom,
 	} = useApi(classroomsApi.getClassroom);
-
 	useEffect(() => {
 		loadClassroom(classroomId);
 	}, []);
 
 	// States
 	const [isAtInitScrollPosition, setIsAtInitScrollPosition] = useState(true);
+	const [refreshing, setRefreshing] = useState(false);
 
 	// Extracted variables
-	const {
-		name,
-		posts,
-		topics,
-		teacher: { profile: teacherProfile },
-	} = classroom;
-	const teacherFullName = userFullName({ ...teacherProfile });
+	const { name, posts, topics, teacher } = classroom;
+	const teacherFullName = teacher
+		? userFullName({ ...teacher.profile })
+		: "User";
 
 	return (
 		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
 			{/* When an error occurs */}
 			{error && !isLoading && (
-				<>
-					<NettText style={{ padding: 15, fontSize: 18 }}>
-						Couldn't connect to the server
-					</NettText>
-					<NettButton text="Retry" onPress={loadCountries} />
-				</>
+				<ApiError onPressRetry={() => loadClassroom(classroomId)} />
 			)}
 
 			{/* Screen body */}
 			{!error && (
 				<>
+					{/* Top bar */}
 					<TopBar style={styles.topBar}>
 						<ButtonIcon
 							name="arrow-left"
@@ -84,7 +80,6 @@ function ClassroomScreen({ route, navigation }) {
 						<ButtonIcon name="magnify" />
 						<ButtonIcon name="dots-vertical" />
 					</TopBar>
-
 					{topics != null && topics.length > 0 && (
 						<View style={styles.topicFlatListContainer}>
 							<FlatList
@@ -106,6 +101,7 @@ function ClassroomScreen({ route, navigation }) {
 						</View>
 					)}
 
+					{/* Post list */}
 					<FlatList
 						contentContainerStyle={styles.postFlatListContent}
 						onScroll={(event) =>
@@ -115,21 +111,37 @@ function ClassroomScreen({ route, navigation }) {
 						keyExtractor={({ _id }) => String(_id)}
 						showsVerticalScrollIndicator={false}
 						renderItem={({ item: post }) => (
-							<PostCard userId={currentUser.id} post={post} />
+							<PostCard
+								currentUserId={currentUser.id}
+								post={{
+									...post,
+									author: {
+										fullName: userFullName({ ...post.author.profile }),
+										picUri: post.author.profile.picUri,
+									},
+								}}
+								onLike={() => alert("Call endpoint /like")}
+								onPublishComment={(text) =>
+									alert("Call endpoint /comment with " + text)
+								}
+							/>
 						)}
+						refreshing={refreshing}
+						onRefresh={() => loadClassroom(classroomId)}
 					/>
 
+					{/* Add post button */}
 					<FloatingButton
 						icon="pencil"
 						onPress={() =>
 							navigation.navigate(screens.PostCreation, {
-								userId: currentUser.id,
 								classroomName: name,
 							})
 						}
 						style={styles.createPostButton}
 					/>
 
+					{/* Footer */}
 					<TouchableHighlight style={styles.footer}>
 						<NettText
 							style={styles.footerText}
@@ -138,7 +150,7 @@ function ClassroomScreen({ route, navigation }) {
 				</>
 			)}
 
-			{/* Loader */}
+			{/* Loading animation */}
 			<ActivityIndicator visible={isLoading} />
 		</Screen>
 	);

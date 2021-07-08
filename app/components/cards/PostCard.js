@@ -2,136 +2,110 @@ import React, { useState } from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
 import { formatRelative } from "date-fns";
 
-import { FileBundle, ImageBundle, VideoBundle } from "./bundles";
 import Author from "./Author";
 import Badge from "../Badge";
 import CommentSection from "../CommentSection";
+import FileRenderer from "../FileRenderer";
 import LikeCommentShare from "./LikeCommentShare";
 import NettText from "../Text";
-
 import colors from "../../config/colors";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import { startsWith } from "lodash";
-import { userFullName } from "../../utils";
-
-function renderPostBundle(file, downloadProgress = 1) {
-	if (startsWith(file.mimetype, "image"))
-		return <ImageBundle imageUri={file.uri} />;
-
-	if (startsWith(file.mimetype, "video"))
-		return <VideoBundle duration="10:00" />;
-	else return <FileBundle file={file} downloadProgress={downloadProgress} />;
-}
 
 function PostCard({
-	userId,
+	// Data
+	currentUserId,
 	post: {
-		author,
 		creationDate,
+		author: { fullName: authorFullName, picUri: authorPicUri },
 		file,
 		text,
+		classroom: classroomName,
 		haveSeen = [],
 		likes = [],
 		comments = [],
 	},
-	classroomName,
-	...otherProps
+
+	// UI
+	style,
+	onPress,
+	onLike,
+	onPublishComment,
+	onShare,
 }) {
-	const [likeList, setLikeList] = useState(likes);
-	const [commentList, setCommentList] = useState(comments);
+	// States
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
-	const hasBeenLiked = likeList.some((x) => x.userId === userId);
+	// If the post has been liked by the current user
+	const hasBeenLiked = likes.some((like) => like.author === currentUserId);
 
-	const like = useCallback(() => {
-		/* If the post has been liked already, I remove the userId from the likeList
-		   otherwise I add the userId in the likeList */
-		if (hasBeenLiked) setLikeList(likeList.filter((x) => x.userId !== userId));
-		else
-			setLikeList(
-				likeList.concat({
-					author: userId,
-					date: new Date().toISOString(),
-				})
-			);
-		/* I use the function concat() to mutate the array while returning
-			the mutated value. */
-	}, [hasBeenLiked, likeList]);
-	const comment = useCallback(() => {
+	// Action handlers
+	const onPressComment = () => {
 		setModalIsVisible(true);
-	});
-	const share = useCallback(() => {
-		console.log("Shared");
-	});
-	const publishComment = useCallback((text, image) => {
-		// TODO: commentList.push(new Comment)
-	});
-
-	useEffect(() => {
-		// TODO: Mutate the likeList in the database
-	}, [likeList]);
-	useEffect(() => {
-		// TODO: Mutate the commentList in the database
-	}, [commentList]);
+	};
 
 	return (
 		<>
+			{/* CARD */}
 			<TouchableHighlight
-				style={[styles.container, otherProps.style]}
-				onPress={otherProps.onPress}
+				style={[styles.container, style]}
+				onPress={onPress}
 				underlayColor={colors.light}
 			>
 				<>
+					{/* HEADER */}
 					<View style={styles.headContainer}>
 						{/* Display badge only if the user has never seen the post */}
-						{!haveSeen.includes(userId) && <Badge style={{ marginEnd: 5 }} />}
+						{!haveSeen.includes(currentUserId) && (
+							<Badge style={{ marginEnd: 5 }} />
+						)}
 
 						<NettText style={styles.postType}>POST</NettText>
-						<NettText style={styles.createdOn}>
+
+						<NettText style={styles.creationDate}>
 							{formatRelative(new Date(creationDate), new Date())}
 						</NettText>
 					</View>
 
-					{file && renderPostBundle(file)}
+					{/* IMAGE/VIDEO */}
+					<FileRenderer file={file} />
 
+					{/* BODY & FOOTER */}
 					<View style={styles.contentContainer}>
+						{/* Text */}
 						<NettText
 							style={[styles.text, { fontSize: 16 }]}
+							// Limit lines depending on whether or not there's a file
 							numberOfLines={file ? 4 : 0}
 						>
 							{text}
 						</NettText>
 
+						{/* Comment bar */}
 						<LikeCommentShare
 							isLiked={hasBeenLiked}
-							likeCount={likeList.length}
-							commentCount={
-								comments.length +
-								comments.flatMap((comment) => comment.replies).length
-							}
-							onPressLike={like}
-							onPressComment={comment}
-							onPressShare={share}
+							likeCount={likes.length}
+							commentCount={comments.length}
+							onPressLike={onLike}
+							onPressComment={onPressComment}
+							onPressShare={onShare}
 						/>
 
+						{/* Footer */}
 						<Author
-							name={userFullName({ ...author.profile })}
-							picUri={{ uri: author.profile.picUri }}
-							classroomName={classroomName}
+							user={{ fullName: authorFullName, picUri: authorPicUri }}
+							name={classroomName}
 						/>
 					</View>
 				</>
 			</TouchableHighlight>
 
-			{/* Comment section */}
+			{/* MODAL */}
 			<CommentSection
 				isVisible={modalIsVisible}
 				isLiked={hasBeenLiked}
 				comments={comments}
 				onPressBack={() => setModalIsVisible(false)}
-				onPressLike={like}
-				onPublish={(input) => publishComment(...input)}
+				onPressLike={onLike}
+				onPublish={(text) => onPublishComment(text)}
 			/>
 		</>
 	);
@@ -142,7 +116,7 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		backgroundColor: colors.mediumLight,
 	},
-	createdOn: {
+	creationDate: {
 		color: colors.medium,
 		fontWeight: "600",
 	},

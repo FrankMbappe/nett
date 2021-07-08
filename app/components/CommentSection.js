@@ -1,12 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, Modal, View } from "react-native";
-import colors from "../config/colors";
+
 import ButtonIcon from "./ButtonIcon";
 import Comment from "./Comment";
-import Screen from "./Screen";
 import NettText from "./Text";
 import NettTextInput from "./TextInput";
+import Screen from "./Screen";
 import TopBar from "./TopBar";
+import colors from "../config/colors";
+import { userFullName } from "../utils";
 
 function CommentSection({
 	isVisible,
@@ -17,11 +19,12 @@ function CommentSection({
 	isLiked = false,
 	title = "Comments",
 }) {
+	// States
 	const [text, setText] = useState("");
-	const [image, setImage] = useState();
 	const [commentInputFocus, setCommentInputFocus] = useState(false);
-	const getImage = () => alert("Get image");
-	const showMentioner = () => alert("Mentioner");
+
+	// Action handlers
+	const onPressMentioner = () => alert("Mentioner");
 
 	return (
 		<Modal
@@ -49,12 +52,17 @@ function CommentSection({
 					data={comments}
 					showsHorizontalScrollIndicator={false}
 					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => (
+					renderItem={({ item: { author, creationDate, text } }) => (
 						<Comment
-							author={item.author}
-							datePublished={item.datePublished}
-							text={item.text}
-							replies={item.replies}
+							author={{
+								...author,
+								profile: {
+									fullName: userFullName({ ...author.profile }),
+									...author.profile,
+								},
+							}}
+							creationDate={creationDate}
+							text={text}
 							onPressLike={() => alert("Like")}
 							onPressProfilePic={() => alert("Profile pic")}
 							onPressReply={(authorId) => {
@@ -66,18 +74,11 @@ function CommentSection({
 				/>
 				<View style={styles.bottomBar}>
 					<ButtonIcon
-						containerStyle={styles.imageButton}
-						name="image-area"
-						color={colors.medium}
-						size={25}
-						onPress={getImage}
-					/>
-					<ButtonIcon
 						containerStyle={styles.mentionButton}
 						name="at"
 						color={colors.medium}
 						size={25}
-						onPress={showMentioner}
+						onPress={onPressMentioner}
 					/>
 					<NettTextInput
 						autoFocus={true}
@@ -94,7 +95,7 @@ function CommentSection({
 						color={colors.appBack}
 						name="send"
 						size={25}
-						onPress={onPublish(text, image)} // TODO: onPublish(_, image)
+						onPress={() => onPublish(text)}
 					/>
 				</View>
 			</Screen>

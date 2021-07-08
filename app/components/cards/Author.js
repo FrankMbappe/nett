@@ -3,16 +3,17 @@ import { View, StyleSheet, Image } from "react-native";
 import { Divider } from "react-native-elements";
 
 import NettText from "../Text";
-
 import colors from "../../config/colors";
 import images from "../../config/images";
 
 function Author({
-	name,
-	style,
+	// Data
+	user: { fullName, picUri },
 	classroomName,
+
+	// UI
+	style,
 	fontSize = 12,
-	picUri = images.USER_DEFAULT,
 	dividerAtTop = true,
 	dividerAtBottom = false,
 }) {
@@ -22,9 +23,12 @@ function Author({
 				<Divider style={[styles().divider, styles(fontSize).dividerAtTop]} />
 			)}
 			<View style={styles(fontSize).infoContainer}>
-				<Image style={styles(fontSize).pic} source={picUri} />
+				<Image
+					style={styles(fontSize).pic}
+					source={picUri ? { uri: picUri } : images.USER_DEFAULT}
+				/>
 				<NettText style={styles(fontSize).name} numberOfLines={1}>
-					{name + `${classroomName ? `  >  ${classroomName}` : ""}`}
+					{fullName + `${classroomName ? `  >  ${classroomName}` : ""}`}
 				</NettText>
 			</View>
 			{dividerAtBottom && (

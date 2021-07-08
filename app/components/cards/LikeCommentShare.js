@@ -1,8 +1,9 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import colors from "../../config/colors";
-import { numberFormat } from "../../utils";
+
 import ButtonIcon from "../ButtonIcon";
+import { numberFormat } from "../../utils";
+import colors from "../../config/colors";
 
 function LikeCommentShare({
 	onPressLike,
