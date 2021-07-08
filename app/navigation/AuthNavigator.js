@@ -7,9 +7,10 @@ import PhoneNumberConfirmationScreen from "../screens/PhoneNumberConfirmationScr
 import AccountTypeSelectionScreen from "../screens/AccountTypeSelectionScreen/AccountTypeSelectionScreen";
 import ProfileEditionScreen from "../screens/ProfileEditionScreen/ProfileEditionScreen";
 import { navigators, screens } from "./routes";
-import HomeNavigator from "./HomeNavigator";
+import AppNavigator from "./AppNavigator";
 
 const Stack = createStackNavigator();
+
 const AuthNavigator = () => (
 	<Stack.Navigator screenOptions={{ headerShown: false }}>
 		<Stack.Screen name={screens.Welcome} component={WelcomeScreen} />
@@ -29,7 +30,7 @@ const AuthNavigator = () => (
 			name={screens.ProfileEdition}
 			component={ProfileEditionScreen}
 		/>
-		<Stack.Screen name={navigators.Home} component={HomeNavigator} />
+		<Stack.Screen name={navigators.App} component={AppNavigator} />
 	</Stack.Navigator>
 );
 

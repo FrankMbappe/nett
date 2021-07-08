@@ -1,48 +1,26 @@
 import React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { navigators, screens } from "./routes";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeTabNavigator from "./HomeTabNavigator";
+import ShowAllClassroomsScreen from "../screens/ShowAllClassroomsScreen.js/ShowAllClassroomsScreen";
+import ShowAllEventsScreen from "../screens/ShowAllEventsScreen/ShowAllEventsScreen";
+import ClassroomNavigator from "./ClassroomNavigator";
 
-import NotificationsScreen from "../screens/NotificationsScreen/NotificationsScreen";
-import colors from "../config/colors";
-import { screens } from "./routes";
-import HomeNavigator from "./HomeNavigator";
+const Stack = createStackNavigator();
 
-const Tab = createBottomTabNavigator();
 const AppNavigator = () => (
-	<Tab.Navigator
-		tabBarOptions={{
-			keyboardHidesTabBar: true,
-			activeTintColor: colors.appPrimary,
-			inactiveTintColor: colors.mediumLight,
-		}}
-	>
-		<Tab.Screen
-			name={screens.Home}
-			component={HomeNavigator}
-			options={{
-				tabBarIcon: ({ color, size }) => (
-					<MaterialCommunityIcons
-						name="home"
-						size={size * 1.05}
-						color={color}
-					/>
-				),
-			}}
+	<Stack.Navigator screenOptions={{ headerShown: false }}>
+		<Stack.Screen name={navigators.HomeTab} component={HomeTabNavigator} />
+		<Stack.Screen
+			name={screens.ShowAllClassrooms}
+			component={ShowAllClassroomsScreen}
 		/>
-		<Tab.Screen
-			name={screens.Notifications}
-			component={NotificationsScreen}
-			options={{
-				tabBarIcon: ({ color, size }) => (
-					<MaterialCommunityIcons
-						name="bell"
-						size={size * 1.05}
-						color={color}
-					/>
-				),
-			}}
+		<Stack.Screen
+			name={screens.ShowAllEvents}
+			component={ShowAllEventsScreen}
 		/>
-	</Tab.Navigator>
+		<Stack.Screen name={navigators.Classroom} component={ClassroomNavigator} />
+	</Stack.Navigator>
 );
 
 export default AppNavigator;

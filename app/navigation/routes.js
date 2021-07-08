@@ -18,7 +18,8 @@ const screens = Object.freeze({
 });
 
 const navigators = Object.freeze({
-	Home: "HomeNavigator",
+	App: "AppNavigator",
+	HomeTab: "HomeTabNavigator",
 	Classroom: "ClassroomNavigator",
 });
 
