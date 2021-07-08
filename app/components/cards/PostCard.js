@@ -12,21 +12,29 @@ import NettText from "../Text";
 import colors from "../../config/colors";
 import { useCallback } from "react";
 import { useEffect } from "react";
+import { startsWith } from "lodash";
+import { userFullName } from "../../utils";
 
 function renderPostBundle(file, downloadProgress = 1) {
-	switch (file.type.toLowerCase()) {
-		case "image":
-			return <ImageBundle imageUri={file.uri} />;
-		case "video":
-			return <VideoBundle duration="10:00" />;
-		default:
-			return <FileBundle file={file} downloadProgress={downloadProgress} />;
-	}
+	if (startsWith(file.mimetype, "image"))
+		return <ImageBundle imageUri={file.uri} />;
+
+	if (startsWith(file.mimetype, "video"))
+		return <VideoBundle duration="10:00" />;
+	else return <FileBundle file={file} downloadProgress={downloadProgress} />;
 }
 
 function PostCard({
 	userId,
-	post: { author, createdOn, file, haveSeen, text, likes = [], comments = [] },
+	post: {
+		author,
+		creationDate,
+		file,
+		text,
+		haveSeen = [],
+		likes = [],
+		comments = [],
+	},
 	classroomName,
 	...otherProps
 }) {
@@ -43,8 +51,8 @@ function PostCard({
 		else
 			setLikeList(
 				likeList.concat({
+					author: userId,
 					date: new Date().toISOString(),
-					userId: userId,
 				})
 			);
 		/* I use the function concat() to mutate the array while returning
@@ -81,7 +89,7 @@ function PostCard({
 
 						<NettText style={styles.postType}>POST</NettText>
 						<NettText style={styles.createdOn}>
-							{formatRelative(new Date(createdOn), new Date())}
+							{formatRelative(new Date(creationDate), new Date())}
 						</NettText>
 					</View>
 
@@ -108,7 +116,7 @@ function PostCard({
 						/>
 
 						<Author
-							name={author.profile.fullName}
+							name={userFullName({ ...author.profile })}
 							picUri={{ uri: author.profile.picUri }}
 							classroomName={classroomName}
 						/>

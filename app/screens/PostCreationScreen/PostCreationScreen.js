@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
-import { bytesToSize, capitalize } from "../../utils";
+import { bytesToSize, capitalize, userFullName } from "../../utils";
 import { Divider } from "react-native-elements";
 
 import { ListItem } from "../../components/lists";
@@ -16,27 +16,23 @@ import TopBar from "../../components/TopBar";
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
-import { users } from "../../config/dummyData";
 import { screens } from "../../navigation/routes";
+import currentUser from "../../config/test";
 
-const getAuthor = (authorId) => {
-	return users.find(({ id }) => id === authorId);
-};
+const maxTextLength = 3000;
 
-function PostCreationScreen({
-	route: {
-		params: { authorId, classroomName, bundledFile, maxTextLength = 3000 },
-	},
-	navigation,
-}) {
+function PostCreationScreen({ route, navigation }) {
+	// Get params
+	const { classroomName } = route.params;
+	const { _type, profile } = currentUser;
+	const userFullName = userFullName(...profile);
+
+	// States
 	const [text, setText] = useState("");
-	const [file, setFile] = useState(bundledFile);
+	const [file, setFile] = useState();
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-	const {
-		type,
-		profile: { fullName: authorName, picUri },
-	} = useMemo(() => getAuthor(authorId), [authorId]);
 
+	// Keyboard events
 	useEffect(() => {
 		const keyboardDidShow = Keyboard.addListener("keyboardDidShow", () => {
 			setKeyboardVisible(true);
@@ -51,11 +47,14 @@ function PostCreationScreen({
 		};
 	}, []);
 
-	useEffect(() => {
-		setFile(bundledFile);
-	}, [bundledFile]);
-
-	const onPublish = useCallback(() => console.log("Publish")); // TODO
+	// Action handlers
+	const onPublish = useCallback(() => console.log("Publish"));
+	const onPressBundle = () => {};
+	const onPressMention = () => alert("Mention");
+	const onPressMedia = () => alert("Photo/Video");
+	const onPressFile = () => alert("File");
+	const onPressTutorial = () => alert("Tutorial");
+	const onPressQuiz = () => navigation.navigate(screens.QuizCreation);
 
 	return (
 		<Screen style={styles.screen}>
@@ -80,18 +79,20 @@ function PostCreationScreen({
 				contentContainerStyle={!file && { flex: 1 }}
 				style={styles.mainContainer}
 			>
-				<View key="1" style={styles.authorAndClassroomsContainer}>
+				<View key="currentUserInfo" style={styles.authorAndClassroomsContainer}>
 					<ListItem
 						fontSize={15}
 						imageIsRounded
-						image={picUri ? { uri: picUri } : images.USER_DEFAULT}
+						image={
+							profile.picUri ? { uri: profile.picUri } : images.USER_DEFAULT
+						}
 						name={authorName}
-						description={`${capitalize(type)} in ${classroomName}`}
+						description={`${capitalize(_type)} in ${classroomName}`}
 					/>
 					{/* TODO: Add multiple classrooms */}
 				</View>
 
-				<View key="2" style={styles.inputContainer}>
+				<View key="textInput" style={styles.inputContainer}>
 					<NettTextInput
 						autoFocus={true}
 						containerStyle={[styles.input, !file && { flex: 1 }]}
@@ -103,7 +104,8 @@ function PostCreationScreen({
 						value={text}
 					/>
 				</View>
-				<NettText key="3" style={styles.characterCount}>
+
+				<NettText key="inputCharacterCount" style={styles.characterCount}>
 					<NettText style={styles.characterCountLabel}>
 						{"Remaining characters:  "}
 					</NettText>
@@ -114,7 +116,7 @@ function PostCreationScreen({
 
 				{/* If a file has been added, the Bundle is shown here */}
 				{file && (
-					<View key="4" style={{ marginTop: 10 }}>
+					<View key="addedFile" style={{ marginTop: 10 }}>
 						<Divider />
 						<PostBundle file={file} />
 						<NettText style={styles.fileLabel}>
@@ -130,11 +132,12 @@ function PostCreationScreen({
 				<BundleAdder
 					containerStyle={styles.bundleContainer}
 					isExpanded={!isKeyboardVisible && !file}
-					onPressMention={() => alert("Mention")}
-					onPressMedia={() => alert("Photo/Video")}
-					onPressFile={() => alert("File")}
-					onPressTutorial={() => alert("Tutorial")}
-					onPressQuiz={() => navigation.navigate(screens.QuizCreation)}
+					onPressBundle={onPressBundle}
+					onPressMention={onPressMention}
+					onPressMedia={onPressMedia}
+					onPressFile={onPressFile}
+					onPressTutorial={onPressTutorial}
+					onPressQuiz={onPressQuiz}
 				/>
 			</View>
 

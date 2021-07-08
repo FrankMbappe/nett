@@ -1,5 +1,8 @@
-import React, { useMemo, useState } from "react";
-import { View, FlatList, Image, TouchableHighlight } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, FlatList, TouchableHighlight } from "react-native";
+import useApi from "../../hooks/useApi";
+import classroomsApi from "../../api/classrooms";
+
 import ButtonIcon from "../../components/ButtonIcon";
 import Icon from "../../components/Icon";
 import TopBar from "../../components/TopBar";
@@ -8,121 +11,135 @@ import colors from "../../config/colors";
 import NettText from "../../components/Text";
 import styles from "./styles";
 import { PostCard } from "../../components/cards";
-import { classrooms, me, users } from "../../config/dummyData";
 import images from "../../config/images";
-import { compareDesc } from "date-fns";
 import FloatingButton from "../../components/FloatingButton";
 import { screens } from "../../navigation/routes";
+import currentUser from "../../config/test";
+import ActivityIndicator from "../../components/ActivityIndicator";
+import { userFullName } from "../../utils";
 
-const sortPosts = (posts) => {
-	// Sort: Most recent post first
-	return posts.sort((x, y) =>
-		compareDesc(new Date(x.createdOn), new Date(y.createdOn))
-	);
-};
-const getData = (classroomId) => {
-	return classrooms.find(({ id }) => id === classroomId);
-};
-const getTeacherData = (teacherId) => {
-	return users.find(({ id }) => id === teacherId).profile;
-};
+function ClassroomScreen({ route, navigation }) {
+	// Getting params
+	const { classroomId } = route.params;
 
-//
-//
+	// API
+	const {
+		data: classroom,
+		error,
+		isLoading,
+		request: loadClassroom,
+	} = useApi(classroomsApi.getClassroom);
 
-function ClassroomScreen({
-	route: {
-		params: { id: classroomId },
-	},
-	navigation,
-}) {
+	useEffect(() => {
+		loadClassroom(classroomId);
+	}, []);
+
+	// States
 	const [isAtInitScrollPosition, setIsAtInitScrollPosition] = useState(true);
-	const [
-		{
-			name,
-			posts,
-			topics,
-			teacher: { id: teacherId },
-		},
-		setClassroom,
-	] = useState(getData(classroomId));
-	const { fullName } = useMemo(() => getTeacherData(teacherId), [teacherId]);
+
+	// Extracted variables
+	const {
+		name,
+		posts,
+		topics,
+		teacher: { profile: teacherProfile },
+	} = classroom;
+	const teacherFullName = userFullName({ ...teacherProfile });
 
 	return (
 		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
-			<TopBar style={styles.topBar}>
-				<ButtonIcon
-					name="arrow-left"
-					size={25}
-					onPress={() => navigation.goBack()}
-				/>
-				<Icon
-					name="school"
-					iconColor={colors.ok}
-					backgroundColor={colors.okLight}
-					style={styles.classroomPic}
-				/>
-				<View style={styles.topBarTitleContainer}>
-					<NettText style={styles.topBarTitle} numberOfLines={1}>
-						{name}
+			{/* When an error occurs */}
+			{error && !isLoading && (
+				<>
+					<NettText style={{ padding: 15, fontSize: 18 }}>
+						Couldn't connect to the server
 					</NettText>
-					<NettText style={styles.topBarCaption} numberOfLines={1}>
-						{`Held by ${fullName}`}
-					</NettText>
-				</View>
-				<ButtonIcon name="magnify" />
-				<ButtonIcon name="dots-vertical" />
-			</TopBar>
-
-			{topics != null && topics.length > 0 && (
-				<View style={styles.topicFlatListContainer}>
-					<FlatList
-						contentContainerStyle={[styles.topicFlatListContent]}
-						style={[
-							styles.topicFlatList,
-							!isAtInitScrollPosition && {
-								borderBottomColor: colors.light,
-							},
-						]}
-						data={topics}
-						keyExtractor={({ id }) => String(id)}
-						renderItem={({ item: { title } }) => (
-							<NettText style={styles.topic}>{title}</NettText>
-						)}
-						horizontal
-						showsHorizontalScrollIndicator={false}
-					/>
-				</View>
+					<NettButton text="Retry" onPress={loadCountries} />
+				</>
 			)}
 
-			<FlatList
-				contentContainerStyle={styles.postFlatListContent}
-				onScroll={(event) =>
-					setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
-				}
-				data={sortPosts(posts)}
-				keyExtractor={({ id }) => String(id)}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item }) => <PostCard userId={me.id} post={item} />} // TODO: userId = current user
-			/>
+			{/* Screen body */}
+			{!error && (
+				<>
+					<TopBar style={styles.topBar}>
+						<ButtonIcon
+							name="arrow-left"
+							size={25}
+							onPress={() => navigation.goBack()}
+						/>
+						<Icon
+							name="school"
+							iconColor={colors.ok}
+							backgroundColor={colors.okLight}
+							style={styles.classroomPic}
+						/>
+						<View style={styles.topBarTitleContainer}>
+							<NettText style={styles.topBarTitle} numberOfLines={1}>
+								{name}
+							</NettText>
+							<NettText style={styles.topBarCaption} numberOfLines={1}>
+								{`Held by ${teacherFullName}`}
+							</NettText>
+						</View>
+						<ButtonIcon name="magnify" />
+						<ButtonIcon name="dots-vertical" />
+					</TopBar>
 
-			<FloatingButton
-				icon="pencil"
-				onPress={
-					() =>
-						navigation.navigate(screens.PostCreation, {
-							authorId: me.id,
-							classroomName: name,
-						}) // TODO: authorId = current user
-				}
-				style={styles.createPostButton}
-			/>
+					{topics != null && topics.length > 0 && (
+						<View style={styles.topicFlatListContainer}>
+							<FlatList
+								contentContainerStyle={[styles.topicFlatListContent]}
+								style={[
+									styles.topicFlatList,
+									!isAtInitScrollPosition && {
+										borderBottomColor: colors.light,
+									},
+								]}
+								data={topics}
+								keyExtractor={({ id }) => String(id)}
+								renderItem={({ item: { title } }) => (
+									<NettText style={styles.topic}>{title}</NettText>
+								)}
+								horizontal
+								showsHorizontalScrollIndicator={false}
+							/>
+						</View>
+					)}
 
-			<TouchableHighlight style={styles.footer}>
-				<NettText
-					style={styles.footerText}
-				>{`15 online participants`}</NettText>
-			</TouchableHighlight>
+					<FlatList
+						contentContainerStyle={styles.postFlatListContent}
+						onScroll={(event) =>
+							setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
+						}
+						data={posts}
+						keyExtractor={({ _id }) => String(_id)}
+						showsVerticalScrollIndicator={false}
+						renderItem={({ item: post }) => (
+							<PostCard userId={currentUser.id} post={post} />
+						)}
+					/>
+
+					<FloatingButton
+						icon="pencil"
+						onPress={() =>
+							navigation.navigate(screens.PostCreation, {
+								userId: currentUser.id,
+								classroomName: name,
+							})
+						}
+						style={styles.createPostButton}
+					/>
+
+					<TouchableHighlight style={styles.footer}>
+						<NettText
+							style={styles.footerText}
+						>{`1 online participant(s)`}</NettText>
+					</TouchableHighlight>
+				</>
+			)}
+
+			{/* Loader */}
+			<ActivityIndicator visible={isLoading} />
 		</Screen>
 	);
 }

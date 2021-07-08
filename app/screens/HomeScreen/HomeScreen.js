@@ -1,43 +1,66 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, SectionList } from "react-native";
-import { compareAsc, compareDesc } from "date-fns";
+import { compareDesc } from "date-fns";
 
+import useApi from "../../hooks/useApi";
+import classroomsApi from "../../api/classrooms";
 import { ClassroomCard, EventCard, PostCard } from "../../components/cards";
-import SectionHeader from "../../components/SectionHeader";
-import Screen from "../../components/Screen";
-
-import { classrooms, posts, events } from "../../config/dummyData";
-
-import styles from "./styles";
+import ActivityIndicator from "../../components/ActivityIndicator";
 import HomeScreenHeader from "./HomeScreenHeader";
+import Screen from "../../components/Screen";
+import SectionHeader from "../../components/SectionHeader";
+
 import { navigators, screens } from "../../navigation/routes";
+import styles from "./styles";
+import currentUser from "../../config/test";
 
 // --- Sorting & Filtering lists --- //
 function filterSections(array) {
 	// Filter: Only sections containing at least 1 item
 	return array.filter((x) => (x ? x.data.length > 0 : false));
 }
-function sortEvents(array = events) {
+function getEvents(classrooms) {
+	// TODO
 	// Filter: Only events that did not end up yet
 	// Sort: Soonest ending first
-	return array
-		.filter((x) => new Date(x.dateClosing) > new Date())
-		.sort((x, y) =>
-			compareAsc(new Date(x.dateClosing), new Date(y.dateClosing))
-		);
+	// return array
+	// 	.filter((x) => new Date(x.dateClosing) > new Date())
+	// 	.sort((x, y) =>
+	// 		compareAsc(new Date(x.dateClosing), new Date(y.dateClosing))
+	// 	);
+	return [];
 }
-function sortPosts(array = posts) {
+function getPosts(classrooms) {
+	if (!classrooms) return [];
+
+	// Extracting post list
+	const posts = classrooms.flatMap((classroom) => classroom.posts);
+
 	// Sort: Most recent post first
-	return array.sort((x, y) =>
-		compareDesc(new Date(x.createdOn), new Date(y.createdOn))
-	);
+	return posts;
 }
 
 function HomeScreen({ navigation }) {
-	// Lists
-	const [classroomList, setClassroomList] = useState(classrooms);
-	const [postList, setPostList] = useState(sortPosts);
-	const [eventList, setEventList] = useState(sortEvents);
+	// API
+	const {
+		data: classrooms,
+		error,
+		isLoading,
+		request: loadClassrooms,
+	} = useApi(classroomsApi.getClassrooms);
+
+	// Getting data from API
+	useEffect(() => {
+		loadClassrooms();
+	}, []);
+	useEffect(() => {
+		setPostList(getPosts(classrooms));
+		setEventList(getEvents(classrooms));
+	}, [classrooms]);
+
+	// States
+	const [postList, setPostList] = useState(getPosts(classrooms));
+	const [eventList, setEventList] = useState(getEvents(classrooms)); // TODO: Get upcoming quizzes
 
 	// Other variables
 	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
@@ -46,8 +69,7 @@ function HomeScreen({ navigation }) {
 	// Sections
 	const sections = useMemo(
 		() => [
-			/* "xxList.length && { Object }": The section will be rendered only when
-		   its number of children will be greater than zero. */
+			/* EVENTS */
 			eventList.length && {
 				Title: (
 					<SectionHeader
@@ -68,13 +90,15 @@ function HomeScreen({ navigation }) {
 						showsHorizontalScrollIndicator={false}
 						keyExtractor={(item) => item.id}
 						renderItem={({ item }) => (
-							<EventCard event={item} onPress={() => alert("Event")} />
+							<EventCard event={item} onPress={() => alert("Event")} /> // TODO: OnPress Event
 						)}
 						horizontal
 					/>,
 				],
 			},
-			classroomList.length && {
+
+			/* CLASSROOMS */
+			classrooms.length && {
 				Title: (
 					<SectionHeader
 						expand
@@ -82,89 +106,103 @@ function HomeScreen({ navigation }) {
 						title="Classrooms"
 						onExpansion={() =>
 							navigation.navigate(screens.ShowAllClassrooms, {
-								data: classroomList,
+								data: classrooms,
 							})
 						}
 					/>
 				),
 				data: [
-					classroomList.length && (
-						<FlatList
-							style={{ flexGrow: 0 }}
-							data={classroomList}
-							showsHorizontalScrollIndicator={false}
-							keyExtractor={({ id }) => String(id)}
-							renderItem={({
-								item: {
-									id,
-									name,
-									participants,
-									postsPerDay,
-									teacher: { profile },
-								},
-							}) => (
-								<ClassroomCard
-									name={name}
-									nbOfParticipants={participants.length}
-									postsPerDay={postsPerDay}
-									teacherProfile={profile}
-									onPress={() =>
-										navigation.navigate(navigators.Classroom, { id: id })
-									}
-								/>
-							)}
-							horizontal
-						/>
-					),
+					<FlatList
+						style={{ flexGrow: 0 }}
+						data={classrooms}
+						showsHorizontalScrollIndicator={false}
+						keyExtractor={({ _id }) => String(_id)}
+						renderItem={({
+							item: {
+								_id,
+								name,
+								participations,
+								teacher: { profile },
+							},
+						}) => (
+							<ClassroomCard
+								name={name}
+								nbOfParticipants={
+									(participations && participations.length) ?? 0
+								}
+								teacherProfile={profile}
+								onPress={() =>
+									navigation.navigate(navigators.Classroom, {
+										classroomId: _id,
+									})
+								}
+							/>
+						)}
+						horizontal
+					/>,
 				],
 			},
+
+			/* POSTS */
 			postList && {
 				Title: <SectionHeader title="Recent updates" />,
 				data: postList,
 			},
 		],
-		[classroomList, postList, eventList]
+		[classrooms]
 	);
 
 	return (
 		<Screen style={styles.screen}>
-			{/* --> Header */}
-			<HomeScreenHeader isAtInitScrollPosition={isInitScrollPosition} />
+			{/* When an error occurs */}
+			{error && !isLoading && (
+				<>
+					<NettText style={{ padding: 15, fontSize: 18 }}>
+						Couldn't connect to the server
+					</NettText>
+					<NettButton text="Retry" onPress={loadCountries} />
+				</>
+			)}
 
-			{/* --> Main content */}
-			<SectionList
-				keyExtractor={(_, index) => String(index)}
-				contentContainerStyle={{ alignItems: "center" }}
-				style={{ flex: 1 }}
-				sections={filterSections(sections)}
-				onRefresh={() => {
-					setEventList(sortEvents);
-					setClassroomList(classrooms);
-					setPostList(sortPosts);
-				}}
-				onScroll={(event) =>
-					setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
-				}
-				refreshing={refreshing}
-				renderSectionHeader={({ section: { Title } }) => Title}
-				renderItem={({ item }) => {
-					if (!item) return null;
-					if (React.isValidElement(item)) return item;
-					else
-						return (
-							<PostCard
-								userId="usr-100"
-								post={item}
-								classroomName={
-									classrooms.find((x) => x.id === item.classroom).name
-								}
-							/>
-						);
-				}}
-				showsVerticalScrollIndicator={false}
-			/>
+			{/* Screen body */}
+			{!error && (
+				<>
+					{/* --> Header */}
+					<HomeScreenHeader isAtInitScrollPosition={isInitScrollPosition} />
 
-			{/* // TODO: Bottom bar */}
+					{/* --> Main content */}
+					<SectionList
+						keyExtractor={(_, index) => String(index)}
+						contentContainerStyle={{ alignItems: "center" }}
+						style={{ flex: 1 }}
+						sections={filterSections(sections)}
+						onRefresh={loadClassrooms}
+						onScroll={(event) =>
+							setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
+						}
+						refreshing={refreshing}
+						renderSectionHeader={({ section: { Title } }) => Title}
+						renderItem={({ item: post }) => {
+							if (!post) return null;
+							if (React.isValidElement(post)) return post;
+							else
+								return (
+									<PostCard
+										userId={currentUser.id}
+										post={post}
+										classroomName={
+											classrooms.find((x) => x.id === post.classroom).name
+										}
+									/>
+								);
+						}}
+						showsVerticalScrollIndicator={false}
+					/>
+				</>
+			)}
+
+			{/* Loader */}
+			<ActivityIndicator visible={isLoading} />
 		</Screen>
 	);
 }

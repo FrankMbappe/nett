@@ -4,6 +4,7 @@ import {
 	differenceInDays,
 	differenceInMinutes,
 } from "date-fns";
+import { startCase } from "lodash";
 import colors from "../config/colors";
 
 function getEventProps(opens, closes) {
@@ -63,4 +64,8 @@ function getEventProps(opens, closes) {
 	return label(closingDate, "Closed ");
 }
 
-export { getEventProps };
+const userFullName = ({ honorific, firstName, lastName }) => {
+	return startCase(`${honorific} ${firstName} ${lastName}`.trim());
+};
+
+export { getEventProps, userFullName };

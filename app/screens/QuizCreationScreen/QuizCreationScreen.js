@@ -11,9 +11,7 @@ import Label from "../../components/Label";
 
 import { buttons } from "../../config/enums";
 import styles from "./styles";
-import colors from "../../config/colors";
 import NettTextInput from "../../components/TextInput";
-import { quizzes } from "../../config/dummyData";
 import { QACard } from "../../components/cards";
 import { capitalize, formatWordCount } from "../../utils";
 import FloatingButton from "../../components/FloatingButton";
@@ -21,7 +19,7 @@ import FloatingButton from "../../components/FloatingButton";
 function QuizCreationScreen({}) {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [qaList, setqaList] = useState([]);
+	const [qaList, setQaList] = useState([]);
 
 	const onPublish = useCallback(() => console.log("Publish")); // TODO
 	const onSave = useCallback(() => console.log("Save")); // TODO

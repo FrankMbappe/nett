@@ -3,10 +3,8 @@ import React from "react";
 import ShowAllScreen from "../ShowAllScreen/ShowAllScreen";
 
 import { ListItem } from "../../components/lists";
-import Icon from "../../components/Icon";
 
-import { notifications, users } from "../../config/dummyData";
-import colors from "../../config/colors";
+import { notifications, users } from "../../config/dumb";
 import { formatDistanceToNowStrict } from "date-fns";
 
 function NotificationsScreen(props) {

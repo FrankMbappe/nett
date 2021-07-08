@@ -1,22 +1,23 @@
 import React from "react";
 
-import ShowAllScreen from "../ShowAllScreen/ShowAllScreen";
-
 import { ListItem } from "../../components/lists";
+import { screens } from "../../navigation/routes";
+import ShowAllScreen from "../ShowAllScreen/ShowAllScreen";
 import Icon from "../../components/Icon";
-
-import { classrooms } from "../../config/dummyData";
 import colors from "../../config/colors";
 
-function ShowAllClassroomsScreen({ route: { params }, navigation }) {
+function ShowAllClassroomsScreen({ route, navigation }) {
+	// Getting params
+	const { data } = route.params;
+
 	return (
 		<ShowAllScreen
-			items={params.data}
+			items={data}
 			icon="google-classroom"
 			title="Classrooms"
 			useBackButton
 			onPressBackButton={() => navigation.goBack()}
-			renderItem={({ name, participants }) => (
+			renderItem={({ _id, name, participations }) => (
 				<ListItem
 					usesChevron
 					ImageComponent={
@@ -28,8 +29,10 @@ function ShowAllClassroomsScreen({ route: { params }, navigation }) {
 						/>
 					}
 					name={name}
-					description={`${participants.length} participants`}
-					onPress={() => alert(JSON.stringify(participants))}
+					description={`${participations.length} participants`}
+					onPress={() =>
+						navigation.navigate(screens.Classroom, { classroomId: _id })
+					}
 				/>
 			)}
 		/>

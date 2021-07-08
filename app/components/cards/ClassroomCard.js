@@ -1,6 +1,8 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import colors from "../../config/colors";
+import images from "../../config/images";
+import { userFullName } from "../../utils";
 import NettText from "../Text";
 import TextIcon from "../TextIcon";
 import Author from "./Author";
@@ -8,11 +10,12 @@ import Author from "./Author";
 function ClassroomCard({
 	name,
 	nbOfParticipants,
-	postsPerDay,
 	style,
-	teacherProfile: { fullName, picUri },
+	teacherProfile,
 	onPress,
 }) {
+	const teacherFullName = userFullName({ ...teacherProfile });
+
 	return (
 		<TouchableOpacity style={[styles.container, style]} onPress={onPress}>
 			<NettText style={styles.name} numberOfLines={3}>
@@ -23,15 +26,16 @@ function ClassroomCard({
 					icon="account-multiple"
 					text={nbOfParticipants}
 					fontSize={12}
-					containerStyle={{ marginEnd: 12 }}
-				/>
-				<TextIcon
-					icon="chart-timeline-variant"
-					text={`${postsPerDay} posts/day`}
-					fontSize={12}
 				/>
 			</View>
-			<Author name={fullName} picUri={{ uri: picUri }} />
+			<Author
+				name={teacherFullName}
+				picUri={
+					teacherProfile.picUri
+						? { uri: teacherProfile.picUri }
+						: images.USER_DEFAULT
+				}
+			/>
 		</TouchableOpacity>
 	);
 }
