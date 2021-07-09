@@ -30,6 +30,7 @@ const validationSchema = Yup.object().shape({
 
 function ProfileEditionScreen({ profile }) {
 	const [picUri, setPicUri] = useState();
+	const [birthDate, setBirthDate] = useState(new Date());
 	const gender = useRef(genders.male);
 
 	const requestPermission = async () => {
@@ -61,9 +62,13 @@ function ProfileEditionScreen({ profile }) {
 					pic: null,
 					firstName: "",
 					lastName: "",
-					birthDate: Date.now(),
+					email: "",
+					birthDate: new Date(),
 				}}
-				onSubmit={(values) => console.log(values)}
+				onSubmit={(values) => {
+					const completeValues = { ...values, birthDate };
+					alert(JSON.stringify(completeValues));
+				}}
 				validationSchema={validationSchema}
 			>
 				<ScrollView
@@ -87,7 +92,7 @@ function ProfileEditionScreen({ profile }) {
 							autoCapitalize="none"
 							autoCorrect={false}
 							fontSize={16}
-							icon="card-text-outline"
+							icon="account-outline"
 							name="firstName"
 							placeholder="First name"
 							maxLength={255}
@@ -98,15 +103,30 @@ function ProfileEditionScreen({ profile }) {
 							autoCapitalize="none"
 							autoCorrect={false}
 							fontSize={16}
-							icon="card-text-outline"
+							icon="account-outline"
 							name="lastName"
 							placeholder="Last name"
 							maxLength={255}
 							textContentType="familyName"
 						/>
 
-						{/* // TODO: DatePicker for 'birthDay' ?? and its error label */}
-						<DatePicker label="Birthdate" fontSize={16} />
+						<DatePicker
+							label="Birthdate"
+							fontSize={16}
+							containerStyle={{ marginBottom: 10 }}
+							onChangeDate={(date) => setBirthDate(date)}
+						/>
+
+						<Field
+							autoCapitalize="none"
+							autoCorrect={false}
+							fontSize={16}
+							icon="at"
+							name="email"
+							placeholder="E-mail address"
+							maxLength={255}
+							textContentType="emailAddress"
+						/>
 
 						<BinarySelector
 							left={capitalize(genders.male)}

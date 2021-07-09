@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 	},
 
 	genderSelector: {
-		marginTop: 10,
+		marginTop: 5,
 	},
 
 	// --> BOTTOM BAR

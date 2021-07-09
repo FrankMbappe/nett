@@ -6,14 +6,20 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import colors from "../config/colors";
 import NettText from "./Text";
 
-function DatePicker({ containerStyle, style, label = "Date", fontSize = 20 }) {
+function DatePicker({
+	containerStyle,
+	style,
+	onChangeDate,
+	label = "Date",
+	fontSize = 20,
+}) {
 	const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
 	const onChange = (event, selectedDate) => {
 		const currentDate = selectedDate || date;
 		setShow(Platform.OS === "ios");
-		setDate(currentDate);
+		onChangeDate(currentDate);
 	};
 
 	const showPicker = () => setShow(true);
