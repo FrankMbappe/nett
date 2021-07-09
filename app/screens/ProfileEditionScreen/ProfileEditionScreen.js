@@ -3,6 +3,7 @@ import { ScrollView, View } from "react-native";
 import { capitalize } from "lodash";
 import * as ImagePicker from "expo-image-picker";
 import * as Yup from "yup";
+import usersApi from "../../api/users";
 
 import BinarySelector from "../../components/BinarySelector";
 import ProfilePhotoPicker from "../../components/ProfilePhotoPicker";
@@ -14,7 +15,6 @@ import {
 import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
 import DatePicker from "../../components/DatePicker";
-
 import { genders } from "../../config/enums";
 import styles from "./styles";
 import images from "../../config/images";
@@ -55,20 +55,30 @@ function ProfileEditionScreen({ profile }) {
 		requestPermission();
 	}, []);
 
+	const handleSubmit = async (values) => {
+		const completeValues = {
+			...values,
+			birthDate: birthDate.toISOString(),
+			picUri,
+		};
+
+		const result = await usersApi.setProfile(completeValues);
+		if (!result) return alert("Could not update the profile.");
+		alert("Your profile has been successfully updated.");
+		alert(JSON.stringify(result));
+	};
+
 	return (
 		<Screen style={styles.screen}>
 			<Form
 				initialValues={{
-					pic: null,
+					picUri: null,
 					firstName: "",
 					lastName: "",
 					email: "",
 					birthDate: new Date(),
 				}}
-				onSubmit={(values) => {
-					const completeValues = { ...values, birthDate };
-					alert(JSON.stringify(completeValues));
-				}}
+				onSubmit={handleSubmit}
 				validationSchema={validationSchema}
 			>
 				<ScrollView
@@ -89,7 +99,6 @@ function ProfileEditionScreen({ profile }) {
 
 					<View style={{ width: "85%" }}>
 						<Field
-							autoCapitalize="none"
 							autoCorrect={false}
 							fontSize={16}
 							icon="account-outline"
@@ -100,7 +109,6 @@ function ProfileEditionScreen({ profile }) {
 						/>
 
 						<Field
-							autoCapitalize="none"
 							autoCorrect={false}
 							fontSize={16}
 							icon="account-outline"
@@ -114,6 +122,7 @@ function ProfileEditionScreen({ profile }) {
 							label="Birthdate"
 							fontSize={16}
 							containerStyle={{ marginBottom: 10 }}
+							dateValue={birthDate}
 							onChangeDate={(date) => setBirthDate(date)}
 						/>
 

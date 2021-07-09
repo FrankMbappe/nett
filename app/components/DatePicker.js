@@ -9,15 +9,15 @@ import NettText from "./Text";
 function DatePicker({
 	containerStyle,
 	style,
+	dateValue,
 	onChangeDate,
 	label = "Date",
 	fontSize = 20,
 }) {
-	const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
 	const onChange = (event, selectedDate) => {
-		const currentDate = selectedDate || date;
+		const currentDate = selectedDate || dateValue;
 		setShow(Platform.OS === "ios");
 		onChangeDate(currentDate);
 	};
@@ -31,7 +31,7 @@ function DatePicker({
 				style={[styles.container, { padding: fontSize * 0.75 }, containerStyle]}
 			>
 				<NettText style={[{ flex: 1, fontSize }, style]}>
-					{`${label}: ${date.toLocaleDateString()}`}
+					{`${label}: ${dateValue.toLocaleDateString()}`}
 				</NettText>
 
 				<MaterialCommunityIcons
@@ -44,7 +44,7 @@ function DatePicker({
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"
-					value={date}
+					value={dateValue}
 					mode="date"
 					display="spinner"
 					onChange={onChange}
