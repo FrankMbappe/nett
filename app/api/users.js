@@ -3,7 +3,10 @@ import { basename } from "path";
 
 const endpoint = "/users";
 
-const setProfile = ({ picUri, firstName, lastName, email, birthDate }) => {
+const setProfile = (
+	{ picUri, firstName, lastName, email, birthDate },
+	onUploadProgress
+) => {
 	const data = new FormData();
 	data.append("firstName", firstName);
 	data.append("lastName", lastName);
@@ -17,7 +20,10 @@ const setProfile = ({ picUri, firstName, lastName, email, birthDate }) => {
 			uri: picUri,
 		});
 
-	return client.post(`${endpoint}/me/profile`, data);
+	return client.post(`${endpoint}/me/profile`, data, {
+		onUploadProgress: (progress) =>
+			onUploadProgress(progress.loaded / progress.total),
+	});
 };
 
 export default {

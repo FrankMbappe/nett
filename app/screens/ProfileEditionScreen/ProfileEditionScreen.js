@@ -18,20 +18,23 @@ import DatePicker from "../../components/DatePicker";
 import { genders } from "../../config/enums";
 import styles from "./styles";
 import images from "../../config/images";
+import UploadScreen from "../UploadScreen/UploadScreen";
+import { navigators } from "../../navigation/routes";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
 	lastName: Yup.string().required().min(1).label("Last name"),
 });
 
-// * The profile passed as an argument will be used when the user closes the
-// * app without completing the profile creation process (ProfileCreation)
-// * It will be also used as an argument to be edited using this same screen
-
-function ProfileEditionScreen({ profile }) {
+function ProfileEditionScreen({ navigation }) {
+	// States: Data
 	const [picUri, setPicUri] = useState();
 	const [birthDate, setBirthDate] = useState(new Date());
 	const gender = useRef(genders.male);
+
+	// States: UI
+	const [uploadIsVisible, setUploadIsVisible] = useState(false);
+	const [progress, setProgress] = useState(0);
 
 	const requestPermission = async () => {
 		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -56,20 +59,40 @@ function ProfileEditionScreen({ profile }) {
 	}, []);
 
 	const handleSubmit = async (values) => {
+		// Starting uploading
+		setProgress(0);
+		setUploadIsVisible(true);
 		const completeValues = {
 			...values,
 			birthDate: birthDate.toISOString(),
 			picUri,
 		};
+		const result = await usersApi.setProfile(completeValues, (progress) =>
+			setProgress(progress)
+		);
 
-		const result = await usersApi.setProfile(completeValues);
-		if (!result) return alert("Could not update the profile.");
-		alert("Your profile has been successfully updated.");
-		alert(JSON.stringify(result));
+		// Result handler
+		if (!result) {
+			setUploadIsVisible(false);
+			return alert("Could not update the profile.");
+		}
+	};
+
+	const handleDone = () => {
+		setUploadIsVisible(false);
+		navigation.navigate(navigators.App);
 	};
 
 	return (
 		<Screen style={styles.screen}>
+			{/* Upload screen */}
+			<UploadScreen
+				progress={progress}
+				visible={uploadIsVisible}
+				onDone={handleDone}
+			/>
+
+			{/* Body */}
 			<Form
 				initialValues={{
 					picUri: null,
@@ -81,14 +104,14 @@ function ProfileEditionScreen({ profile }) {
 				onSubmit={handleSubmit}
 				validationSchema={validationSchema}
 			>
+				<StartTitle style={styles.titleContainer} useLogo={false}>
+					Configure your profile
+				</StartTitle>
+
 				<ScrollView
 					contentContainerStyle={{ alignItems: "center" }}
 					style={styles.mainContainer}
 				>
-					<StartTitle style={styles.titleContainer} useLogo={false}>
-						Configure your profile
-					</StartTitle>
-
 					{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
 					<ProfilePhotoPicker
 						style={styles.profilePhotoPicker}
@@ -145,6 +168,7 @@ function ProfileEditionScreen({ profile }) {
 						/>
 					</View>
 				</ScrollView>
+
 				<View style={styles.bottomBar}>
 					<SubmitButton text="Validate" />
 				</View>
