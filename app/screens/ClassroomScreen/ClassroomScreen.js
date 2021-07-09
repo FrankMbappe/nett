@@ -49,9 +49,10 @@ function ClassroomScreen({ route, navigation }) {
 	return (
 		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
 			{/* When an error occurs */}
-			{error && !isLoading && (
-				<ApiError onPressRetry={() => loadClassroom(classroomId)} />
-			)}
+			<ApiError
+				show={error && !isLoading}
+				onPressRetry={() => loadClassroom(classroomId)}
+			/>
 
 			{/* Screen body */}
 			{!error && (

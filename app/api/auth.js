@@ -2,11 +2,19 @@ import client from "./client";
 
 const endpoint = "/auth";
 
-const register = (phone) => client.post(endpoint, { phone });
-const confirm = (phone, code) =>
-	client.post(endpoint + "/confirm", { phone, code });
+// Sending phone number confirmation
+const sendConfirmationCode = (phone) => {
+	const data = { phone };
+	return client.get(endpoint, data);
+};
+
+// Verifying phone number
+const verify = (phone, code) => {
+	const data = { phone, code };
+	return client.get(endpoint + "/confirm", data);
+};
 
 export default {
-	register,
-	confirm,
+	sendConfirmationCode,
+	verify,
 };

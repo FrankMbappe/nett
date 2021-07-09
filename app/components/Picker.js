@@ -34,14 +34,14 @@ function NettPicker({
 	onSelectListItem,
 	listItemStyle,
 	showListItemValue,
+	onShowListItems,
 
 	...otherProps
 }) {
-	const [itemList, setItemList] = useState(listItems);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
 	useEffect(() => {
-		setItemList(listItems);
+		if (onShowListItems && modalIsVisible) onShowListItems();
 	}, [modalIsVisible]);
 
 	return (
@@ -101,17 +101,9 @@ function NettPicker({
 						/>
 					)}
 					<FlatList
-						data={itemList}
+						data={listItems}
 						keyExtractor={(item) => String(item[listItemKey])}
 						ItemSeparatorComponent={ListItemSeparator}
-						ListHeaderComponent={
-							listItems != null &&
-							itemList.length !== listItems.length && (
-								<NettText
-									style={styles.searchResultLabel}
-								>{`Results - ${itemList.length}`}</NettText>
-							)
-						}
 						renderItem={({ item }) => (
 							<NettPickerItem
 								style={listItemStyle}

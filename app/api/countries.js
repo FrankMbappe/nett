@@ -2,7 +2,7 @@ import client from "./client";
 
 const endpoint = "/countries";
 
-const getCountries = (search) => client.get(endpoint, { payload: { search } });
+const getCountries = () => client.get(endpoint);
 
 export default {
 	getCountries,

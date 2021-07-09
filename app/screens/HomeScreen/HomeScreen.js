@@ -158,7 +158,7 @@ function HomeScreen({ navigation }) {
 	return (
 		<Screen style={styles.screen}>
 			{/* When an error occurs */}
-			{error && !isLoading && <ApiError onPressRetry={loadClassrooms} />}
+			<ApiError show={error && !isLoading} onPressRetry={loadClassrooms} />
 
 			{/* Screen body */}
 			{!error && (

@@ -3,7 +3,9 @@ import { View, StyleSheet } from "react-native";
 import NettButton from "./Button";
 import NettText from "./Text";
 
-function ApiError({ onPressRetry }) {
+function ApiError({ show, onPressRetry }) {
+	if (!show) return null;
+
 	return (
 		<View style={styles.container}>
 			<NettText style={styles.text}>Couldn't connect to the server</NettText>

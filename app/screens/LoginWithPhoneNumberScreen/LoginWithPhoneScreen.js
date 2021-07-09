@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import * as Yup from "yup";
 import countriesApi from "../../api/countries";
 import authApi from "../../api/auth";
-
 import useApi from "../../hooks/useApi";
+
 import {
 	NettForm as Form,
 	NettFormField as Field,
@@ -17,65 +17,82 @@ import StartTitle from "../../components/start/Title";
 import styles from "./styles";
 import NettPicker from "../../components/Picker";
 import { screens } from "../../navigation/routes";
-import NettButton from "../../components/Button";
 import ActivityIndicator from "../../components/ActivityIndicator";
+import Toast from "react-native-root-toast";
+import { escapeRegExp, sortBy } from "lodash-es";
+import ApiError from "../../components/ApiError";
 
 const validationSchema = Yup.object().shape({
 	phone: Yup.string().label("Phone number").required(),
 });
 
 function LoginWithPhoneScreen({ navigation }) {
-	const [dialCode, setDialCode] = useState("+237");
-	const [searchText, setSearchText] = useState("");
-
+	// API
+	// - Countries
 	const {
 		data: countries,
 		error,
 		isLoading,
 		request: loadCountries,
 	} = useApi(countriesApi.getCountries);
+	// - Phone verification
+	const sendConfirmationCode = useApi(authApi.sendConfirmationCode);
 
-	// const verifyPhoneNumberApi = useApi(authApi.register);
+	// States
+	const [countryList, setCountryList] = useState([]);
+	const [dialCode, setDialCode] = useState("+237");
+	const [search, setSearch] = useState("");
 
+	// Effects
 	useEffect(() => {
-		loadCountries(searchText);
-	}, [searchText]);
+		loadCountries();
+	}, []);
+	useEffect(() => {
+		setCountryList((_) => {
+			const results = countries.filter(({ flag, name, dialCode }) => {
+				const pattern = new RegExp(`^.*${escapeRegExp(search)}.*$`, "i");
+				return pattern.test(`${flag} ${name} ${dialCode}`);
+			});
+			return sortBy(results, "name");
+		});
+	}, [countries, search]);
+
+	// Action handlers
+	const handleShowCountries = () => {
+		setSearch(""); // I reset the search input
+	};
+	const handleSubmit = async ({ phone }) => {
+		const fullPhoneNumber = dialCode + phone;
+
+		// Here, I attempt to send confirmation code
+		const result = await sendConfirmationCode.request(fullPhoneNumber);
+		if (!result)
+			return Toast.show(
+				"Please retry, something went wrong while verifying your phone number.",
+				{ duration: Toast.durations.LONG }
+			);
+
+		// Success
+		alert(JSON.stringify(result));
+		Toast.show("You will soon receive a 4-digit confirmation code...", {
+			duration: Toast.durations.LONG,
+		});
+		navigation.navigate(screens.PhoneNumberConfirmation, {
+			phone: fullPhoneNumber,
+		});
+	};
 
 	return (
 		<Screen style={styles.screen}>
-			{error && !isLoading && (
-				<>
-					<NettText style={{ padding: 15, fontSize: 18 }}>
-						Couldn't connect to the server
-					</NettText>
-					<NettButton text="Retry" onPress={loadCountries} />
-				</>
-			)}
-
-			{/* Loader */}
-			<ActivityIndicator visible={isLoading} />
+			{/* When an error occurs */}
+			<ApiError show={error && !isLoading} onPressRetry={loadCountries} />
 
 			{!error && !isLoading && (
 				<Form
 					initialValues={{
 						phone: "",
 					}}
-					onSubmit={({ phone }) => {
-						const fullPhoneNumber = dialCode + phone;
-
-						// Here, I attempt to verify the phone number
-						// const result = await verifyPhoneNumberApi.request(fullPhoneNumber);
-						// if (result != null) {
-						// 	alert(JSON.stringify(result));
-						navigation.navigate(screens.PhoneNumberConfirmation, {
-							phone: fullPhoneNumber,
-						});
-						// } else {
-						// 	alert(
-						// 		"An error occurred while verifying your phone number. Please retry"
-						// 	);
-						// }
-					}}
+					onSubmit={handleSubmit}
 					validationSchema={validationSchema}
 				>
 					{/* --- Main container --- */}
@@ -95,14 +112,15 @@ function LoginWithPhoneScreen({ navigation }) {
 								style={styles.dialCodeText}
 								placeholder={dialCode}
 								// List
-								listItems={countries}
+								listItems={countryList}
 								listItemKey={"code"}
 								selectedListItem={dialCode}
 								onSelectListItem={({ dialCode }) => setDialCode(dialCode)}
 								showListItemValue={({ flag, name, dialCode }) =>
 									`${flag}  ${name} (${dialCode})`
 								}
-								onChangeSearchText={(text) => setSearchText(text)}
+								onChangeSearchText={(text) => setSearch(text)}
+								onShowListItems={handleShowCountries}
 							/>
 
 							{/* Phone number input */}
@@ -129,6 +147,9 @@ function LoginWithPhoneScreen({ navigation }) {
 					</View>
 				</Form>
 			)}
+
+			{/* Loader */}
+			<ActivityIndicator visible={isLoading} />
 		</Screen>
 	);
 }

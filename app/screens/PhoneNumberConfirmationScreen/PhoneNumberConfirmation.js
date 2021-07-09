@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Divider } from "react-native-elements";
+import authApi from "../../api/auth";
+import useApi from "../../hooks/useApi";
+import Toast from "react-native-root-toast";
 
 import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
@@ -12,13 +15,21 @@ import StartBottomBar from "../../components/start/BottomBar";
 import styles from "./styles";
 import { buttons } from "../../config/enums";
 import { screens } from "../../navigation/routes";
+import UploadScreen from "../UploadScreen/UploadScreen";
 
-// --- SCREEN --- //
-function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
-	const [text, setText] = useState("");
+function PhoneNumberConfirmationScreen({ route, navigation }) {
+	// Params
+	const { phone } = route.params;
+	const timerValue = 600; // In seconds, 10 minutes
 
+	// API
+	const { request: verifyPhoneNumber, error } = useApi(authApi.verify);
+
+	// States
+	const [validationCode, setValidationCode] = useState("");
+	const [doneAnimVisible, setDoneAnimVisible] = useState(false);
 	//#region - TIMER COUNTDOWN
-	const [timerLeft, setTimerLeft] = useState(35);
+	const [timerLeft, setTimerLeft] = useState(timerValue);
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			if (!timerLeft) return;
@@ -28,20 +39,43 @@ function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
 	}, [timerLeft]);
 	//#endregion
 
-	// --- HANDLERS --- //
-	const handlePrevious = () => navigation.goBack();
-	const handleNext = () => {
-		// TODO: Confirm phone number with text property
+	// Action handlers
+	const handlePrevious = () => {
+		navigation.goBack();
+	};
+	const handleSubmit = async () => {
+		// Here, I attempt to verify the phone number
+		const result = await verifyPhoneNumber(phone, validationCode);
+		if (!result)
+			return Toast.show(
+				"Please retry, something went wrong while verifying your phone number.",
+				{ duration: Toast.durations.LONG }
+			);
+
+		// Success
+		// TODO: Store JWT Token from 'result' object
+		alert(JSON.stringify(result));
+		setDoneAnimVisible(true);
+	};
+	const handleDone = () => {
+		setDoneAnimVisible(false);
 		navigation.navigate(screens.AccountTypeSelection);
 	};
 
 	return (
 		<Screen style={styles.screen}>
+			{/* Upload screen */}
+			<UploadScreen
+				progress={1}
+				visible={doneAnimVisible}
+				onDone={handleDone}
+			/>
+
 			{/* --- Main Box --- */}
 			<View style={styles.mainContainer}>
 				{/* Title */}
 				<StartTitle style={styles.titleContainer}>
-					Confirm your phone number: {params.phone}
+					Confirm your phone number: {phone}
 				</StartTitle>
 
 				{/* Input */}
@@ -56,7 +90,7 @@ function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
 						icon={"key"}
 						fontSize={18}
 						maxLength={4}
-						onChangeText={(text) => setText(text)}
+						onChangeText={(text) => setValidationCode(text)}
 					/>
 				</View>
 
@@ -99,7 +133,7 @@ function PhoneNumberConfirmationScreen({ route: { params }, navigation }) {
 						<NettButton
 							text="Next"
 							type={buttons.PRIMARY}
-							onPress={handleNext}
+							onPress={handleSubmit}
 						/>
 					}
 				/>
