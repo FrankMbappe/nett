@@ -146,7 +146,7 @@ function PostCreationScreen({ route, navigation }) {
 				{file && (
 					<View key="addedFile" style={{ marginTop: 10 }}>
 						<Divider />
-						<FileRenderer file={file} />
+						<FileRenderer file={file} type={file && file.type} />
 						<NettText style={styles.fileLabel}>
 							{`${file.type} - ${bytesToSize(file.size)}`}
 						</NettText>

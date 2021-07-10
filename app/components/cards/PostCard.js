@@ -67,7 +67,7 @@ function PostCard({
 					</View>
 
 					{/* IMAGE/VIDEO */}
-					<FileRenderer file={file} />
+					<FileRenderer file={file} type={file && file.mimetype} />
 
 					{/* BODY & FOOTER */}
 					<View style={styles.contentContainer}>

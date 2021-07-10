@@ -1,16 +1,15 @@
-import { startsWith } from "lodash";
 import React from "react";
-import currentUser from "../config/test";
 import { ImageBundle, VideoBundle } from "./cards/bundles";
 
-function FileRenderer({ file }) {
-	if (!file) return null;
+function FileRenderer({ file, type }) {
+	if (!file || !type) return null;
 
-	if (startsWith(file.mimetype, "image"))
-		return <ImageBundle imageUri={currentUser.hostname + file.uri} />;
+	// TODO: Other file bundle (e.g, PDF)
 
-	if (startsWith(file.mimetype, "video"))
-		return <VideoBundle duration="10:00" />;
+	if (String(type).includes("image"))
+		return <ImageBundle imageUri={file.uri} />;
+
+	if (String(type).includes("video")) return <VideoBundle duration="10:00" />;
 
 	return null;
 }
