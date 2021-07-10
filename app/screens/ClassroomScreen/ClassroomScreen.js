@@ -53,7 +53,11 @@ function ClassroomScreen({ route, navigation }) {
 	};
 
 	return (
-		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
+		<Screen
+			style={styles.screen}
+			backImage={images.CLASSROOM_BACKGROUND}
+			backImageStyle={{ opacity: isLoading ? 0.25 : 1 }}
+		>
 			{/* When an error occurs */}
 			<ApiError
 				show={error && !isLoading}

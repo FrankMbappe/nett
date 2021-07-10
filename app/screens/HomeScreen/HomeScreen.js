@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { FlatList, SectionList } from "react-native";
+import { FlatList, SectionList, View } from "react-native";
 import { compareDesc } from "date-fns";
 
 import useApi from "../../hooks/useApi";
@@ -163,45 +163,47 @@ function HomeScreen({ navigation }) {
 					<HomeScreenHeader isAtInitScrollPosition={isInitScrollPosition} />
 
 					{/* --> Main content */}
-					<SectionList
-						keyExtractor={(_, index) => String(index)}
-						contentContainerStyle={{ alignItems: "center" }}
-						style={{ flex: 1, opacity: error || isLoading ? 0 : 1 }}
-						sections={filterSections(sections)}
-						onRefresh={loadClassrooms}
-						onScroll={(event) =>
-							setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
-						}
-						refreshing={refreshing}
-						renderSectionHeader={({ section: { Title } }) => Title}
-						renderItem={({ item: post }) => {
-							if (!post) return null;
-							if (React.isValidElement(post)) return post;
-							else
-								return (
-									<PostCard
-										currentUserId={currentUser.id}
-										post={{
-											...post,
-											author: {
-												fullName: userFullName({ ...post.author.profile }),
-												picUri: post.author.profile.picUri,
-											},
-											classroom: post.classroom
-												? classrooms.find(
-														(classroom) => classroom._id === post.classroom
-												  ).name
-												: "Classroom",
-										}}
-										onLike={() => alert("Call endpoint /like")}
-										onPublishComment={(text) =>
-											alert("Call endpoint /comment with " + text)
-										}
-									/>
-								);
-						}}
-						showsVerticalScrollIndicator={false}
-					/>
+					<View style={styles.mainContainer}>
+						<SectionList
+							keyExtractor={(_, index) => String(index)}
+							contentContainerStyle={{ alignItems: "center" }}
+							style={{ flex: 1, opacity: error || isLoading ? 0 : 1 }}
+							sections={filterSections(sections)}
+							onRefresh={loadClassrooms}
+							onScroll={(event) =>
+								setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
+							}
+							refreshing={refreshing}
+							renderSectionHeader={({ section: { Title } }) => Title}
+							renderItem={({ item: post }) => {
+								if (!post) return null;
+								if (React.isValidElement(post)) return post;
+								else
+									return (
+										<PostCard
+											currentUserId={currentUser.id}
+											post={{
+												...post,
+												author: {
+													fullName: userFullName({ ...post.author.profile }),
+													picUri: post.author.profile.picUri,
+												},
+												classroom: post.classroom
+													? classrooms.find(
+															(classroom) => classroom._id === post.classroom
+													  ).name
+													: "Classroom",
+											}}
+											onLike={() => alert("Call endpoint /like")}
+											onPublishComment={(text) =>
+												alert("Call endpoint /comment with " + text)
+											}
+										/>
+									);
+							}}
+							showsVerticalScrollIndicator={false}
+						/>
+					</View>
 				</>
 			)}
 

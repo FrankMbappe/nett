@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize, userFullName } from "../../utils";
 import { Divider } from "react-native-elements";
@@ -25,7 +25,7 @@ function PostCreationScreen({ route, navigation }) {
 	// Get params
 	const { classroomName } = route.params;
 	const { _type, profile } = currentUser;
-	const userFullName = userFullName(...profile);
+	const authorName = userFullName({ ...profile });
 
 	// States
 	const [text, setText] = useState("");

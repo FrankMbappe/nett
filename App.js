@@ -14,7 +14,7 @@ export default function App() {
 				<AppNavigator />
 				{/* <AuthNavigator /> */}
 			</NavigationContainer>
-			<StatusBar backgroundColor={colors.appPrimary} style="light" />
+			<StatusBar backgroundColor={colors.appPrimaryDark} style="light" />
 		</RootSiblingParent>
 	);
 }

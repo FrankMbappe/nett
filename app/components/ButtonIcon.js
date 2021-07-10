@@ -9,6 +9,7 @@ import NettText from "./Text";
 
 function ButtonIcon({
 	badge,
+	badgeStyle,
 	disabled,
 	containerStyle,
 	size = 25,
@@ -23,7 +24,9 @@ function ButtonIcon({
 			onPress={otherProps.onPress}
 		>
 			<>
-				{!disabled && badge && <Badge size={size} style={styles().badge} />}
+				{!disabled && badge && (
+					<Badge size={size} style={[styles().badge, badgeStyle]} />
+				)}
 				<MaterialCommunityIcons
 					size={size}
 					color={colors.appFront}
