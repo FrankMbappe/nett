@@ -48,7 +48,9 @@ function ClassroomScreen({ route, navigation }) {
 	const [refreshing, setRefreshing] = useState(false);
 
 	// Action handlers
-	const handleCreatePost = () => {};
+	const handleCreatePost = () => {
+		navigation.navigate(screens.PostCreation, { classroomName: name });
+	};
 
 	return (
 		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
