@@ -3,6 +3,7 @@ import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize, userFullName } from "../../utils";
 import { Divider } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
+import { getInfoAsync } from "expo-file-system";
 
 import { ListItem } from "../../components/lists";
 import BundleAdder from "../../components/BundleAdder";
@@ -63,12 +64,18 @@ function PostCreationScreen({ route, navigation }) {
 	};
 	const selectMedia = async (mediaType) => {
 		try {
+			// TODO: Propose the user to choose either library or camera
+			// If camera, launchCameraAsync(). Else, launchImageLibraryAsync()
 			const result = await ImagePicker.launchImageLibraryAsync({
 				mediaTypes: mediaType,
+				allowsEditing: true,
+				videoMaxDuration: 180, // 3 minutes
+				aspect: [4, 3],
 				quality: 0.5,
 			});
 			if (!result.cancelled) {
-				setFile(result);
+				const size = (await getInfoAsync(result.uri)).size;
+				setFile({ ...result, size });
 			}
 		} catch (error) {
 			Toast.show("An error occured while reading the media", {
@@ -76,11 +83,14 @@ function PostCreationScreen({ route, navigation }) {
 			});
 		}
 	};
+	const handleDeleteFile = () => {
+		setFile(null);
+	};
+	const handlePublish = useCallback(() => console.log("Publish"));
 
-	const onPublish = useCallback(() => console.log("Publish"));
 	const onPressImage = () => selectMedia(ImagePicker.MediaTypeOptions.Images);
 	const onPressVideo = () => selectMedia(ImagePicker.MediaTypeOptions.Videos);
-	const onPressFile = () => selectMedia();
+	const onPressFile = () => alert("File");
 	const onPressTutorial = () => alert("Tutorial");
 	const onPressQuiz = () => navigation.navigate(screens.QuizCreation);
 
@@ -146,7 +156,11 @@ function PostCreationScreen({ route, navigation }) {
 				{file && (
 					<View key="addedFile" style={{ marginTop: 10 }}>
 						<Divider />
-						<FileRenderer file={file} type={file && file.type} />
+						<FileRenderer
+							file={file}
+							type={file && file.type}
+							onDelete={handleDeleteFile}
+						/>
 						<NettText style={styles.fileLabel}>
 							{`${file.type} - ${bytesToSize(file.size)}`}
 						</NettText>
@@ -171,7 +185,7 @@ function PostCreationScreen({ route, navigation }) {
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={!text.length && !file}
-					onPress={onPublish}
+					onPress={handlePublish}
 					text="Publish"
 					type={buttons.PRIMARY}
 				/>

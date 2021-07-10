@@ -8,7 +8,6 @@ import NettText from "./Text";
 function BundleAdder({
 	containerStyle,
 	isExpanded = true,
-	onPressAdder,
 	onPressImage,
 	onPressVideo,
 	onPressFile,
@@ -62,10 +61,7 @@ function BundleAdder({
 								key={String(index)}
 								name={x.icon}
 								color={x.color}
-								onPress={() => {
-									onPressAdder();
-									x.onPress();
-								}}
+								onPress={x.onPress}
 							/>
 						))}
 					</View>
@@ -78,10 +74,7 @@ function BundleAdder({
 						<Pressable
 							key={String(index)}
 							style={styles.expandedIcon}
-							onPress={() => {
-								onPressAdder();
-								x.onPress();
-							}}
+							onPress={x.onPress}
 						>
 							<Icon
 								name={x.icon}
