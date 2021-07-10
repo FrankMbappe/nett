@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
 
 	postFlatListContent: {
 		paddingHorizontal: 15,
+		paddingBottom: 100,
 	},
 	createPostButton: {},
 

@@ -15,11 +15,11 @@ import currentUser from "../../config/test";
 import { userFullName } from "../../utils";
 import ApiError from "../../components/ApiError";
 
-// --- Sorting & Filtering lists --- //
+// Helper functions
 function filterSections(sections) {
 	// Filter: Only sections containing at least 1 item
 	return sections.filter((section) =>
-		section ? section.data.length > 0 : false
+		section.data ? section.data.length > 0 : false
 	);
 }
 function getEvents(classrooms) {
@@ -56,16 +56,12 @@ function HomeScreen({ navigation }) {
 	useEffect(() => {
 		loadClassrooms();
 	}, []);
-	useEffect(() => {
-		setPostList(getPosts(classrooms));
-		setEventList(getEvents(classrooms));
-	}, [classrooms]);
+
+	// Data
+	const posts = useMemo(() => getPosts(classrooms), [classrooms]);
+	const events = useMemo(() => getEvents(classrooms), [classrooms]);
 
 	// States
-	const [postList, setPostList] = useState(getPosts(classrooms));
-	const [eventList, setEventList] = useState(getEvents(classrooms)); // TODO: Get upcoming quizzes
-
-	// Other variables
 	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
@@ -73,7 +69,7 @@ function HomeScreen({ navigation }) {
 	const sections = useMemo(
 		() => [
 			/* EVENTS */
-			eventList.length && {
+			events.length && {
 				Title: (
 					<SectionHeader
 						expand
@@ -81,7 +77,7 @@ function HomeScreen({ navigation }) {
 						title="Scheduled events"
 						onExpansion={() =>
 							navigation.navigate(screens.ShowAllEvents, {
-								data: eventList,
+								data: getEvents(classrooms),
 							})
 						}
 					/>
@@ -89,7 +85,7 @@ function HomeScreen({ navigation }) {
 				data: [
 					<FlatList
 						style={{ flexGrow: 0 }}
-						data={eventList}
+						data={getEvents(classrooms)}
 						showsHorizontalScrollIndicator={false}
 						keyExtractor={(item) => item.id}
 						renderItem={({ item }) => (
@@ -134,11 +130,11 @@ function HomeScreen({ navigation }) {
 									nbOfParticipants: participations.length + 1,
 								}}
 								teacher={{ fullName: userFullName({ ...profile }), ...profile }}
-								onPress={() =>
+								onPress={() => {
 									navigation.navigate(navigators.Classroom, {
 										classroomId: _id,
-									})
-								}
+									});
+								}}
 							/>
 						)}
 						horizontal
@@ -147,9 +143,9 @@ function HomeScreen({ navigation }) {
 			},
 
 			/* POSTS */
-			postList && {
+			posts.length && {
 				Title: <SectionHeader title="Recent updates" />,
-				data: postList,
+				data: getPosts(classrooms),
 			},
 		],
 		[classrooms]

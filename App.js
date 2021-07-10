@@ -11,8 +11,8 @@ export default function App() {
 	return (
 		<RootSiblingParent>
 			<NavigationContainer theme={NavigationTheme}>
-				{/* <AppNavigator /> */}
-				<AuthNavigator />
+				<AppNavigator />
+				{/* <AuthNavigator /> */}
 			</NavigationContainer>
 			<StatusBar backgroundColor={colors.appPrimary} style="light" />
 		</RootSiblingParent>

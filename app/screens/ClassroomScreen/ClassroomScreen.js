@@ -12,26 +12,33 @@ import NettText from "../../components/Text";
 import Screen from "../../components/Screen";
 import TopBar from "../../components/TopBar";
 import { screens } from "../../navigation/routes";
-import { userFullName } from "../../utils";
+import { formatWordCount, userFullName } from "../../utils";
 import colors from "../../config/colors";
 import images from "../../config/images";
 import styles from "./styles";
 
 import currentUser from "../../config/test";
-import NettButton from "../../components/Button";
 import ApiError from "../../components/ApiError";
 
 function ClassroomScreen({ route, navigation }) {
 	// Getting params
 	const { classroomId } = route.params;
 
-	// API calls
+	// API
 	const {
 		data: classroom,
 		error,
 		isLoading,
 		request: loadClassroom,
 	} = useApi(classroomsApi.getClassroom);
+
+	// Extracting variables
+	const { name, posts, topics, teacher } = classroom;
+	const teacherFullName = teacher
+		? userFullName({ ...teacher.profile })
+		: "User";
+
+	// Effects
 	useEffect(() => {
 		loadClassroom(classroomId);
 	}, []);
@@ -40,11 +47,8 @@ function ClassroomScreen({ route, navigation }) {
 	const [isAtInitScrollPosition, setIsAtInitScrollPosition] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
-	// Extracted variables
-	const { name, posts, topics, teacher } = classroom;
-	const teacherFullName = teacher
-		? userFullName({ ...teacher.profile })
-		: "User";
+	// Action handlers
+	const handleCreatePost = () => {};
 
 	return (
 		<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
@@ -58,7 +62,7 @@ function ClassroomScreen({ route, navigation }) {
 			{!error && (
 				<>
 					{/* Top bar */}
-					<TopBar style={styles.topBar}>
+					<TopBar style={[styles.topBar, { opacity: isLoading ? 0.25 : 1 }]}>
 						<ButtonIcon
 							name="arrow-left"
 							size={25}
@@ -82,7 +86,12 @@ function ClassroomScreen({ route, navigation }) {
 						<ButtonIcon name="dots-vertical" />
 					</TopBar>
 					{topics != null && topics.length > 0 && (
-						<View style={styles.topicFlatListContainer}>
+						<View
+							style={[
+								styles.topicFlatListContainer,
+								{ opacity: isLoading ? 0.25 : 1 },
+							]}
+						>
 							<FlatList
 								contentContainerStyle={[styles.topicFlatListContent]}
 								style={[
@@ -92,9 +101,9 @@ function ClassroomScreen({ route, navigation }) {
 									},
 								]}
 								data={topics}
-								keyExtractor={({ id }) => String(id)}
-								renderItem={({ item: { title } }) => (
-									<NettText style={styles.topic}>{title}</NettText>
+								keyExtractor={({ _id }) => String(_id)}
+								renderItem={({ item: { name } }) => (
+									<NettText style={styles.topic}>{name}</NettText>
 								)}
 								horizontal
 								showsHorizontalScrollIndicator={false}
@@ -109,6 +118,7 @@ function ClassroomScreen({ route, navigation }) {
 							setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
 						}
 						data={posts}
+						style={{ opacity: isLoading ? 0.25 : 1 }}
 						keyExtractor={({ _id }) => String(_id)}
 						showsVerticalScrollIndicator={false}
 						renderItem={({ item: post }) => (
@@ -134,19 +144,16 @@ function ClassroomScreen({ route, navigation }) {
 					{/* Add post button */}
 					<FloatingButton
 						icon="pencil"
-						onPress={() =>
-							navigation.navigate(screens.PostCreation, {
-								classroomName: name,
-							})
-						}
+						onPress={handleCreatePost}
 						style={styles.createPostButton}
 					/>
 
 					{/* Footer */}
 					<TouchableHighlight style={styles.footer}>
-						<NettText
-							style={styles.footerText}
-						>{`1 online participant(s)`}</NettText>
+						<NettText style={styles.footerText}>{`${formatWordCount(
+							1,
+							"online participant"
+						)}`}</NettText>
 					</TouchableHighlight>
 				</>
 			)}

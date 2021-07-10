@@ -14,7 +14,7 @@ const ClassroomNavigator = ({ route: { params } }) => (
 		<Stack.Screen
 			name={screens.Classroom}
 			component={ClassroomScreen}
-			initialParams={{ id: params.id }}
+			initialParams={{ classroomId: params.classroomId }}
 		/>
 		<Stack.Screen name={screens.PostCreation} component={PostCreationScreen} />
 		<Stack.Screen name={screens.QuizTaking} component={QuizTakingScreen} />
