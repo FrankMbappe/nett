@@ -27,7 +27,7 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 	const [validationCode, setValidationCode] = useState("");
 	const [doneAnimVisible, setDoneAnimVisible] = useState(false);
 	const [showLoader, setShowLoader] = useState(false);
-	const apiResult = useRef();
+	const apiResultData = useRef();
 
 	//#region - TIMER COUNTDOWN
 	const [timerLeft, setTimerLeft] = useState(timerValue);
@@ -52,7 +52,7 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		// Failure
 		if (!result) {
 			setShowLoader(false);
-			apiResult.current = null;
+			apiResultData.current = null;
 			return Toast.show(
 				"Please retry, something went wrong while verifying your phone number.",
 				{ duration: Toast.durations.LONG, backgroundColor: colors.danger }
@@ -60,7 +60,7 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		}
 
 		// Success
-		apiResult.current = result;
+		apiResultData.current = result.data;
 		setShowLoader(false); // I dismiss the loader
 		setDoneAnimVisible(true); // Then I show the done animation, which will trigger 'handleDone'
 	};
@@ -69,7 +69,7 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		setDoneAnimVisible(false);
 
 		// I get data from the API result
-		const { authToken, user, isNew } = apiResult.current;
+		const { authToken, user, isNew } = apiResultData.current;
 
 		// First of all, I store the JWT token
 		// TODO: Store 'authToken' Token

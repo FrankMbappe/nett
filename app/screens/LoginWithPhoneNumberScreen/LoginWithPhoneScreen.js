@@ -77,7 +77,6 @@ function LoginWithPhoneScreen({ navigation }) {
 
 		// Success
 		setShowLoader(false);
-		alert(JSON.stringify(result));
 		Toast.show("You will soon receive a 4-digit confirmation code...", {
 			duration: Toast.durations.LONG,
 			backgroundColor: colors.optimal,
