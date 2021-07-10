@@ -33,6 +33,8 @@ export default {
 	optimalLight: "#bfdcff",
 	warning: "#f05724",
 	warningLight: "#ffd6be",
+	electric: "#8f00f3",
+	electricLight: "#d9aafb",
 
 	// --- ACCOUNT TYPES --- //
 	teacher: "#34b14d",

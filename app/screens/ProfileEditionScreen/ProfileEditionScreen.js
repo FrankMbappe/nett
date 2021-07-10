@@ -49,7 +49,10 @@ function ProfileEditionScreen({ navigation, route }) {
 
 	const requestPermission = async () => {
 		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-		if (!granted) alert("You need to enable permission to access the library");
+		if (!granted)
+			Toast.show("You need to enable permission to access the library", {
+				backgroundColor: colors.warning,
+			});
 	};
 	const selectImage = async () => {
 		try {
@@ -61,7 +64,9 @@ function ProfileEditionScreen({ navigation, route }) {
 				setPicUri(result.uri);
 			}
 		} catch (error) {
-			console.log("Error occured while reading an image.");
+			Toast.show("An error occured while reading the media", {
+				backgroundColor: colors.danger,
+			});
 		}
 	};
 

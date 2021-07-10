@@ -8,9 +8,9 @@ import NettText from "./Text";
 function BundleAdder({
 	containerStyle,
 	isExpanded = true,
-	onPressBundle,
-	onPressMention,
-	onPressMedia,
+	onPressAdder,
+	onPressImage,
+	onPressVideo,
 	onPressFile,
 	onPressTutorial,
 	onPressQuiz,
@@ -18,16 +18,16 @@ function BundleAdder({
 	const adders = useMemo(
 		() => [
 			{
-				name: "Mention",
-				icon: "at",
-				color: colors.appPrimary,
-				onPress: onPressMention,
+				name: "Image",
+				icon: "image-filter-vintage",
+				color: colors.ok,
+				onPress: onPressImage,
 			},
 			{
-				name: "Photo/Video",
-				icon: "camera",
-				color: colors.ok,
-				onPress: onPressMedia,
+				name: "Video",
+				icon: "video",
+				color: colors.electric,
+				onPress: onPressVideo,
 			},
 			{
 				name: "File",
@@ -48,7 +48,7 @@ function BundleAdder({
 				onPress: onPressQuiz,
 			},
 		],
-		[onPressMention, onPressMedia, onPressFile, onPressTutorial, onPressQuiz]
+		[onPressImage, onPressVideo, onPressFile, onPressTutorial, onPressQuiz]
 	);
 
 	return (
@@ -63,7 +63,7 @@ function BundleAdder({
 								name={x.icon}
 								color={x.color}
 								onPress={() => {
-									onPressBundle();
+									onPressAdder();
 									x.onPress();
 								}}
 							/>
@@ -79,7 +79,7 @@ function BundleAdder({
 							key={String(index)}
 							style={styles.expandedIcon}
 							onPress={() => {
-								onPressBundle();
+								onPressAdder();
 								x.onPress();
 							}}
 						>
