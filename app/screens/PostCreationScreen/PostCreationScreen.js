@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize, userFullName } from "../../utils";
 import { Divider } from "react-native-elements";
+import * as ImagePicker from "expo-image-picker";
 
 import { ListItem } from "../../components/lists";
-import { PostBundle } from "../../components/cards/bundles";
 import BundleAdder from "../../components/BundleAdder";
 import ButtonIcon from "../../components/ButtonIcon";
 import NettButton from "../../components/Button";
@@ -18,6 +18,9 @@ import images from "../../config/images";
 import styles from "./styles";
 import { screens } from "../../navigation/routes";
 import currentUser from "../../config/test";
+import Toast from "react-native-root-toast";
+import colors from "../../config/colors";
+import FileRenderer from "../../components/FileRenderer";
 
 const maxTextLength = 3000;
 
@@ -32,7 +35,7 @@ function PostCreationScreen({ route, navigation }) {
 	const [file, setFile] = useState();
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-	// Keyboard events
+	// Effects
 	useEffect(() => {
 		const keyboardDidShow = Keyboard.addListener("keyboardDidShow", () => {
 			setKeyboardVisible(true);
@@ -46,13 +49,38 @@ function PostCreationScreen({ route, navigation }) {
 			keyboardDidHide.remove();
 		};
 	}, []);
+	useEffect(() => {
+		requestPermission();
+	}, []);
 
 	// Action handlers
+	const requestPermission = async () => {
+		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (!granted)
+			Toast.show("You need to enable permission to access the library", {
+				backgroundColor: colors.warning,
+			});
+	};
+	const selectMedia = async (mediaType) => {
+		try {
+			const result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: mediaType,
+				quality: 0.5,
+			});
+			if (!result.cancelled) {
+				setFile(result);
+			}
+		} catch (error) {
+			Toast.show("An error occured while reading the media", {
+				backgroundColor: colors.danger,
+			});
+		}
+	};
+
 	const onPublish = useCallback(() => console.log("Publish"));
-	const onPressBundle = () => {};
-	const onPressMention = () => alert("Mention");
-	const onPressMedia = () => alert("Photo/Video");
-	const onPressFile = () => alert("File");
+	const onPressImage = () => selectMedia(ImagePicker.MediaTypeOptions.Images);
+	const onPressVideo = () => selectMedia(ImagePicker.MediaTypeOptions.Videos);
+	const onPressFile = () => selectMedia();
 	const onPressTutorial = () => alert("Tutorial");
 	const onPressQuiz = () => navigation.navigate(screens.QuizCreation);
 
@@ -118,7 +146,7 @@ function PostCreationScreen({ route, navigation }) {
 				{file && (
 					<View key="addedFile" style={{ marginTop: 10 }}>
 						<Divider />
-						<PostBundle file={file} />
+						<FileRenderer file={file} />
 						<NettText style={styles.fileLabel}>
 							{`${file.type} - ${bytesToSize(file.size)}`}
 						</NettText>
@@ -132,9 +160,8 @@ function PostCreationScreen({ route, navigation }) {
 				<BundleAdder
 					containerStyle={styles.bundleContainer}
 					isExpanded={!isKeyboardVisible && !file}
-					onPressBundle={onPressBundle}
-					onPressMention={onPressMention}
-					onPressMedia={onPressMedia}
+					onPressImage={onPressImage}
+					onPressVideo={onPressVideo}
 					onPressFile={onPressFile}
 					onPressTutorial={onPressTutorial}
 					onPressQuiz={onPressQuiz}
