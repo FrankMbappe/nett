@@ -102,7 +102,7 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 				backgroundColor: colors.ok,
 			});
 
-		navigation.navigate(screens.ProfileEdition, user.profile);
+		navigation.navigate(screens.ProfileEdition, { profile: user.profile });
 	};
 	const handleRetry = () => {
 		handlePrevious();

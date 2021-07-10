@@ -65,7 +65,7 @@ function getEventProps(opens, closes) {
 }
 
 const userFullName = ({ honorific, firstName, lastName }) => {
-	return startCase(`${honorific} ${firstName} ${lastName}`.trim());
+	return startCase(`${honorific ?? ""} ${firstName} ${lastName}`.trim());
 };
 
 export { getEventProps, userFullName };

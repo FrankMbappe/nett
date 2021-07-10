@@ -22,6 +22,8 @@ import UploadScreen from "../UploadScreen/UploadScreen";
 import { navigators } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
+import client from "../../api/client";
+import currentUser from "../../config/test";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -33,7 +35,9 @@ function ProfileEditionScreen({ navigation, route }) {
 	const { profile } = route.params;
 
 	// States: Data
-	const [picUri, setPicUri] = useState(profile && profile.picUri);
+	const [picUri, setPicUri] = useState(
+		profile && currentUser.hostname + profile.picUri
+	);
 	const [birthDate, setBirthDate] = useState(
 		profile ? new Date(profile.birthDate) : new Date()
 	);
@@ -111,8 +115,8 @@ function ProfileEditionScreen({ navigation, route }) {
 				initialValues={{
 					picUri: null,
 					firstName: profile ? profile.firstName : "",
-					lastName: profile ? profile.firstName : "",
-					email: profile ? profile.firstName : "",
+					lastName: profile ? profile.lastName : "",
+					email: profile ? profile.email : "",
 					birthDate: new Date(),
 				}}
 				onSubmit={handleSubmit}
@@ -142,6 +146,7 @@ function ProfileEditionScreen({ navigation, route }) {
 							name="firstName"
 							placeholder="First name"
 							maxLength={255}
+							defaultValue={profile ? profile.firstName : ""}
 							textContentType="name"
 						/>
 
@@ -152,6 +157,7 @@ function ProfileEditionScreen({ navigation, route }) {
 							name="lastName"
 							placeholder="Last name"
 							maxLength={255}
+							defaultValue={profile ? profile.lastName : ""}
 							textContentType="familyName"
 						/>
 
@@ -171,6 +177,7 @@ function ProfileEditionScreen({ navigation, route }) {
 							name="email"
 							placeholder="E-mail address"
 							maxLength={255}
+							defaultValue={profile ? profile.email : ""}
 							textContentType="emailAddress"
 						/>
 

@@ -6,6 +6,7 @@ import NettText from "../Text";
 import TextIcon from "../TextIcon";
 import colors from "../../config/colors";
 import { formatWordCount } from "../../utils";
+import currentUser from "../../config/test";
 
 function ClassroomCard({
 	// Data
@@ -29,7 +30,10 @@ function ClassroomCard({
 				/>
 			</View>
 			<Author
-				user={{ fullName: teacherFullName, picUri: teacherPicUri }}
+				user={{
+					fullName: teacherFullName,
+					picUri: currentUser.hostname + teacherPicUri,
+				}}
 				name={classroomName}
 			/>
 		</TouchableOpacity>

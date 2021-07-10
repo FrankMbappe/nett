@@ -9,6 +9,7 @@ import FileRenderer from "../FileRenderer";
 import LikeCommentShare from "./LikeCommentShare";
 import NettText from "../Text";
 import colors from "../../config/colors";
+import currentUser from "../../config/test";
 
 function PostCard({
 	// Data
@@ -91,7 +92,10 @@ function PostCard({
 
 						{/* Footer */}
 						<Author
-							user={{ fullName: authorFullName, picUri: authorPicUri }}
+							user={{
+								fullName: authorFullName,
+								picUri: currentUser.hostname + authorPicUri,
+							}}
 							name={classroomName}
 						/>
 					</View>
