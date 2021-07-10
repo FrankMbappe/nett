@@ -67,7 +67,7 @@ function LoginWithPhoneScreen({ navigation }) {
 		const result = await authApi.sendConfirmationCode(fullPhoneNumber);
 
 		// Failure
-		if (!result) {
+		if (!result || !result.ok) {
 			setShowLoader(false);
 			return Toast.show(
 				"Please retry, something went wrong while verifying your phone number.",

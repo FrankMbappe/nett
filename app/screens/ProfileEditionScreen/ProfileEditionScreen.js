@@ -28,11 +28,16 @@ const validationSchema = Yup.object().shape({
 	lastName: Yup.string().required().min(1).label("Last name"),
 });
 
-function ProfileEditionScreen({ navigation }) {
+function ProfileEditionScreen({ navigation, route }) {
+	// Params
+	const { profile } = route.params;
+
 	// States: Data
-	const [picUri, setPicUri] = useState();
-	const [birthDate, setBirthDate] = useState(new Date());
-	const gender = useRef(genders.male);
+	const [picUri, setPicUri] = useState(profile && profile.picUri);
+	const [birthDate, setBirthDate] = useState(
+		profile ? new Date(profile.birthDate) : new Date()
+	);
+	const gender = useRef(profile ? profile.gender : genders.male);
 
 	// States: UI
 	const [uploadIsVisible, setUploadIsVisible] = useState(false);
@@ -56,10 +61,12 @@ function ProfileEditionScreen({ navigation }) {
 		}
 	};
 
+	// Effects
 	useEffect(() => {
 		requestPermission();
 	}, []);
 
+	// Action handlers
 	const handleSubmit = async (values) => {
 		// Starting uploading
 		setProgress(0);
@@ -74,7 +81,7 @@ function ProfileEditionScreen({ navigation }) {
 		);
 
 		// Result handler
-		if (!result) {
+		if (!result || !result.ok) {
 			setUploadIsVisible(false);
 			return Toast.show(
 				"Something went wrong while updating your profile, please try again...",
@@ -82,9 +89,11 @@ function ProfileEditionScreen({ navigation }) {
 			);
 		}
 	};
-
 	const handleDone = () => {
 		setUploadIsVisible(false);
+		Toast.show("Your profile has been successfully updated!", {
+			backgroundColor: colors.ok,
+		});
 		navigation.navigate(navigators.App);
 	};
 
@@ -101,9 +110,9 @@ function ProfileEditionScreen({ navigation }) {
 			<Form
 				initialValues={{
 					picUri: null,
-					firstName: "",
-					lastName: "",
-					email: "",
+					firstName: profile ? profile.firstName : "",
+					lastName: profile ? profile.firstName : "",
+					email: profile ? profile.firstName : "",
 					birthDate: new Date(),
 				}}
 				onSubmit={handleSubmit}

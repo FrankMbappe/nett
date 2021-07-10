@@ -50,9 +50,18 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		const result = await authApi.verify(phone, validationCode);
 
 		// Failure
-		if (!result) {
+		if (!result || !result.ok) {
 			setShowLoader(false);
 			apiResultData.current = null;
+
+			// If the result is not Ok, that means the code is incorrect
+			if (!result.ok)
+				return Toast.show("Incorrect validation code, please retry", {
+					duration: Toast.durations.LONG,
+					backgroundColor: colors.danger,
+				});
+
+			// Else, an error occured while interacting with the server
 			return Toast.show(
 				"Please retry, something went wrong while verifying your phone number.",
 				{ duration: Toast.durations.LONG, backgroundColor: colors.danger }

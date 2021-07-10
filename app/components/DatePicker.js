@@ -13,6 +13,7 @@ function DatePicker({
 	onChangeDate,
 	label = "Date",
 	fontSize = 20,
+	onPress,
 }) {
 	const [show, setShow] = useState(false);
 
@@ -27,7 +28,10 @@ function DatePicker({
 	return (
 		<>
 			<TouchableOpacity
-				onPress={showPicker}
+				onPress={() => {
+					showPicker();
+					onPress && onPress();
+				}}
 				style={[styles.container, { padding: fontSize * 0.75 }, containerStyle]}
 			>
 				<NettText style={[{ flex: 1, fontSize }, style]}>
