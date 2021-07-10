@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { View } from "react-native";
+import usersApi from "../../api/users";
 
 import ListItemSelector from "../../components/start/ListItemSelector";
 import NettButton from "../../components/Button";
 import Screen from "../../components/Screen";
 import StartTitle from "../../components/start/Title";
-
 import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
 import { screens } from "../../navigation/routes";
+import Toast from "react-native-root-toast";
+import { capitalize } from "lodash-es";
+import colors from "../../config/colors";
 
 // --- CONSTANTS --- //
-const options = [
+const OPTIONS = [
 	{
 		key: "teacher",
 		image: images.TEACHER_ACCOUNT,
@@ -35,10 +38,30 @@ const options = [
 
 // --- SCREEN --- //
 function AccountTypeSelectionScreen({ navigation }) {
+	// States
 	const [selectedType, setSelectedType] = useState();
 
-	// --- HANDLERS --- //
-	const handleNext = () => navigation.navigate(screens.ProfileEdition);
+	// Action handlers
+	const handleSubmit = async () => {
+		if (!selectedType.key) return;
+
+		// I attempt to set the account type
+		const result = await usersApi.setType(selectedType.key);
+
+		if (!result)
+			return Toast.show(
+				"Something went wrong while updating the account type, please try again..",
+				{ backgroundColor: colors.danger }
+			);
+
+		// Success
+		Toast.show(
+			`The account type has been succesfully set to ${
+				(capitalize(selectedType.key), { backgroundColor: colors.ok })
+			}`
+		);
+		navigation.navigate(screens.ProfileEdition);
+	};
 
 	return (
 		<Screen style={styles.screen}>
@@ -52,7 +75,7 @@ function AccountTypeSelectionScreen({ navigation }) {
 				{/* Account type selection */}
 				<ListItemSelector
 					onSelectOption={(option) => setSelectedType(option)}
-					options={options}
+					options={OPTIONS}
 					selectedOption={selectedType}
 					selectedStyle={{
 						backgroundColor: "#ffeae8",
@@ -66,7 +89,7 @@ function AccountTypeSelectionScreen({ navigation }) {
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={!selectedType}
-					onPress={handleNext}
+					onPress={handleSubmit}
 					text="Next"
 					type={buttons.PRIMARY}
 				/>

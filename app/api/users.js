@@ -26,6 +26,12 @@ const setProfile = (
 	});
 };
 
+const setType = (_type) => {
+	const data = { _type };
+	return client.put(endpoint + "/type", data);
+};
+
 export default {
 	setProfile,
+	setType,
 };

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Divider } from "react-native-elements";
 import authApi from "../../api/auth";
-import useApi from "../../hooks/useApi";
 import Toast from "react-native-root-toast";
 
 import NettButton from "../../components/Button";
@@ -14,20 +13,22 @@ import StartBottomBar from "../../components/start/BottomBar";
 
 import styles from "./styles";
 import { buttons } from "../../config/enums";
-import { screens } from "../../navigation/routes";
+import { navigators, screens } from "../../navigation/routes";
 import UploadScreen from "../UploadScreen/UploadScreen";
+import ActivityIndicator from "../../components/ActivityIndicator";
+import colors from "../../config/colors";
 
 function PhoneNumberConfirmationScreen({ route, navigation }) {
 	// Params
 	const { phone } = route.params;
 	const timerValue = 600; // In seconds, 10 minutes
 
-	// API
-	const { request: verifyPhoneNumber, error } = useApi(authApi.verify);
-
 	// States
 	const [validationCode, setValidationCode] = useState("");
 	const [doneAnimVisible, setDoneAnimVisible] = useState(false);
+	const [showLoader, setShowLoader] = useState(false);
+	const apiResult = useRef();
+
 	//#region - TIMER COUNTDOWN
 	const [timerLeft, setTimerLeft] = useState(timerValue);
 	useEffect(() => {
@@ -45,21 +46,57 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 	};
 	const handleSubmit = async () => {
 		// Here, I attempt to verify the phone number
-		const result = await verifyPhoneNumber(phone, validationCode);
-		if (!result)
+		setShowLoader(true);
+		const result = await authApi.verify(phone, validationCode);
+
+		// Failure
+		if (!result) {
+			setShowLoader(false);
+			apiResult.current = null;
 			return Toast.show(
 				"Please retry, something went wrong while verifying your phone number.",
-				{ duration: Toast.durations.LONG }
+				{ duration: Toast.durations.LONG, backgroundColor: colors.danger }
 			);
+		}
 
 		// Success
-		// TODO: Store JWT Token from 'result' object
-		alert(JSON.stringify(result));
-		setDoneAnimVisible(true);
+		apiResult.current = result;
+		setShowLoader(false); // I dismiss the loader
+		setDoneAnimVisible(true); // Then I show the done animation, which will trigger 'handleDone'
 	};
-	const handleDone = () => {
+	const handleSuccess = () => {
+		// I dismiss the done animation
 		setDoneAnimVisible(false);
-		navigation.navigate(screens.AccountTypeSelection);
+
+		// I get data from the API result
+		const { authToken, user, isNew } = apiResult.current;
+
+		// First of all, I store the JWT token
+		// TODO: Store 'authToken' Token
+
+		// If the user is new, he goes to account type selection
+		if (isNew) {
+			Toast.show(
+				`Account with phone number ${user.phone} successfully created.`,
+				{ backgroundColor: colors.ok }
+			);
+			return navigation.navigate(screens.AccountTypeSelection);
+		}
+
+		// Otherwise, he goes to the profile configuration screen
+		if (!user.profile)
+			Toast.show("You need to configure your profile before moving on...", {
+				backgroundColor: colors.warning,
+			});
+		else
+			Toast.show(`Welcome back ${user.profile.firstName}!`, {
+				backgroundColor: colors.ok,
+			});
+
+		navigation.navigate(screens.ProfileEdition, user.profile);
+	};
+	const handleRetry = () => {
+		handlePrevious();
 	};
 
 	return (
@@ -68,11 +105,11 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 			<UploadScreen
 				progress={1}
 				visible={doneAnimVisible}
-				onDone={handleDone}
+				onDone={handleSuccess}
 			/>
 
 			{/* --- Main Box --- */}
-			<View style={styles.mainContainer}>
+			<View style={[styles.mainContainer, { opacity: showLoader ? 0.25 : 1 }]}>
 				{/* Title */}
 				<StartTitle style={styles.titleContainer}>
 					Confirm your phone number: {phone}
@@ -113,7 +150,9 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 						<NettText style={styles.resendCodeLabel}>
 							Didn't receive the code?
 						</NettText>
-						<NettText style={styles.resendCodeLink}>Resend</NettText>
+						<NettText style={styles.resendCodeLink} onPress={handleRetry}>
+							Resend
+						</NettText>
 					</View>
 				</View>
 			</View>
@@ -139,9 +178,12 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 				/>
 			) : (
 				<View style={styles.bottomBar}>
-					<NettButton text="Retry" onPress={handlePrevious} />
+					<NettButton text="Retry" onPress={handleRetry} />
 				</View>
 			)}
+
+			{/* Loader */}
+			<ActivityIndicator visible={showLoader} />
 		</Screen>
 	);
 }

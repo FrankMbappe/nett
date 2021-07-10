@@ -20,6 +20,8 @@ import styles from "./styles";
 import images from "../../config/images";
 import UploadScreen from "../UploadScreen/UploadScreen";
 import { navigators } from "../../navigation/routes";
+import Toast from "react-native-root-toast";
+import colors from "../../config/colors";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -74,7 +76,10 @@ function ProfileEditionScreen({ navigation }) {
 		// Result handler
 		if (!result) {
 			setUploadIsVisible(false);
-			return alert("Could not update the profile.");
+			return Toast.show(
+				"Something went wrong while updating your profile, please try again...",
+				{ backgroundColor: colors.danger }
+			);
 		}
 	};
 
