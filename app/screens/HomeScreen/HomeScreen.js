@@ -101,8 +101,7 @@ function HomeScreen({ navigation }) {
 				Title: (
 					<SectionHeader
 						expand
-						icon="google-classroom"
-						title="Classrooms"
+						title="🏫  Classrooms"
 						onExpansion={() =>
 							navigation.navigate(screens.ShowAllClassrooms, {
 								data: classrooms,
@@ -144,7 +143,7 @@ function HomeScreen({ navigation }) {
 
 			/* POSTS */
 			posts.length && {
-				Title: <SectionHeader title="Recent updates" />,
+				Title: <SectionHeader title="🌍  Recent updates" />,
 				data: getPosts(classrooms),
 			},
 		],
