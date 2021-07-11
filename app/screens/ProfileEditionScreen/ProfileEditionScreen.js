@@ -47,6 +47,12 @@ function ProfileEditionScreen({ navigation, route }) {
 	const [uploadIsVisible, setUploadIsVisible] = useState(false);
 	const [progress, setProgress] = useState(0);
 
+	// Effects
+	useEffect(() => {
+		requestPermission();
+	}, []);
+
+	// Action handlers
 	const requestPermission = async () => {
 		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (!granted)
@@ -71,13 +77,6 @@ function ProfileEditionScreen({ navigation, route }) {
 			});
 		}
 	};
-
-	// Effects
-	useEffect(() => {
-		requestPermission();
-	}, []);
-
-	// Action handlers
 	const handleSubmit = async (values) => {
 		// Starting uploading
 		setProgress(0);

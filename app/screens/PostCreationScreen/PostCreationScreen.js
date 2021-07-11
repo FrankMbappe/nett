@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize, userFullName } from "../../utils";
 import { Divider } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import { getInfoAsync } from "expo-file-system";
+import classroomsApi from "../../api/classrooms";
 
 import { ListItem } from "../../components/lists";
 import BundleAdder from "../../components/BundleAdder";
@@ -22,19 +23,24 @@ import currentUser from "../../config/test";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
 import FileRenderer from "../../components/FileRenderer";
+import UploadScreen from "../UploadScreen/UploadScreen";
 
 const maxTextLength = 3000;
 
 function PostCreationScreen({ route, navigation }) {
 	// Get params
-	const { classroomName } = route.params;
+	const { classroomId, classroomName } = route.params;
 	const { _type, profile } = currentUser;
 	const authorName = userFullName({ ...profile });
 
-	// States
+	// States: Data
 	const [text, setText] = useState("");
 	const [file, setFile] = useState();
+
+	// States: UI
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+	const [uploadIsVisible, setUploadIsVisible] = useState(false);
+	const [progress, setProgress] = useState(0);
 
 	// Effects
 	useEffect(() => {
@@ -86,7 +92,31 @@ function PostCreationScreen({ route, navigation }) {
 	const handleDeleteFile = () => {
 		setFile(null);
 	};
-	const handlePublish = useCallback(() => console.log("Publish"));
+	const handleSubmit = async () => {
+		// Starting uploading
+		setProgress(0);
+		setUploadIsVisible(true);
+		const values = { classroomId, text, file };
+		const result = await classroomsApi.addPost(values, (progress) =>
+			setProgress(progress)
+		);
+
+		// Result handler
+		if (!result || !result.ok) {
+			setUploadIsVisible(false);
+			return Toast.show(
+				"Something went wrong while adding your post, please try again",
+				{ backgroundColor: colors.danger }
+			);
+		}
+	};
+	const handleDone = () => {
+		setUploadIsVisible(false);
+		Toast.show("Refresh the page to see your new post!", {
+			backgroundColor: colors.ok,
+		});
+		navigation.goBack();
+	};
 
 	const onPressImage = () => selectMedia(ImagePicker.MediaTypeOptions.Images);
 	const onPressVideo = () => selectMedia(ImagePicker.MediaTypeOptions.Videos);
@@ -96,6 +126,14 @@ function PostCreationScreen({ route, navigation }) {
 
 	return (
 		<Screen style={styles.screen}>
+			{/* Upload screen */}
+			<UploadScreen
+				progress={progress}
+				visible={uploadIsVisible}
+				onDone={handleDone}
+			/>
+
+			{/* Body */}
 			<TopBar style={styles.topBar}>
 				<ButtonIcon
 					name="arrow-left"
@@ -159,6 +197,7 @@ function PostCreationScreen({ route, navigation }) {
 						<FileRenderer
 							file={file}
 							type={file && file.type}
+							showDelete
 							onDelete={handleDeleteFile}
 						/>
 						<NettText style={styles.fileLabel}>
@@ -185,7 +224,7 @@ function PostCreationScreen({ route, navigation }) {
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={!text.length && !file}
-					onPress={handlePublish}
+					onPress={handleSubmit}
 					text="Publish"
 					type={buttons.PRIMARY}
 				/>

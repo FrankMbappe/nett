@@ -49,7 +49,10 @@ function ClassroomScreen({ route, navigation }) {
 
 	// Action handlers
 	const handleCreatePost = () => {
-		navigation.navigate(screens.PostCreation, { classroomName: name });
+		navigation.navigate(screens.PostCreation, {
+			classroomId,
+			classroomName: name,
+		});
 	};
 
 	return (

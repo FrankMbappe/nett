@@ -15,14 +15,20 @@ import NettTextInput from "../../components/TextInput";
 import { QACard } from "../../components/cards";
 import { capitalize, formatWordCount } from "../../utils";
 import FloatingButton from "../../components/FloatingButton";
+import { screens } from "../../navigation/routes";
 
-function QuizCreationScreen({}) {
+function QuizCreationScreen({ navigation }) {
+	// States
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [qaList, setQaList] = useState([]);
 
-	const onPublish = useCallback(() => console.log("Publish")); // TODO
-	const onSave = useCallback(() => console.log("Save")); // TODO
+	// Action handlers
+	const onPublish = async () => {};
+	const onSave = useCallback(() => console.log("Save"));
+	const handleAddQA = () => {
+		navigation.navigate(screens.QACreation);
+	};
 
 	return (
 		<Screen style={styles.screen}>
@@ -61,7 +67,7 @@ function QuizCreationScreen({}) {
 					/>
 					{qaList.length <= 0 && (
 						<NettText style={styles.qaTip}>
-							{"Tap the '+' floating button to add a new QA."}
+							{"✈  Tap the '+' floating button to add a new QA."}
 						</NettText>
 					)}
 					<View style={styles.qaListContainer}>
@@ -72,7 +78,11 @@ function QuizCreationScreen({}) {
 				</>
 			</ScrollView>
 
-			<FloatingButton icon="plus" style={styles.addQAButton} />
+			<FloatingButton
+				icon="plus"
+				style={styles.addQAButton}
+				onPress={handleAddQA}
+			/>
 
 			<View style={styles.bottomBar}>
 				<NettButton

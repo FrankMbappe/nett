@@ -1,10 +1,10 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import colors from "../config/colors";
 import ButtonIcon from "./ButtonIcon";
 import { ImageBundle, VideoBundle } from "./cards/bundles";
 
-function FileRenderer({ file, type, onDelete }) {
+function FileRenderer({ file, type, onDelete, showDelete = false }) {
 	if (!file || !type) return null;
 
 	// TODO: Other file bundle (e.g, PDF)
@@ -15,12 +15,14 @@ function FileRenderer({ file, type, onDelete }) {
 			) : String(type).includes("video") ? (
 				<VideoBundle duration="10:00" />
 			) : null}
-			<ButtonIcon
-				containerStyle={styles.closeButton}
-				name="close"
-				size={20}
-				onPress={onDelete}
-			/>
+			{showDelete && (
+				<ButtonIcon
+					containerStyle={styles.closeButton}
+					name="close"
+					size={20}
+					onPress={onDelete}
+				/>
+			)}
 		</>
 	);
 }
