@@ -1,5 +1,6 @@
 import client from "./client";
 import { basename } from "path";
+import { lookup } from "react-native-mime-types";
 
 const endpoint = "/users";
 
@@ -13,12 +14,16 @@ const setProfile = (
 	data.append("email", email);
 	data.append("birthDate", birthDate);
 
-	if (picUri)
-		data.append("picUri", {
-			name: basename(picUri),
-			type: "image/jpeg",
-			uri: picUri,
-		});
+	if (picUri) {
+		const mimetype = lookup(picUri);
+
+		if (mimetype)
+			data.append("picUri", {
+				name: basename(picUri),
+				type: mimetype,
+				uri: picUri,
+			});
+	}
 
 	return client.post(`${endpoint}/me/profile`, data, {
 		onUploadProgress: (progress) =>

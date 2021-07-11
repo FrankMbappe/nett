@@ -13,8 +13,8 @@ const getClassroom = (classroomId) => client.get(`${endpoint}/${classroomId}`);
 // Adding a post to a classroom
 const addPost = ({ classroomId, file, text }, onUploadProgress) => {
 	const data = new FormData();
-	data.append("text", text);
 	data.append("_type", "normal"); // Post types (Tutorial, Quiz, Normal)
+	if (text && text.length > 0) data.append("text", text);
 	if (file) {
 		const mimetype = lookup(file.uri);
 

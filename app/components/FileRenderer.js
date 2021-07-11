@@ -11,9 +11,9 @@ function FileRenderer({ file, type, onDelete, showDelete = false }) {
 	return (
 		<>
 			{String(type).includes("image") ? (
-				<ImageBundle imageUri={file.uri} />
+				<ImageBundle uri={"http://192.168.8.101:3000/" + file.uri} />
 			) : String(type).includes("video") ? (
-				<VideoBundle duration="10:00" />
+				<VideoBundle uri={"http://192.168.8.101:3000/" + file.uri} />
 			) : null}
 			{showDelete && (
 				<ButtonIcon

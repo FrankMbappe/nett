@@ -1,29 +1,27 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import NettText from "../../Text";
-import ButtonIcon from "../../ButtonIcon";
-import colors from "../../../config/colors";
+import { View, StyleSheet } from "react-native";
+import { Video, AVPlaybackStatus } from "expo-av";
 
-function VideoBundle({ duration = "00:00" }) {
+import colors from "../../../config/colors";
+import NettButton from "../../Button";
+
+function VideoBundle({ uri }) {
+	const video = React.useRef(null);
+	const [status, setStatus] = React.useState({});
+
 	return (
 		<View style={styles.container}>
-			<View style={{ width: "100%", height: 250 }}>
-				<TouchableOpacity style={styles.controlsContainer}>
-					<ButtonIcon name="play" size={75} color={colors.white} />
-				</TouchableOpacity>
-
-				<NettText style={styles.videoDuration}>{duration}</NettText>
-
-				<View style={styles.videoProgressContainer}>
-					<View
-						style={{
-							backgroundColor: colors.danger,
-							height: "100%",
-							width: "75%",
-						}}
-					/>
-				</View>
-			</View>
+			<Video
+				ref={video}
+				style={styles.video}
+				source={{
+					uri: uri,
+				}}
+				useNativeControls
+				resizeMode="contain"
+				isLooping
+				onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+			/>
 		</View>
 	);
 }
@@ -31,13 +29,20 @@ function VideoBundle({ duration = "00:00" }) {
 const styles = StyleSheet.create({
 	container: {
 		marginTop: 10,
-		backgroundColor: colors.mediumLight,
+		width: "100%",
+		height: 250,
+		backgroundColor: colors.dark,
 	},
 	controlsContainer: {
 		flex: 1,
 		backgroundColor: "#00000080",
 		justifyContent: "center",
 		alignItems: "center",
+	},
+	video: {
+		alignSelf: "center",
+		width: "100%",
+		height: "100%",
 	},
 	videoDuration: {
 		bottom: 15,

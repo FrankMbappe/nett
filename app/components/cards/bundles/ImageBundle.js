@@ -4,13 +4,10 @@ import colors from "../../../config/colors";
 
 import ButtonIcon from "../../ButtonIcon";
 
-function ImageBundle({ imageUri }) {
+function ImageBundle({ uri }) {
 	return (
 		<View style={styles.container}>
-			<Image
-				style={{ width: "100%", height: 250 }}
-				source={{ uri: imageUri }}
-			/>
+			<Image style={{ width: "100%", height: 250 }} source={{ uri: uri }} />
 			<ButtonIcon
 				name="arrow-expand-all"
 				color="white"
