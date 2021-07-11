@@ -23,9 +23,12 @@ function FileRenderer({
 				) : String(type).includes("video") ? (
 					<VideoBundle uri={currentUser.hostname + file.uri} />
 				) : (
-					<FileBundle file={file} fileCanBeDownloaded={canBeDownloaded} />
+					<FileBundle
+						file={{ ...file, uri: currentUser.hostname + file.uri }}
+						fileCanBeDownloaded={canBeDownloaded}
+					/>
 				)
-				// ) : // <FileBundle file={{ ...file, uri: currentUser.hostname + uri }} />
+				// ) : // <FileBundle file={{ ...file, uri: currentUser.hostname + file.uri }} />
 			}
 			{showDelete && (
 				<ButtonIcon
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 24,
 		end: 15,
-		backgroundColor: colors.white,
+		backgroundColor: colors.danger,
 		padding: 5,
 		borderRadius: 25,
 	},

@@ -29,7 +29,7 @@ const nettDownloadFolder = FileSystem.documentDirectory + "nett/";
 
 function FileBundle({
 	file: { uri: fileUri, name: fileName, extension: fileExt, size: fileSize },
-	fileCanBeDownloaded = false,
+	fileCanBeDownloaded = true,
 }) {
 	// States
 	const [downloadProgress, setDownloadProgress] = useState(0);
@@ -52,11 +52,22 @@ function FileBundle({
 		setDownloadProgress(progress);
 	};
 	const handlePress = async () => {
+		// Pretty self-explanatory
+		if (!fileCanBeDownloaded) return;
+
 		// If the file already exists, I open it
-		if (fileExists || !fileCanBeDownloaded) {
-			Linking.openURL(filePath);
+		if (fileExists) {
+			try {
+				Toast.show("Opening the requested file...");
+				await Linking.openURL(filePath);
+			} catch (error) {
+				Toast.show("Something went wrong while opening your file", {
+					backgroundColor: colors.warning,
+				});
+			}
 		} else {
 			// Else, it gets downloaded
+			Toast.show("Dowloading your file...");
 			try {
 				// I ensure that the download directory already exists
 				await ensureDirExists();
@@ -69,8 +80,14 @@ function FileBundle({
 					handleDownloadProgress
 				);
 				const { uri } = await downloadResumable.downloadAsync();
-				console.log("Finished downloading to ", uri);
+
+				Toast.show("Finished downloading to " + uri, {
+					backgroundColor: colors.ok,
+				});
 			} catch (e) {
+				Toast.show("Something went wrong while downloading your file", {
+					backgroundColor: colors.danger,
+				});
 				console.error(e);
 			}
 		}

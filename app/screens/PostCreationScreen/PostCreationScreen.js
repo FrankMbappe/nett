@@ -95,13 +95,13 @@ function PostCreationScreen({ route, navigation }) {
 		try {
 			// Accepts every type of file '*/*'
 			const result = await DocumentPicker.getDocumentAsync({ type: "*/*" });
-			if (!result.type === "cancel") {
+			if (result.type === "success") {
 				const fileResult = {
 					uri: result.uri,
 					name: result.name,
 					size: result.size,
-					extension: extname(result.name),
-					type: "document",
+					extension: extname(result.uri).substr(1),
+					type: "file",
 				};
 				setFile(fileResult);
 			}
@@ -221,6 +221,7 @@ function PostCreationScreen({ route, navigation }) {
 							type={file && file.type}
 							showDelete
 							onDelete={handleDeleteFile}
+							canBeDownloaded={false}
 						/>
 						<NettText style={styles.fileLabel}>
 							{`${file.type} - ${bytesToSize(file.size)}`}

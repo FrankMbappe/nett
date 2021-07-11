@@ -11,6 +11,14 @@ import NettText from "../Text";
 import colors from "../../config/colors";
 import currentUser from "../../config/test";
 
+function getFontSize(text, hasFile) {
+	if (!text || hasFile) return 18;
+
+	if (text.length > 100) return 16;
+	if (text.length > 50) return 22;
+	return 28;
+}
+
 function PostCard({
 	// Data
 	currentUserId,
@@ -59,7 +67,7 @@ function PostCard({
 							<Badge style={{ marginEnd: 5 }} />
 						)}
 
-						<NettText style={styles.postType}>POST</NettText>
+						<NettText style={styles.postType}>Post</NettText>
 
 						<NettText style={styles.creationDate}>
 							{formatRelative(new Date(creationDate), new Date())}
@@ -74,7 +82,10 @@ function PostCard({
 						{/* Text */}
 						{text && (
 							<NettText
-								style={[styles.text, { fontSize: 16 }]}
+								style={[
+									styles.text,
+									{ fontSize: getFontSize(text, file != null) },
+								]}
 								// Limit lines depending on whether or not there's a file
 								numberOfLines={file ? 4 : 0}
 							>
@@ -157,8 +168,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	text: {
-		textAlign: "justify",
-		fontSize: 15,
+		fontSize: 16,
 	},
 });
 

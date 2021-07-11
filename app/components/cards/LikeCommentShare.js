@@ -43,9 +43,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: "row",
-		marginTop: 10,
-		borderTopWidth: 1,
-		borderTopColor: colors.light,
+		marginTop: 5,
 	},
 	button: {
 		flex: 1,
