@@ -3,6 +3,7 @@ import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize, userFullName } from "../../utils";
 import { Divider } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import { getInfoAsync } from "expo-file-system";
 import classroomsApi from "../../api/classrooms";
 
@@ -24,6 +25,7 @@ import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
 import FileRenderer from "../../components/FileRenderer";
 import UploadScreen from "../UploadScreen/UploadScreen";
+import { extname } from "path/posix";
 
 const maxTextLength = 3000;
 
@@ -89,6 +91,26 @@ function PostCreationScreen({ route, navigation }) {
 			});
 		}
 	};
+	const selectDocument = async () => {
+		try {
+			// Accepts every type of file '*/*'
+			const result = await DocumentPicker.getDocumentAsync({ type: "*/*" });
+			if (!result.type === "cancel") {
+				const fileResult = {
+					uri: result.uri,
+					name: result.name,
+					size: result.size,
+					extension: extname(result.name),
+					type: "document",
+				};
+				setFile(fileResult);
+			}
+		} catch (error) {
+			Toast.show("An error occured while reading your file", {
+				backgroundColor: colors.danger,
+			});
+		}
+	};
 	const handleDeleteFile = () => {
 		setFile(null);
 	};
@@ -120,7 +142,7 @@ function PostCreationScreen({ route, navigation }) {
 
 	const onPressImage = () => selectMedia(ImagePicker.MediaTypeOptions.Images);
 	const onPressVideo = () => selectMedia(ImagePicker.MediaTypeOptions.Videos);
-	const onPressFile = () => alert("File");
+	const onPressFile = () => selectDocument();
 	const onPressTutorial = () => alert("Tutorial");
 	const onPressQuiz = () => navigation.navigate(screens.QuizCreation);
 

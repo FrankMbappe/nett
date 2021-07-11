@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import colors from "../config/colors";
 import ButtonIcon from "./ButtonIcon";
-import { ImageBundle, VideoBundle } from "./cards/bundles";
+import { FileBundle, ImageBundle, VideoBundle } from "./cards/bundles";
 
 function FileRenderer({ file, type, onDelete, showDelete = false }) {
 	if (!file || !type) return null;
@@ -14,6 +14,8 @@ function FileRenderer({ file, type, onDelete, showDelete = false }) {
 				<ImageBundle uri={"http://192.168.8.101:3000/" + file.uri} />
 			) : String(type).includes("video") ? (
 				<VideoBundle uri={"http://192.168.8.101:3000/" + file.uri} />
+			) : String(type).includes("document") ? (
+				<FileBundle file={file} />
 			) : null}
 			{showDelete && (
 				<ButtonIcon
