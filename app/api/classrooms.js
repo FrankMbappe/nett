@@ -35,7 +35,10 @@ const addPost = ({ classroomId, file, text }, onUploadProgress) => {
 // Adding a comment to a post in a classroom
 const addComment = ({ classroomId, postId, text }) => {
 	const data = { text };
-	return client.post(`${endpoint}/${classroomId}/${postId}/comments`, data);
+	return client.post(
+		`${endpoint}/${classroomId}/posts/${postId}/comments`,
+		data
+	);
 };
 
 export default {

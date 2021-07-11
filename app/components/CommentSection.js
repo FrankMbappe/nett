@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Modal, View } from "react-native";
+import {
+	FlatList,
+	StyleSheet,
+	Modal,
+	View,
+	KeyboardAvoidingView,
+} from "react-native";
 
 import ButtonIcon from "./ButtonIcon";
 import Comment from "./Comment";
@@ -23,6 +29,7 @@ function CommentSection({
 	// States
 	const [text, setText] = useState("");
 	const [commentInputFocus, setCommentInputFocus] = useState(false);
+	const [refreshing, setRefreshing] = useState(false);
 
 	// Action handlers
 	const onPressMentioner = () => alert("Mentioner");
@@ -35,72 +42,75 @@ function CommentSection({
 			statusBarTranslucent
 			onRequestClose={onPressBack}
 		>
-			<Screen style={styles.screen}>
-				<TopBar style={styles.topBar}>
-					<ButtonIcon name="arrow-left" size={25} onPress={onPressBack} />
-					<NettText style={styles.title} numberOfLines={1}>
-						{title}
-					</NettText>
-					<ButtonIcon
-						color={isLiked ? colors.danger : colors.mediumLight}
-						name="heart"
-						size={25}
-						onPress={onPressLike}
-					/>
-				</TopBar>
-				<FlatList
-					style={{ flex: 1 }}
-					data={comments}
-					showsHorizontalScrollIndicator={false}
-					keyExtractor={(item) => item._id}
-					renderItem={({ item: { author, creationDate, text } }) => (
-						<Comment
-							author={{
-								...author,
-								profile: {
-									...author.profile,
-									fullName: userFullName({ ...author.profile }),
-									picUri: currentUser.hostname + author.profile.picUri,
-								},
-							}}
-							creationDate={creationDate}
-							text={text}
-							onPressLike={() => alert("Like")}
-							onPressProfilePic={() => alert("Profile pic")}
-							onPressReply={(authorId) => {
-								setText((prevValue) => prevValue.concat("@", authorId));
-								setCommentInputFocus(true);
-							}}
+			<KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+				<Screen style={styles.screen}>
+					<TopBar style={styles.topBar}>
+						<ButtonIcon name="arrow-left" size={25} onPress={onPressBack} />
+						<NettText style={styles.title} numberOfLines={1}>
+							{title}
+						</NettText>
+						<ButtonIcon
+							color={isLiked ? colors.danger : colors.mediumLight}
+							name="heart"
+							size={25}
+							onPress={onPressLike}
 						/>
-					)}
-				/>
-				<View style={styles.bottomBar}>
-					<ButtonIcon
-						containerStyle={styles.mentionButton}
-						name="at"
-						color={colors.medium}
-						size={25}
-						onPress={onPressMentioner}
+					</TopBar>
+
+					<FlatList
+						style={{ flex: 1 }}
+						data={comments}
+						showsHorizontalScrollIndicator={false}
+						keyExtractor={(item) => item._id}
+						renderItem={({ item: { author, creationDate, text } }) => (
+							<Comment
+								author={{
+									...author,
+									profile: {
+										...author.profile,
+										fullName: userFullName({ ...author.profile }),
+										picUri: currentUser.hostname + author.profile.picUri,
+									},
+								}}
+								creationDate={creationDate}
+								text={text}
+								onPressLike={() => alert("Like")}
+								onPressProfilePic={() => alert("Profile pic")}
+								onPressReply={(authorId) => {
+									setText((prevValue) => prevValue.concat("@", authorId));
+									setCommentInputFocus(true);
+								}}
+							/>
+						)}
 					/>
-					<NettTextInput
-						autoFocus={true}
-						containerStyle={styles.input}
-						fontSize={15}
-						focus={commentInputFocus}
-						multiline
-						onChangeText={(text) => setText(text)}
-						placeholder="Write a comment"
-						value={text}
-					/>
-					<ButtonIcon
-						containerStyle={styles.sendButton}
-						color={colors.appBack}
-						name="send"
-						size={25}
-						onPress={() => onPublish(text)}
-					/>
-				</View>
-			</Screen>
+					<View style={styles.bottomBar}>
+						<ButtonIcon
+							containerStyle={styles.mentionButton}
+							name="at"
+							color={colors.medium}
+							size={25}
+							onPress={onPressMentioner}
+						/>
+						<NettTextInput
+							autoFocus={true}
+							containerStyle={styles.input}
+							fontSize={15}
+							focus={commentInputFocus}
+							multiline
+							onChangeText={(text) => setText(text)}
+							placeholder="Write a comment"
+							value={text}
+						/>
+						<ButtonIcon
+							containerStyle={styles.sendButton}
+							color={colors.appBack}
+							name="send"
+							size={25}
+							onPress={() => onPublish(text)}
+						/>
+					</View>
+				</Screen>
+			</KeyboardAvoidingView>
 		</Modal>
 	);
 }
@@ -111,7 +121,9 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.appBack,
 		flexDirection: "row",
 		alignItems: "center",
-		padding: 5,
+		paddingHorizontal: 5,
+		paddingTop: 10,
+		paddingBottom: 0,
 	},
 	input: {
 		flex: 1,
