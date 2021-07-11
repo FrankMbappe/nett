@@ -72,13 +72,15 @@ function PostCard({
 					{/* BODY & FOOTER */}
 					<View style={styles.contentContainer}>
 						{/* Text */}
-						<NettText
-							style={[styles.text, { fontSize: 16 }]}
-							// Limit lines depending on whether or not there's a file
-							numberOfLines={file ? 4 : 0}
-						>
-							{text}
-						</NettText>
+						{text && (
+							<NettText
+								style={[styles.text, { fontSize: 16 }]}
+								// Limit lines depending on whether or not there's a file
+								numberOfLines={file ? 4 : 0}
+							>
+								{text}
+							</NettText>
+						)}
 
 						{/* Comment bar */}
 						<LikeCommentShare

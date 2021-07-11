@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
+import * as FileSystem from "expo-file-system";
+import * as Linking from "expo-linking";
+
 import colors from "../../../config/colors";
 import { bytesToSize } from "../../../utils";
 import NettText from "../../Text";
 import TextIcon from "../../TextIcon";
+import Toast from "react-native-root-toast";
 
 function getDownloadStatus(progress) {
 	if (progress === 1) return { id: "downloaded", text: "File", icon: "pin" };
@@ -21,15 +25,72 @@ function getDownloadStatus(progress) {
 		};
 }
 
+const nettDownloadFolder = FileSystem.documentDirectory + "nett/";
+
 function FileBundle({
-	file: { name, extension, size },
-	downloadProgress = 1,
-	onPress,
+	file: { uri: fileUri, name: fileName, extension: fileExt, size: fileSize },
+	fileCanBeDownloaded = false,
 }) {
-	const downloadStatus = getDownloadStatus(downloadProgress);
+	// States
+	const [downloadProgress, setDownloadProgress] = useState(0);
+	const downloadStatus = useMemo(
+		() => getDownloadStatus(downloadProgress),
+		[downloadProgress]
+	);
+	const filePath = useMemo(() => nettDownloadFolder + fileName, []);
+
+	// Effects
+	useEffect(() => {
+		if (fileExists || !fileCanBeDownloaded) setDownloadProgress(1);
+	}, []);
+
+	// Action handlers
+	const handleDownloadProgress = (downloadProgress) => {
+		const progress =
+			downloadProgress.totalBytesWritten /
+			downloadProgress.totalBytesExpectedToWrite;
+		setDownloadProgress(progress);
+	};
+	const handlePress = async () => {
+		// If the file already exists, I open it
+		if (fileExists || !fileCanBeDownloaded) {
+			Linking.openURL(filePath);
+		} else {
+			// Else, it gets downloaded
+			try {
+				// I ensure that the download directory already exists
+				await ensureDirExists();
+
+				// The download starts..
+				const downloadResumable = FileSystem.createDownloadResumable(
+					fileUri,
+					filePath,
+					{},
+					handleDownloadProgress
+				);
+				const { uri } = await downloadResumable.downloadAsync();
+				console.log("Finished downloading to ", uri);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	};
+	const ensureDirExists = async () => {
+		const dirInfo = await FileSystem.getInfoAsync(nettDownloadFolder);
+		if (!dirInfo.exists) {
+			Toast.show("Download directory doesn't exist, creating...");
+			await FileSystem.makeDirectoryAsync(nettDownloadFolder, {
+				intermediates: true,
+			});
+		}
+	};
+	const fileExists = async () => {
+		const fileInfo = await FileSystem.getInfoAsync(filePath);
+		return fileInfo.exists;
+	};
 
 	return (
-		<TouchableOpacity style={styles.container} onPress={onPress}>
+		<TouchableOpacity style={styles.container} onPress={handlePress}>
 			{downloadStatus.id === "downloading" && (
 				<View
 					style={[
@@ -49,17 +110,17 @@ function FileBundle({
 				<View style={styles.descriptionContainer}>
 					<View style={styles.extensionLabel}>
 						<NettText style={styles.extension} numberOfLines={1}>
-							{extension}
+							{fileExt}
 						</NettText>
 					</View>
 
 					<View style={{ flex: 1 }}>
 						<NettText style={styles.name} numberOfLines={2}>
-							{name}
+							{fileName}
 						</NettText>
 
 						<NettText style={{ fontSize: 12 }} numberOfLines={1}>
-							{`${extension.toUpperCase()} File | ${bytesToSize(size)}`}
+							{`${fileExt.toUpperCase()} File | ${bytesToSize(fileSize)}`}
 						</NettText>
 					</View>
 				</View>

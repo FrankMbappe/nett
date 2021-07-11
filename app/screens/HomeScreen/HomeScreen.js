@@ -14,6 +14,7 @@ import styles from "./styles";
 import currentUser from "../../config/test";
 import { userFullName } from "../../utils";
 import ApiError from "../../components/ApiError";
+import { orderBy } from "lodash-es";
 
 // Helper functions
 function filterSections(sections) {
@@ -40,7 +41,7 @@ function getPosts(classrooms) {
 	const posts = classrooms.flatMap((classroom) => classroom.posts);
 
 	// Sort: Most recent post first
-	return posts;
+	return orderBy(posts, "creationDate", "desc");
 }
 
 function HomeScreen({ navigation }) {

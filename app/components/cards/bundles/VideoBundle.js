@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 
 import colors from "../../../config/colors";
-import NettButton from "../../Button";
+import NettText from "../../Text";
 
 function VideoBundle({ uri }) {
 	const video = React.useRef(null);

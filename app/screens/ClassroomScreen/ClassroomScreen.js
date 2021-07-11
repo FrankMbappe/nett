@@ -19,6 +19,7 @@ import styles from "./styles";
 
 import currentUser from "../../config/test";
 import ApiError from "../../components/ApiError";
+import { orderBy } from "lodash-es";
 
 function ClassroomScreen({ route, navigation }) {
 	// Getting params
@@ -126,7 +127,7 @@ function ClassroomScreen({ route, navigation }) {
 						onScroll={(event) =>
 							setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
 						}
-						data={posts}
+						data={orderBy(posts, "creationDate", "desc")}
 						style={{ opacity: isLoading ? 0.25 : 1 }}
 						keyExtractor={({ _id }) => String(_id)}
 						showsVerticalScrollIndicator={false}

@@ -25,7 +25,7 @@ import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
 import FileRenderer from "../../components/FileRenderer";
 import UploadScreen from "../UploadScreen/UploadScreen";
-import { extname } from "path/posix";
+import { extname } from "path";
 
 const maxTextLength = 3000;
 

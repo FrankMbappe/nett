@@ -9,6 +9,7 @@ import Screen from "./Screen";
 import TopBar from "./TopBar";
 import colors from "../config/colors";
 import { userFullName } from "../utils";
+import currentUser from "../config/test";
 
 function CommentSection({
 	isVisible,
@@ -17,7 +18,7 @@ function CommentSection({
 	onPublish,
 	comments = [],
 	isLiked = false,
-	title = "Comments",
+	title = "👩‍👩‍👧‍👦  Comments",
 }) {
 	// States
 	const [text, setText] = useState("");
@@ -30,7 +31,7 @@ function CommentSection({
 		<Modal
 			visible={isVisible}
 			style={styles.modal}
-			animationType="fade"
+			animationType="slide"
 			statusBarTranslucent
 			onRequestClose={onPressBack}
 		>
@@ -51,14 +52,15 @@ function CommentSection({
 					style={{ flex: 1 }}
 					data={comments}
 					showsHorizontalScrollIndicator={false}
-					keyExtractor={(item) => item.id}
+					keyExtractor={(item) => item._id}
 					renderItem={({ item: { author, creationDate, text } }) => (
 						<Comment
 							author={{
 								...author,
 								profile: {
-									fullName: userFullName({ ...author.profile }),
 									...author.profile,
+									fullName: userFullName({ ...author.profile }),
+									picUri: currentUser.hostname + author.profile.picUri,
 								},
 							}}
 							creationDate={creationDate}
