@@ -14,7 +14,8 @@ import styles from "./styles";
 import currentUser from "../../config/test";
 import { userFullName } from "../../utils";
 import ApiError from "../../components/ApiError";
-import { orderBy } from "lodash-es";
+import { includes, orderBy } from "lodash-es";
+import { handlePublishComment } from "../ClassroomScreen/ClassroomScreen";
 
 // Helper functions
 function filterSections(sections) {
@@ -178,8 +179,12 @@ function HomeScreen({ navigation }) {
 							renderItem={({ item: post }) => {
 								if (!post) return null;
 								if (React.isValidElement(post)) return post;
-								else
-									return (
+								else {
+									// Getting classroom info
+									const classroom = classrooms.find((classroom) =>
+										includes(classroom.posts, post)
+									);
+									return classroom ? (
 										<PostCard
 											currentUserId={currentUser.id}
 											post={{
@@ -188,18 +193,15 @@ function HomeScreen({ navigation }) {
 													fullName: userFullName({ ...post.author.profile }),
 													picUri: post.author.profile.picUri,
 												},
-												classroom: post.classroom
-													? classrooms.find(
-															(classroom) => classroom._id === post.classroom
-													  ).name
-													: "Classroom",
+												classroom: classroom.name,
 											}}
 											onLike={() => alert("Call endpoint /like")}
 											onPublishComment={(text) =>
-												alert("Call endpoint /comment with " + text)
+												handlePublishComment(classroom._id, post._id, text)
 											}
 										/>
-									);
+									) : null;
+								}
 							}}
 							showsVerticalScrollIndicator={false}
 						/>

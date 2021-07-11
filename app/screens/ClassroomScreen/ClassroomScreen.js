@@ -20,6 +20,33 @@ import styles from "./styles";
 import currentUser from "../../config/test";
 import ApiError from "../../components/ApiError";
 import { orderBy } from "lodash-es";
+import Toast from "react-native-root-toast";
+
+// Public action handlers
+const handlePublishComment = async (classroomId, postId, text) => {
+	// Input validation
+	if (text.length < 3)
+		return Toast.show("Your comment must be at least 3 characters long", {
+			backgroundColor: colors.warning,
+		});
+
+	// Attempting to publish comment
+	Toast.show("Publishing your comment...");
+	const values = { classroomId, postId, text };
+	const result = await classroomsApi.addComment(values);
+
+	// Failure
+	if (!result || !result.ok)
+		return Toast.show(
+			"Something went wrong while publishing your comment, please try again",
+			{ backgroundColor: colors.danger }
+		);
+
+	//
+	Toast.show("Your comment has been published", {
+		backgroundColor: colors.ok,
+	});
+};
 
 function ClassroomScreen({ route, navigation }) {
 	// Getting params
@@ -143,7 +170,7 @@ function ClassroomScreen({ route, navigation }) {
 								}}
 								onLike={() => alert("Call endpoint /like")}
 								onPublishComment={(text) =>
-									alert("Call endpoint /comment with " + text)
+									handlePublishComment(classroomId, post._id, text)
 								}
 							/>
 						)}
@@ -175,3 +202,4 @@ function ClassroomScreen({ route, navigation }) {
 }
 
 export default ClassroomScreen;
+export { handlePublishComment };

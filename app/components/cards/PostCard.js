@@ -109,7 +109,7 @@ function PostCard({
 								fullName: authorFullName,
 								picUri: currentUser.hostname + authorPicUri,
 							}}
-							name={classroomName}
+							classroomName={classroomName}
 						/>
 					</View>
 				</>
@@ -122,7 +122,7 @@ function PostCard({
 				comments={comments}
 				onPressBack={() => setModalIsVisible(false)}
 				onPressLike={onLike}
-				onPublish={(text) => onPublishComment(text)}
+				onPublish={(text) => onPublishComment && onPublishComment(text)}
 			/>
 		</>
 	);
