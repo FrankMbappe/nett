@@ -41,9 +41,32 @@ const addComment = ({ classroomId, postId, text }) => {
 	);
 };
 
+// Adding a quiz to a classroom
+const addQuiz = ({
+	classroomId,
+	title,
+	description,
+	dateOpening,
+	dateClosing,
+	qas,
+	isDetermistic,
+}) => {
+	const data = {
+		title,
+		description: description ?? undefined,
+		dateOpening: dateOpening ?? undefined,
+		dateClosing: dateClosing ?? undefined,
+		qas,
+		isDetermistic,
+	};
+
+	return client.post(`${endpoint}/${classroomId}/quizzes`, data);
+};
+
 export default {
 	getClassrooms,
 	getClassroom,
 	addPost,
 	addComment,
+	addQuiz,
 };

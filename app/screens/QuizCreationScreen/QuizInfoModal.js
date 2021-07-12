@@ -1,20 +1,27 @@
+import { isAfter } from "date-fns";
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import NettButton from "../../components/Button";
 import ButtonIcon from "../../components/ButtonIcon";
 import Label from "../../components/Label";
 import ShortModal from "../../components/ShortModal";
+import NettSwitch from "../../components/Switch";
 import NettText from "../../components/Text";
-import NettTextInput from "../../components/TextInput";
 import colors from "../../config/colors";
 
-function TopicModal({ isVisible, onTapOutside, onSubmit }) {
+function QuizInfoModal({ isVisible, onTapOutside, onSubmit }) {
 	// States
-	const [topic, setTopic] = useState();
+	const [hasTimeInterval, setHasTimeInterval] = useState(false);
+	const [isDeterministic, setIsDeterministic] = useState(false);
+	const [dateOpening, setDateOpening] = useState(new Date());
+	const [dateClosing, setDateClosing] = useState(new Date());
 
 	// Action handlers
 	const handleOnShow = () => {
-		setTopic("");
+		setHasTimeInterval(false);
+		setIsDeterministic(false);
+		setDateOpening(new Date());
+		setDateClosing(new Date());
 	};
 
 	return (
@@ -26,7 +33,7 @@ function TopicModal({ isVisible, onTapOutside, onSubmit }) {
 			<View style={styles.mainContainer}>
 				{/* Header */}
 				<View style={styles.header}>
-					<Label style={styles.label} value="📚 Specify a topic" />
+					<Label style={styles.label} value="🛠 Additional options" />
 
 					{/* Close button */}
 					<ButtonIcon
@@ -37,25 +44,33 @@ function TopicModal({ isVisible, onTapOutside, onSubmit }) {
 					/>
 				</View>
 
-				<View style={styles.topicContainer}>
-					<NettTextInput
-						placeholder="What topic does your QA target?"
-						fontSize={18}
-						value={topic}
-						onChangeText={(text) => setTopic(text)}
+				<View style={styles.optionContainer}>
+					<NettSwitch
+						text="Apply a time interval"
+						description="Specify a date at which your quiz will be opened and closed."
+						onToggleSwitch={(value) => setHasTimeInterval(value)}
 					/>
-					<NettText style={styles.topicDescription}>
-						{
-							'It tells which domain is this question about. An example of a topic can be "Sports 🏀" or "Chemistry 🧪".'
-						}
-					</NettText>
+					<NettSwitch
+						containerStyle={{ marginTop: 10 }}
+						text="Deterministic"
+						description="Allow your students to know if they are right after completing each QA."
+						onToggleSwitch={(value) => setIsDeterministic(value)}
+					/>
 				</View>
 
 				{/* Submit button */}
 				<NettButton
 					text="Submit"
-					disabled={!topic}
-					onPress={() => onSubmit && onSubmit(topic)}
+					disabled={hasTimeInterval && isAfter(dateOpening, dateClosing)}
+					onPress={() =>
+						onSubmit &&
+						onSubmit({
+							isDeterministic,
+							hasTimeInterval,
+							dateOpening,
+							dateClosing,
+						})
+					}
 				/>
 			</View>
 		</ShortModal>
@@ -86,13 +101,13 @@ const styles = StyleSheet.create({
 		color: colors.medium,
 		alignSelf: "center",
 	},
-	topicContainer: {
+	optionContainer: {
 		flex: 1,
 	},
 	selector: {
 		marginVertical: 10,
 	},
-	topicDescription: {
+	optionDescription: {
 		fontSize: 15,
 		color: colors.medium,
 		textAlign: "center",
@@ -100,4 +115,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TopicModal;
+export default QuizInfoModal;

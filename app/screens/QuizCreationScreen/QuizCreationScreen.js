@@ -16,6 +16,10 @@ import { QACard } from "../../components/cards";
 import { capitalize, formatWordCount } from "../../utils";
 import FloatingButton from "../../components/FloatingButton";
 import { screens } from "../../navigation/routes";
+import QuizInfoModal from "./QuizInfoModal";
+import Toast from "react-native-root-toast";
+import colors from "../../config/colors";
+import { isAfter } from "date-fns";
 
 function QuizCreationScreen({ navigation, route }) {
 	// Params
@@ -24,6 +28,7 @@ function QuizCreationScreen({ navigation, route }) {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [qaList, setQaList] = useState([]);
+	const [infoModalIsVisible, setInfoModalIsVisible] = useState(false);
 
 	// Effects
 	useEffect(() => {
@@ -52,9 +57,47 @@ function QuizCreationScreen({ navigation, route }) {
 	}, [route.params]);
 
 	// Action handlers
-	const handlePublish = async () => {};
+	const handleSubmit = () => {
+		// Input validation
+		if (title.length <= 1 || qaList.length <= 1)
+			return Toast.show("A quiz must have a title, and have at least 2 QAs", {
+				backgroundColor: colors.warning,
+			});
+
+		// I show additional info modal
+		setInfoModalIsVisible(true);
+	};
 	const handleAddQA = () => {
 		navigation.navigate(screens.QACreation);
+	};
+	const handleCloseInfoModal = () => {
+		setInfoModalIsVisible(false);
+	};
+	const handleSubmitInfoModal = ({
+		isDeterministic,
+		hasTimeInterval,
+		dateOpening,
+		dateClosing,
+	}) => {
+		// Input validation
+		if (hasTimeInterval && isAfter(dateOpening, dateClosing))
+			return Toast.show("The opening date cannot be after the closing date", {
+				backgroundColor: colors.warning,
+			});
+
+		// I call the API
+		// TODO:
+		alert(
+			JSON.stringify({
+				title,
+				description,
+				qaList,
+				isDeterministic,
+				hasTimeInterval,
+				dateOpening,
+				dateClosing,
+			})
+		);
 	};
 
 	return (
@@ -114,11 +157,18 @@ function QuizCreationScreen({ navigation, route }) {
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={qaList.length <= 0}
-					onPress={handlePublish}
+					onPress={handleSubmit}
 					text="Publish"
 					type={buttons.PRIMARY}
 				/>
 			</View>
+
+			{/* Additional infos modal */}
+			<QuizInfoModal
+				isVisible={infoModalIsVisible}
+				onTapOutside={handleCloseInfoModal}
+				onSubmit={handleSubmitInfoModal}
+			/>
 		</Screen>
 	);
 }
