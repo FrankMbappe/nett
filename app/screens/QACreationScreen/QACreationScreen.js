@@ -17,6 +17,8 @@ import colors from "../../config/colors";
 import TextIcon from "../../components/TextIcon";
 import Label from "../../components/Label";
 import AnswerModal from "./AnswerModal";
+import { screens } from "../../navigation/routes";
+import Toast from "react-native-root-toast";
 
 function getQuestionFontSize({ length }) {
 	if (length <= 50) return 30;
@@ -24,28 +26,21 @@ function getQuestionFontSize({ length }) {
 	return 20;
 }
 
-function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
+function QACreationScreen({
+	navigation,
+	maxTextLength = 255,
+	maxAnswersCount = 5,
+}) {
 	// States
 	const [timer, setTimer] = useState(60);
 	const [question, setQuestion] = useState("");
-	const [answers, setAnswers] = useState([
-		{
-			value:
-				"All I have to do is dream a chouchou oh a chouchou owoh tonepewa wa ndé fatigué wa ndé fille de joie",
-			isRight: true,
-		},
-		{
-			value: "Call me when you want, call me when you need",
-			isRight: true,
-		},
-		{ value: "Yeah, call me when you want", isRight: false },
-	]);
+	const [answers, setAnswers] = useState([]);
 	const [answerModalVisible, setAnswerModalVisible] = useState(true);
 
 	// Action handlers
 	const handlePublish = useCallback(() => {
-		console.log("Publish");
-	}); // TODO
+		navigation.navigate(screens.QuizCreation, { question, answers, timer });
+	});
 	const handleAddAnswer = () => {
 		if (answers.length >= maxAnswersCount) return;
 		setAnswerModalVisible(true);
@@ -62,6 +57,8 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 				isRight: answerIsGood,
 			})
 		);
+
+		Toast.show("Your answer has been added.");
 	};
 
 	return (
@@ -184,6 +181,7 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 						</NettText>
 					)}
 
+					{/* Add answer button */}
 					<NettButton
 						disabled={answers.length >= maxAnswersCount}
 						fontSize={12}
@@ -196,15 +194,17 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 				</>
 			</ScrollView>
 
+			{/* Submit button */}
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={question.length <= 0 || answers.length <= 1}
 					onPress={handlePublish}
-					text="SAVE"
+					text="Save"
 					type={buttons.PRIMARY}
 				/>
 			</View>
 
+			{/* Modal for adding a new answer */}
 			<AnswerModal
 				isVisible={answerModalVisible}
 				onTapOutside={() => setAnswerModalVisible(false)}

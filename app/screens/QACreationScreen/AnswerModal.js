@@ -4,6 +4,7 @@ import BinarySelector from "../../components/BinarySelector";
 import NettButton from "../../components/Button";
 import ButtonIcon from "../../components/ButtonIcon";
 import Label from "../../components/Label";
+import ShortModal from "../../components/ShortModal";
 import NettText from "../../components/Text";
 import NettTextInput from "../../components/TextInput";
 import colors from "../../config/colors";
@@ -32,85 +33,65 @@ function AnswerModal({
 	};
 
 	return (
-		<Modal
+		<ShortModal
 			visible={isVisible}
-			animationType="slide"
 			onRequestClose={onTapOutside}
 			onShow={handleOnShow}
-			transparent
 		>
-			<KeyboardAvoidingView style={styles.container}>
-				<View style={styles.mainContainer}>
-					{/* Header */}
-					<View style={styles.header}>
-						<Label style={styles.label} value="Answer" />
+			<View style={styles.mainContainer}>
+				{/* Header */}
+				<View style={styles.header}>
+					<Label style={styles.label} value="Answer" />
 
-						{/* Close button */}
-						<ButtonIcon
-							name="close"
-							containerStyle={styles.modalCloseButton}
-							size={15}
-							onPress={onTapOutside}
-						/>
-					</View>
-
-					{/* Text input */}
-					<View style={styles.inputContainer}>
-						<NettTextInput
-							containerStyle={styles.input}
-							multiline
-							maxLength={maxTextLength}
-							onChangeText={(text) => setText(text)}
-							placeholder="Start typing..."
-							value={text}
-						/>
-					</View>
-					<NettText style={styles.characterCount}>
-						<NettText style={styles.characterCountLabel}>
-							{"Remaining characters:  "}
-						</NettText>
-						<NettText
-							style={styles.characterCountValue}
-						>{`${text.length} / ${maxTextLength}`}</NettText>
-					</NettText>
-
-					{/* Good or bad answer */}
-					<BinarySelector
-						left="✅ Good"
-						right="❌ Bad"
-						style={styles.goodOrBad}
-						onSelectionChange={(selection) => handleSelectionChange(selection)}
-					/>
-
-					{/* Submit button */}
-					<NettButton
-						text="Submit"
-						disabled={!text}
-						onPress={() => onSubmit && onSubmit(text, isGood)}
+					{/* Close button */}
+					<ButtonIcon
+						name="close"
+						containerStyle={styles.modalCloseButton}
+						size={15}
+						onPress={onTapOutside}
 					/>
 				</View>
-			</KeyboardAvoidingView>
-		</Modal>
+
+				{/* Text input */}
+				<View style={styles.inputContainer}>
+					<NettTextInput
+						containerStyle={styles.input}
+						multiline
+						maxLength={maxTextLength}
+						onChangeText={(text) => setText(text)}
+						placeholder="Start typing..."
+						value={text}
+					/>
+				</View>
+				<NettText style={styles.characterCount}>
+					<NettText style={styles.characterCountLabel}>
+						{"Remaining characters:  "}
+					</NettText>
+					<NettText
+						style={styles.characterCountValue}
+					>{`${text.length} / ${maxTextLength}`}</NettText>
+				</NettText>
+
+				{/* Good or bad answer */}
+				<BinarySelector
+					left="✅ Good"
+					right="❌ Bad"
+					style={styles.goodOrBad}
+					onSelectionChange={(selection) => handleSelectionChange(selection)}
+				/>
+
+				{/* Submit button */}
+				<NettButton
+					text="Submit"
+					disabled={!text}
+					onPress={() => onSubmit && onSubmit(text, isGood)}
+				/>
+			</View>
+		</ShortModal>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		position: "absolute",
-		width: "100%",
-		minHeight: 250,
-		bottom: 0,
-		backgroundColor: colors.appBack,
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 12,
-		},
-		shadowOpacity: 0.85,
-		shadowRadius: 16.16,
-
-		elevation: 20,
-	},
 	header: {
 		flex: 1,
 		flexDirection: "row",
