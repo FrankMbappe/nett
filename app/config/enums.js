@@ -43,6 +43,13 @@ const genders = {
 	female: "female",
 };
 
+// Post types
+const postTypes = {
+	normal: "normal",
+	tutorial: "tutorial",
+	quiz: "quiz",
+};
+
 export {
 	buttons,
 	countries,
@@ -50,4 +57,5 @@ export {
 	accountTypes,
 	timerStatus,
 	genders,
+	postTypes,
 };

@@ -143,7 +143,7 @@ function PostCreationScreen({ route, navigation }) {
 	const onPressImage = () => selectMedia(ImagePicker.MediaTypeOptions.Images);
 	const onPressVideo = () => selectMedia(ImagePicker.MediaTypeOptions.Videos);
 	const onPressFile = () => selectDocument();
-	const onPressTutorial = () => alert("Tutorial");
+	const onPressTutorial = () => navigation.navigate(screens.TutorialCreation);
 	const onPressQuiz = () => navigation.navigate(screens.QuizCreation);
 
 	return (

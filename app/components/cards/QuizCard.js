@@ -1,53 +1,78 @@
+import { formatRelative } from "date-fns";
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { formatWordCount } from "../../utils";
-
-import NettText from "../Text";
-import TextIcon from "../TextIcon";
+import { View, StyleSheet, TouchableHighlight } from "react-native";
 import colors from "../../config/colors";
+import currentUser from "../../config/test";
+import { getEventProps } from "../../utils";
+import Badge from "../Badge";
+import NettText from "../Text";
+import Author from "./Author";
 
-function QACard({
-	// Data
-	qa: { position, topic, question, answers, rightAnswers, timer },
+function QuizCard({
+	currentUserId,
+	quiz: {
+		author: { fullName: authorFullName, picUri: authorPicUri },
+		classroom: classroomName,
 
-	// UI
+		title,
+		hasTimeInterval,
+		dateOpening,
+		dateClosing,
+		isDeterministic,
+		qas,
+		haveSeen = [],
+	},
 	onPress,
+	style,
 }) {
+	const properties = hasTimeInterval && getEventProps(dateOpening, dateClosing);
+
 	return (
-		<View style={styles.container} onPress={onPress}>
-			<View style={styles.header}>
-				<NettText style={styles.id}>{`QA N°${position}`}</NettText>
-				{topic && (
-					<NettText style={styles.topic} numberOfLines={1}>
-						{topic}
+		<View style={styles.container}>
+			<TouchableHighlight
+				style={[styles.container, style]}
+				onPress={onPress}
+				underlayColor={colors.light}
+			>
+				{/* HEADER */}
+				<View style={styles.headContainer}>
+					{/* Display badge only if the user has never seen the post */}
+					{!haveSeen.includes(currentUserId) && (
+						<Badge style={{ marginEnd: 5 }} />
+					)}
+
+					<NettText style={styles.postType}>Quiz</NettText>
+
+					<NettText style={styles.creationDate}>
+						{formatRelative(new Date(creationDate), new Date())}
 					</NettText>
-				)}
-			</View>
-			<NettText style={styles.question}>{question}</NettText>
-			<View style={styles.footer}>
-				<TextIcon
-					color={colors.optimal}
-					style={[styles.colorfulText, styles.answersCount]}
-					text={formatWordCount(answers.length, "answer")}
+				</View>
+
+				{/* CONTENT */}
+				<>
+					<NettText style={styles.title}>{title}</NettText>
+					<NettText style={styles.description}>{`🧮 ${qas.length} questions,  ${
+						isDeterministic ? "✅ Deterministic" : "❓ Non-deterministic"
+					}`}</NettText>
+					<View style={styles.distanceToNowContainer}>
+						<NettText
+							style={[styles.distanceToNow, { color: properties.color }]}
+							numberOfLines={1}
+						>
+							{properties.distanceToNow}
+						</NettText>{" "}
+					</View>
+				</>
+
+				{/* Footer */}
+				<Author
+					user={{
+						fullName: authorFullName,
+						picUri: currentUser.hostname + authorPicUri,
+					}}
+					classroomName={classroomName}
 				/>
-				<TextIcon
-					icon="check"
-					color={colors.ok}
-					style={styles.colorfulText}
-					spacing={0}
-					containerStyle={styles.rightAnswersCountContainer}
-					text={rightAnswers.length}
-				/>
-				<View style={{ flex: 1 }} />
-				<TextIcon
-					icon="timer-outline"
-					color={colors.warning}
-					style={styles.colorfulText}
-					spacing={0}
-					containerStyle={styles.timerContainer}
-					text={timer ? `${timer}s` : "No timer"}
-				/>
-			</View>
+			</TouchableHighlight>
 		</View>
 	);
 }
@@ -55,61 +80,54 @@ function QACard({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: colors.appBack,
-		margin: 5,
-		padding: 10,
 		borderRadius: 10,
+		elevation: 3,
+		flex: 1,
+		width: 320,
+		flexGrow: 0,
+		margin: 5,
+		maxWidth: 350,
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
-			height: 3,
+			height: 1,
 		},
-		shadowOpacity: 0.29,
-		shadowRadius: 4.65,
-		elevation: 7,
+		shadowOpacity: 0.22,
+		shadowRadius: 2.22,
 	},
-	header: {
-		flex: 1,
+	headContainer: {
 		flexDirection: "row",
 		alignItems: "center",
+		padding: 10,
+		paddingBottom: 0,
 	},
-	id: {
-		fontSize: 12,
+	postType: {
 		fontWeight: "bold",
 		flex: 1,
 	},
-	topic: {
+	creationDate: {
+		color: colors.medium,
+		fontWeight: "600",
+	},
+	title: {
+		fontSize: 25,
+		fontWeight: "bold",
+	},
+	description: {
+		fontSize: 15,
 		color: colors.medium,
 	},
-	question: {
-		fontSize: 20,
-		fontWeight: "bold",
-		padding: 5,
+	distanceToNow: {
+		width: "100%",
+		padding: 7,
+		fontSize: 10,
+		textAlign: "center",
+		backgroundColor: "#fcfcfcbf",
+		borderRadius: 7,
 	},
-	footer: {
-		flex: 1,
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	colorfulText: {
-		paddingVertical: 5,
-		paddingHorizontal: 8,
-		fontWeight: "bold",
-		fontSize: 15,
-		borderRadius: 5,
-	},
-	answersCount: {
-		backgroundColor: colors.optimalLight,
-	},
-	rightAnswersCountContainer: {
-		backgroundColor: colors.okLight,
-		borderRadius: 5,
-		marginStart: 5,
-	},
-	timerContainer: {
-		backgroundColor: colors.warningLight,
-		borderRadius: 5,
-		paddingHorizontal: 5,
+	distanceToNowContainer: {
+		padding: 10,
 	},
 });
 
-export default QACard;
+export default QuizCard;
