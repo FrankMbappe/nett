@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
 
@@ -17,15 +17,42 @@ import { capitalize, formatWordCount } from "../../utils";
 import FloatingButton from "../../components/FloatingButton";
 import { screens } from "../../navigation/routes";
 
-function QuizCreationScreen({ navigation }) {
+function QuizCreationScreen({ navigation, route }) {
+	// Params
+
 	// States
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [qaList, setQaList] = useState([]);
 
+	// Effects
+	useEffect(() => {
+		// The QA passed back from QACreationScreen is handled here
+		if (route.params && route.params.qa) {
+			// I define the shape of the QA
+			const { question, answers, timer, topic } = route.params.qa;
+			const qaToAdd = {
+				position: qaList.length + 1,
+				question,
+				answers: answers.map(({ id, value }) => {
+					id, value;
+				}),
+				rightAnswers: answers.map((answer) => answer.isRight && answer.id),
+				timer,
+				topic,
+			};
+
+			// Then I add it to the qaList
+			setQaList((prevValue) => prevValue.concat(qaToAdd));
+
+			/* Ultimately, I remove it from the params so that
+			   it cannot be added anymore. */
+			route.params.qa = null;
+		}
+	}, [route.params]);
+
 	// Action handlers
-	const onPublish = async () => {};
-	const onSave = useCallback(() => console.log("Save"));
+	const handlePublish = async () => {};
 	const handleAddQA = () => {
 		navigation.navigate(screens.QACreation);
 	};
@@ -65,9 +92,9 @@ function QuizCreationScreen({ navigation }) {
 					<Label
 						value={`${capitalize(formatWordCount(qaList.length, "QA"))} added`}
 					/>
-					{qaList.length <= 0 && (
+					{qaList != null && qaList.length <= 0 && (
 						<NettText style={styles.qaTip}>
-							{"✈  Tap the '+' floating button to add a new QA."}
+							{"🧩  Tap the '+' floating button to add a new QA."}
 						</NettText>
 					)}
 					<View style={styles.qaListContainer}>
@@ -86,15 +113,9 @@ function QuizCreationScreen({ navigation }) {
 
 			<View style={styles.bottomBar}>
 				<NettButton
-					disabled={title.length <= 0}
-					onPress={onSave}
-					text="SAVE"
-					type={buttons.SECONDARY}
-				/>
-				<NettButton
 					disabled={qaList.length <= 0}
-					onPress={onPublish}
-					text="PUBLISH"
+					onPress={handlePublish}
+					text="Publish"
 					type={buttons.PRIMARY}
 				/>
 			</View>

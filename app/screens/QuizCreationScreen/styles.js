@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
 	addQAButton: {
 		bottom: 75,
 	},
-	qaListContainer: {},
+	qaListContainer: {
+		paddingBottom: 75,
+	},
 
 	// --> BOTTOM BAR
 	bottomBar: {
@@ -44,9 +46,6 @@ const styles = StyleSheet.create({
 		paddingBottom: 5,
 		width: "100%",
 		backgroundColor: colors.appBack,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-evenly",
 	},
 });
 

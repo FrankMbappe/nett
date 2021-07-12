@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { View, ScrollView, Pressable } from "react-native";
 import { Divider } from "react-native-elements";
 
@@ -20,6 +20,7 @@ import AnswerModal from "./AnswerModal";
 import { screens } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
 import TimerModal from "./TimerModal";
+import TopicModal from "./TopicModal";
 
 function getQuestionFontSize({ length }) {
 	if (length <= 50) return 30;
@@ -38,6 +39,7 @@ function QACreationScreen({
 	const [answers, setAnswers] = useState([]);
 	const [answerModalVisible, setAnswerModalVisible] = useState(false);
 	const [timerModalVisible, setTimerModalVisible] = useState(false);
+	const [topicModalVisible, setTopicModalVisible] = useState(false);
 
 	// Refs & Memos
 	const answerToEdit = useRef();
@@ -45,7 +47,7 @@ function QACreationScreen({
 	const timerList = useMemo(() => [15, 30, 60, 90, 120, 150, 180], []);
 
 	// Action handlers
-	const handleSubmit = useCallback(() => {
+	const handleSubmit = () => {
 		/* Answers are valid only if there are at least 2 existing,
 		   at least one right, and at least one wrong.  */
 		const answersAreValid =
@@ -59,8 +61,9 @@ function QACreationScreen({
 				{ backgroundColor: colors.warning, duration: Toast.durations.LONG }
 			);
 
-		navigation.navigate(screens.QuizCreation, { question, answers, timer });
-	});
+		// If everything is valid, I get the topic
+		setTopicModalVisible(true);
+	};
 
 	// Actions: Timer
 	const handleAddTimer = () => {
@@ -145,6 +148,20 @@ function QACreationScreen({
 	};
 	const handleCloseAnswerModal = () => {
 		setAnswerModalVisible(false);
+	};
+
+	// Actions: Topic
+	const handleSubmitTopic = (topic) => {
+		// I dismiss the modal
+		setTopicModalVisible(false);
+
+		// And I go back to quiz creation with the new QA
+		navigation.navigate(screens.QuizCreation, {
+			qa: { question, answers, timer, topic: topic },
+		});
+	};
+	const handleCloseTopicModal = () => {
+		setTopicModalVisible(false);
 	};
 
 	return (
@@ -312,6 +329,13 @@ function QACreationScreen({
 				onSubmit={handleSubmitAnswer}
 				value={answerToEdit.current && answerToEdit.current.value}
 				isRight={answerToEdit.current && answerToEdit.current.isRight}
+			/>
+
+			{/* Modal for adding a timer */}
+			<TopicModal
+				isVisible={topicModalVisible}
+				onTapOutside={handleCloseTopicModal}
+				onSubmit={handleSubmitTopic}
 			/>
 		</Screen>
 	);

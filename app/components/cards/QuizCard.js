@@ -8,7 +8,7 @@ import colors from "../../config/colors";
 
 function QACard({
 	// Data
-	qa: { id, topic, question, answers, rightAnswers, timer },
+	qa: { position, topic, question, answers, rightAnswers, timer },
 
 	// UI
 	onPress,
@@ -16,10 +16,12 @@ function QACard({
 	return (
 		<View style={styles.container} onPress={onPress}>
 			<View style={styles.header}>
-				<NettText style={styles.id}>{`#${id}`}</NettText>
-				<NettText style={styles.topic} numberOfLines={1}>
-					{topic}
-				</NettText>
+				<NettText style={styles.id}>{`QA N°${position}`}</NettText>
+				{topic && (
+					<NettText style={styles.topic} numberOfLines={1}>
+						{topic}
+					</NettText>
+				)}
 			</View>
 			<NettText style={styles.question}>{question}</NettText>
 			<View style={styles.footer}>

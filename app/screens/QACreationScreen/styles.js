@@ -58,6 +58,12 @@ const styles = StyleSheet.create({
 		marginStart: 10,
 		marginBottom: 10,
 	},
+	topic: {
+		alignSelf: "center",
+	},
+	topicInput: {
+		backgroundColor: colors.appBack,
+	},
 	questionContainer: {
 		flex: 1,
 	},
