@@ -15,7 +15,10 @@ import currentUser from "../../config/test";
 import { userFullName } from "../../utils";
 import ApiError from "../../components/ApiError";
 import { includes, orderBy } from "lodash-es";
-import { handlePublishComment } from "../ClassroomScreen/ClassroomScreen";
+import {
+	handlePublishComment,
+	handleShare,
+} from "../ClassroomScreen/ClassroomScreen";
 
 // Helper functions
 function filterSections(sections) {
@@ -133,7 +136,8 @@ function HomeScreen({ navigation }) {
 								teacher={{ fullName: userFullName({ ...profile }), ...profile }}
 								onPress={() => {
 									navigation.navigate(navigators.Classroom, {
-										classroomId: _id,
+										screen: screens.Classroom,
+										params: { classroomId: _id },
 									});
 								}}
 							/>
@@ -199,6 +203,7 @@ function HomeScreen({ navigation }) {
 											onPublishComment={(text) =>
 												handlePublishComment(classroom._id, post._id, text)
 											}
+											onShare={() => handleShare(post.text)}
 										/>
 									) : null;
 								}

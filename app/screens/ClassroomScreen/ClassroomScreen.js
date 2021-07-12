@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, FlatList, TouchableHighlight } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View, FlatList, TouchableHighlight, Share } from "react-native";
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
 
@@ -47,6 +47,15 @@ const handlePublishComment = async (classroomId, postId, text) => {
 		backgroundColor: colors.ok,
 	});
 };
+const handleShare = async (text) => {
+	try {
+		await Share.share({
+			message: text,
+		});
+	} catch (error) {
+		Toast.show(error.message, { backgroundColor: colors.danger });
+	}
+};
 
 function ClassroomScreen({ route, navigation }) {
 	// Getting params
@@ -76,12 +85,12 @@ function ClassroomScreen({ route, navigation }) {
 	const [refreshing, setRefreshing] = useState(false);
 
 	// Action handlers
-	const handleCreatePost = () => {
+	const handleCreatePost = useCallback(() => {
 		navigation.navigate(screens.PostCreation, {
 			classroomId,
 			classroomName: name,
 		});
-	};
+	}, []);
 
 	return (
 		<Screen
@@ -172,6 +181,7 @@ function ClassroomScreen({ route, navigation }) {
 								onPublishComment={(text) =>
 									handlePublishComment(classroomId, post._id, text)
 								}
+								onShare={() => handleShare(post.text)}
 							/>
 						)}
 						refreshing={refreshing}
@@ -202,4 +212,4 @@ function ClassroomScreen({ route, navigation }) {
 }
 
 export default ClassroomScreen;
-export { handlePublishComment };
+export { handlePublishComment, handleShare };

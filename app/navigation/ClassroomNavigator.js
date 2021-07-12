@@ -9,13 +9,9 @@ import QACreationScreen from "../screens/QACreationScreen/QACreationScreen";
 import QuizTakingScreen from "../screens/QuizTakingScreen/QuizTakingScreen";
 
 const Stack = createStackNavigator();
-const ClassroomNavigator = ({ route: { params } }) => (
+const ClassroomNavigator = () => (
 	<Stack.Navigator screenOptions={{ headerShown: false }}>
-		<Stack.Screen
-			name={screens.Classroom}
-			component={ClassroomScreen}
-			initialParams={{ classroomId: params.classroomId }}
-		/>
+		<Stack.Screen name={screens.Classroom} component={ClassroomScreen} />
 		<Stack.Screen name={screens.PostCreation} component={PostCreationScreen} />
 		<Stack.Screen name={screens.QuizTaking} component={QuizTakingScreen} />
 		<Stack.Screen name={screens.QuizCreation} component={QuizCreationScreen} />

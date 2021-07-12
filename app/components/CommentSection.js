@@ -82,6 +82,7 @@ function CommentSection({
 								}}
 							/>
 						)}
+						refreshing={refreshing}
 					/>
 					<View style={styles.bottomBar}>
 						<ButtonIcon
@@ -106,7 +107,10 @@ function CommentSection({
 							color={colors.appBack}
 							name="send"
 							size={25}
-							onPress={() => onPublish(text)}
+							onPress={() => {
+								onPublish(text);
+								setText("");
+							}}
 						/>
 					</View>
 				</Screen>

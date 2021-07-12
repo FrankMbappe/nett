@@ -6,14 +6,16 @@ import AppNavigator from "./app/navigation/AppNavigator";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import { StatusBar } from "expo-status-bar";
 import colors from "./app/config/colors";
+import QACreationScreen from "./app/screens/QACreationScreen/QACreationScreen";
 
 export default function App() {
 	return (
 		<RootSiblingParent>
-			<NavigationContainer theme={NavigationTheme}>
+			{/* <NavigationContainer theme={NavigationTheme}>
 				<AppNavigator />
-				{/* <AuthNavigator /> */}
-			</NavigationContainer>
+				<AuthNavigator />
+			</NavigationContainer> */}
+			<QACreationScreen />
 			<StatusBar backgroundColor={colors.appPrimaryDark} style="light" />
 		</RootSiblingParent>
 	);

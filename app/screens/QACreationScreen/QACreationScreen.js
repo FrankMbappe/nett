@@ -16,6 +16,7 @@ import styles from "./styles";
 import colors from "../../config/colors";
 import TextIcon from "../../components/TextIcon";
 import Label from "../../components/Label";
+import AnswerModal from "./AnswerModal";
 
 function getQuestionFontSize({ length }) {
 	if (length <= 50) return 30;
@@ -24,35 +25,56 @@ function getQuestionFontSize({ length }) {
 }
 
 function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
+	// States
 	const [timer, setTimer] = useState(60);
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState([
 		{
-			id: "1",
 			value:
 				"All I have to do is dream a chouchou oh a chouchou owoh tonepewa wa ndé fatigué wa ndé fille de joie",
 			isRight: true,
 		},
 		{
-			id: "2",
 			value: "Call me when you want, call me when you need",
 			isRight: true,
 		},
-		{ id: "3", value: "Yeah, call me when you want", isRight: false },
-		{ id: "4", value: "Call me when you want", isRight: false },
-		{ id: "5", value: "Call me when you want", isRight: false },
+		{ value: "Yeah, call me when you want", isRight: false },
 	]);
+	const [answerModalVisible, setAnswerModalVisible] = useState(true);
 
-	const onPublish = useCallback(() => console.log("Publish")); // TODO
+	// Action handlers
+	const handlePublish = useCallback(() => {
+		console.log("Publish");
+	}); // TODO
+	const handleAddAnswer = () => {
+		if (answers.length >= maxAnswersCount) return;
+		setAnswerModalVisible(true);
+	};
+	const handleAnswerSubmit = (text, answerIsGood) => {
+		// I dismiss the modal
+		setAnswerModalVisible(false);
+
+		// Then, I add the answer to the list
+		setAnswers((prevValue) =>
+			prevValue.concat({
+				id: prevValue.length + 1,
+				value: text,
+				isRight: answerIsGood,
+			})
+		);
+	};
 
 	return (
 		<Screen style={styles.screen}>
+			{/* Header */}
 			<TopBar style={styles.topBar}>
 				<ButtonIcon name="arrow-left" size={25} />
 				<NettText style={styles.topBarTitle}>{"New QA"}</NettText>
 			</TopBar>
 
+			{/* Main container */}
 			<ScrollView style={styles.mainContainer}>
+				{/* Timer setter */}
 				{timer != null ? (
 					<View style={styles.allottedTimeContainer}>
 						<TextIcon
@@ -80,8 +102,10 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 					/>
 				)}
 
+				{/* Divider */}
 				<Divider style={styles.divider} />
 
+				{/* Question */}
 				<>
 					<Label style={styles.label} value="Question" />
 					<View style={styles.questionContainer}>
@@ -109,22 +133,24 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 
 				<Divider style={styles.divider} />
 
+				{/* Answers */}
 				<>
+					{/* Header */}
 					<Label
 						style={styles.label}
 						value={capitalize(formatWordCount(answers.length, "answer"))}
 					/>
-
 					<NettText style={styles.labelDescription}>
 						{"Right answers are shown in green, and wrong answers in red."}
 					</NettText>
 
-					{answers.map(({ id, value, isRight }) => {
+					{/* Answers list */}
+					{answers.map(({ value, isRight }, index) => {
 						const frontColor = isRight ? colors.ok : colors.danger;
 						const backColor = isRight ? colors.okLight : colors.dangerLight;
 						return (
 							<View
-								key={String(id)}
+								key={String(index)}
 								style={[
 									styles.answerContainer,
 									{
@@ -139,7 +165,11 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 								<ButtonIcon
 									name="delete"
 									color={colors.danger}
-									onPress={() => setAnswers(answers.filter((x) => x.id !== id))}
+									onPress={() =>
+										setAnswers(
+											answers.filter((_, answerIndex) => answerIndex !== index)
+										)
+									}
 								/>
 							</View>
 						);
@@ -158,7 +188,7 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 						disabled={answers.length >= maxAnswersCount}
 						fontSize={12}
 						icon="plus"
-						onPress={() => console.log("TODO")}
+						onPress={handleAddAnswer}
 						style={styles.addAnswerButton}
 						text="Add answer"
 						type={buttons.SECONDARY}
@@ -169,11 +199,17 @@ function QACreationScreen({ maxTextLength = 255, maxAnswersCount = 5 }) {
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={question.length <= 0 || answers.length <= 1}
-					onPress={onPublish}
+					onPress={handlePublish}
 					text="SAVE"
 					type={buttons.PRIMARY}
 				/>
 			</View>
+
+			<AnswerModal
+				isVisible={answerModalVisible}
+				onTapOutside={() => setAnswerModalVisible(false)}
+				onSubmit={handleAnswerSubmit}
+			/>
 		</Screen>
 	);
 }
