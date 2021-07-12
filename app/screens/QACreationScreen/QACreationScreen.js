@@ -122,7 +122,7 @@ function QACreationScreen({
 				prevValue.map((answer) =>
 					answer.id === index
 						? {
-								...answer,
+								id: answer.id,
 								value: text,
 								isRight: isRight,
 						  }
@@ -157,7 +157,7 @@ function QACreationScreen({
 
 		// And I go back to quiz creation with the new QA
 		navigation.navigate(screens.QuizCreation, {
-			qa: { question, answers, timer, topic: topic },
+			qa: { question, answers, timer, topic },
 		});
 	};
 	const handleCloseTopicModal = () => {

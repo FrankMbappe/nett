@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
 
@@ -34,10 +34,10 @@ function QuizCreationScreen({ navigation, route }) {
 			const qaToAdd = {
 				position: qaList.length + 1,
 				question,
-				answers: answers.map(({ id, value }) => {
-					id, value;
-				}),
-				rightAnswers: answers.map((answer) => answer.isRight && answer.id),
+				answers: answers.map(({ id, value }) => ({ id, value })),
+				rightAnswers: answers
+					.filter((answer) => answer.isRight)
+					.map((answer) => answer.id),
 				timer,
 				topic,
 			};
