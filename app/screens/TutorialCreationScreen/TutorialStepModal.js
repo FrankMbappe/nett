@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import NettButton from "../../components/Button";
 import ButtonIcon from "../../components/ButtonIcon";
+import { VideoBundle } from "../../components/cards/bundles";
 import Label from "../../components/Label";
 import ShortModal from "../../components/ShortModal";
-import NettText from "../../components/Text";
 import NettTextInput from "../../components/TextInput";
 import colors from "../../config/colors";
 
-function TopicModal({ isVisible, onTapOutside, onSubmit }) {
+function TutorialStepModal({ videoFile, isVisible, onTapOutside, onSubmit }) {
 	// States
-	const [topic, setTopic] = useState();
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
 
 	// Action handlers
 	const handleOnShow = () => {
-		setTopic("");
+		setTitle("");
+		setDescription("");
 	};
 
 	return (
@@ -26,7 +28,7 @@ function TopicModal({ isVisible, onTapOutside, onSubmit }) {
 			<View style={styles.mainContainer}>
 				{/* Header */}
 				<View style={styles.header}>
-					<Label style={styles.label} value="📚 Specify a topic" />
+					<Label style={styles.label} value="🎬 Tutorial step" />
 
 					{/* Close button */}
 					<ButtonIcon
@@ -37,25 +39,34 @@ function TopicModal({ isVisible, onTapOutside, onSubmit }) {
 					/>
 				</View>
 
-				<View style={styles.topicContainer}>
-					<NettTextInput
-						placeholder="What topic does your QA target?"
-						fontSize={18}
-						value={topic}
-						onChangeText={(text) => setTopic(text)}
+				<View style={styles.fieldsContainer}>
+					<VideoBundle
+						uri={videoFile && videoFile.uri}
+						containerStyle={styles.video}
 					/>
-					<NettText style={styles.topicDescription}>
-						{
-							'It tells which domain is this question about. An example of a topic can be "Sports 🏀" or "Chemistry 🧪".'
-						}
-					</NettText>
+
+					<NettTextInput
+						containerStyle={styles.titleInput}
+						placeholder="What is the title of this step?"
+						onChangeText={(text) => setTitle(text)}
+						value={title}
+					/>
+					<NettTextInput
+						containerStyle={styles.descriptionInput}
+						placeholder="Describe what's happening"
+						onChangeText={(text) => setDescription(text)}
+						value={description}
+						multiline
+					/>
 				</View>
 
 				{/* Submit button */}
 				<NettButton
 					text="Submit"
-					disabled={!topic}
-					onPress={() => onSubmit && onSubmit(topic)}
+					disabled={!videoFile || !title}
+					onPress={() =>
+						onSubmit && onSubmit({ title, description, videoFile })
+					}
 				/>
 			</View>
 		</ShortModal>
@@ -80,23 +91,21 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 12,
 	},
-	description: {
-		fontSize: 14,
-		color: colors.medium,
-		alignSelf: "center",
+	descriptionInput: {
+		height: 120,
+		alignItems: "flex-start",
+		padding: 15,
+		marginVertical: 12,
 	},
-	topicContainer: {
+	titleInput: {
+		marginTop: 10,
+	},
+	fieldsContainer: {
 		flex: 1,
 	},
-	selector: {
-		marginVertical: 10,
-	},
-	topicDescription: {
-		fontSize: 15,
-		color: colors.medium,
-		textAlign: "center",
-		marginTop: 10,
+	video: {
+		borderRadius: 15,
 	},
 });
 
-export default TopicModal;
+export default TutorialStepModal;

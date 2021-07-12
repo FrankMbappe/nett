@@ -22,8 +22,6 @@ import colors from "../../config/colors";
 import { isAfter } from "date-fns";
 
 function QuizCreationScreen({ navigation, route }) {
-	// Params
-
 	// States
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
@@ -143,7 +141,7 @@ function QuizCreationScreen({ navigation, route }) {
 					)}
 					<View style={styles.qaListContainer}>
 						{qaList.map((qa, index) => (
-							<QACard key={String(index)} qa={qa} />
+							<QACard key={String(index)} step={qa} />
 						))}
 					</View>
 				</>

@@ -4,12 +4,12 @@ import { Video, AVPlaybackStatus } from "expo-av";
 
 import colors from "../../../config/colors";
 
-function VideoBundle({ uri }) {
+function VideoBundle({ uri, containerStyle }) {
 	const video = React.useRef(null);
 	const [status, setStatus] = React.useState({});
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, containerStyle]}>
 			<Video
 				ref={video}
 				style={styles.video}
