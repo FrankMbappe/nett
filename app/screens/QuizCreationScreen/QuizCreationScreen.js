@@ -85,19 +85,20 @@ function QuizCreationScreen({ navigation, route }) {
 				backgroundColor: colors.warning,
 			});
 
-		// I call the API
+		// I define the shape of the quiz
+		const quiz = {
+			title,
+			description: description.length > 0 ? description : undefined,
+			qas: qaList,
+			hasTimeInterval,
+			dateOpening: hasTimeInterval ? dateOpening : undefined,
+			dateClosing: hasTimeInterval ? dateOpening : undefined,
+			isDeterministic,
+		};
+
+		// Then I call the API
 		// TODO:
-		alert(
-			JSON.stringify({
-				title,
-				description,
-				qaList,
-				isDeterministic,
-				hasTimeInterval,
-				dateOpening,
-				dateClosing,
-			})
-		);
+		alert(JSON.stringify(quiz));
 	};
 
 	return (

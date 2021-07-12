@@ -48,19 +48,51 @@ const addQuiz = ({
 	description,
 	dateOpening,
 	dateClosing,
+	hasTimeInterval,
 	qas,
 	isDetermistic,
 }) => {
 	const data = {
+		_type: "quiz",
 		title,
 		description: description ?? undefined,
+		qas,
+		hasTimeInterval,
 		dateOpening: dateOpening ?? undefined,
 		dateClosing: dateClosing ?? undefined,
-		qas,
 		isDetermistic,
 	};
 
 	return client.post(`${endpoint}/${classroomId}/quizzes`, data);
+};
+
+// Adding a Tutorial to a classroom
+const addTutorial = (
+	{ classroomId, title, description, steps },
+	onUploadProgress
+) => {
+	const data = new FormData();
+
+	data.append("_type", "tutorial");
+	data.append("title", title);
+	steps.forEach((step) => {
+		data.append("steps", {
+			position: step.position,
+			title: step.title,
+			description: step.description ?? undefined,
+			video: {
+				name: basename(step.video.uri),
+				type: lookup(step.video.uri),
+				uri: step.video.uri,
+			},
+		});
+	});
+	if (description) data.append("description", description);
+
+	return client.post(`${endpoint}/${classroomId}/tutorials`, data, {
+		onUploadProgress: (progress) =>
+			onUploadProgress(progress.loaded / progress.total),
+	});
 };
 
 export default {
@@ -69,4 +101,5 @@ export default {
 	addPost,
 	addComment,
 	addQuiz,
+	addTutorial,
 };
