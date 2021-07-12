@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 	allottedTimeContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: colors.lighter,
+		backgroundColor: colors.optimalLight,
 		paddingVertical: 5,
 		paddingHorizontal: 8,
 		borderRadius: 10,

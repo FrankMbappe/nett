@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { View, ScrollView } from "react-native";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import { View, ScrollView, Pressable } from "react-native";
 import { Divider } from "react-native-elements";
 
 import ButtonIcon from "../../components/ButtonIcon";
@@ -10,7 +10,7 @@ import Screen from "../../components/Screen";
 import TopBar from "../../components/TopBar";
 
 import { buttons } from "../../config/enums";
-import { capitalize } from "lodash";
+import { capitalize, find, findIndex } from "lodash";
 import { formatTime, formatWordCount } from "../../utils";
 import styles from "./styles";
 import colors from "../../config/colors";
@@ -19,6 +19,7 @@ import Label from "../../components/Label";
 import AnswerModal from "./AnswerModal";
 import { screens } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
+import TimerModal from "./TimerModal";
 
 function getQuestionFontSize({ length }) {
 	if (length <= 50) return 30;
@@ -32,33 +33,118 @@ function QACreationScreen({
 	maxAnswersCount = 5,
 }) {
 	// States
-	const [timer, setTimer] = useState(60);
+	const [timer, setTimer] = useState();
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState([]);
-	const [answerModalVisible, setAnswerModalVisible] = useState(true);
+	const [answerModalVisible, setAnswerModalVisible] = useState(false);
+	const [timerModalVisible, setTimerModalVisible] = useState(false);
+
+	// Refs & Memos
+	const answerToEdit = useRef();
+	const timerToEdit = useRef();
+	const timerList = useMemo(() => [15, 30, 60, 90, 120, 150, 180], []);
 
 	// Action handlers
-	const handlePublish = useCallback(() => {
+	const handleSubmit = useCallback(() => {
+		/* Answers are valid only if there are at least 2 existing,
+		   at least one right, and at least one wrong.  */
+		const answersAreValid =
+			find(answers, (answer) => answer.isRight) &&
+			find(answers, (answer) => !answer.isRight) &&
+			answers.length >= 2;
+		if (!answersAreValid)
+			return Toast.show(
+				"You must register at least 2 answers, with at least one correct" +
+					", and one incorrect.",
+				{ backgroundColor: colors.warning, duration: Toast.durations.LONG }
+			);
+
 		navigation.navigate(screens.QuizCreation, { question, answers, timer });
 	});
+
+	// Actions: Timer
+	const handleAddTimer = () => {
+		setTimerModalVisible(true);
+	};
+	const handleEditTimer = () => {
+		timerToEdit.current = timer;
+		setTimerModalVisible(true);
+	};
+	const handleRemoveTimer = () => {
+		// I remove the timer
+		setTimer(null);
+	};
+	const handleSubmitTimer = (seconds) => {
+		// I dismiss the modal
+		setTimerModalVisible(false);
+
+		// Then, I set the current timer value
+		setTimer(seconds);
+
+		// Finally, the object to edit is cleaned up
+		timerToEdit.current = null;
+
+		Toast.show("A timer has been added to this QA");
+	};
+	const handleCloseTimerModal = () => {
+		setTimerModalVisible(false);
+	};
+
+	// Actions: Answers
 	const handleAddAnswer = () => {
 		if (answers.length >= maxAnswersCount) return;
 		setAnswerModalVisible(true);
 	};
-	const handleAnswerSubmit = (text, answerIsGood) => {
+	const handleEditAnswer = (index) => {
+		// I set the answer to be edited
+		answerToEdit.current = answers[index];
+		setAnswerModalVisible(true);
+	};
+	const handleRemoveAnswer = (index) => {
+		// I remove the answer from the answers list
+		setAnswers(answers.filter((_, answerIndex) => answerIndex !== index));
+		Toast.show("Answer removed");
+	};
+	const handleSubmitAnswer = (text, isRight) => {
 		// I dismiss the modal
 		setAnswerModalVisible(false);
 
-		// Then, I add the answer to the list
+		// If answerToEdit isn't null, I update the value
+		if (answerToEdit.current != null) {
+			// I get the index of the answer
+			const index = findIndex(answers, answerToEdit.current);
+
+			// Then its value gets updated
+			setAnswers((prevValue) =>
+				prevValue.map((answer) =>
+					answer.id === index
+						? {
+								...answer,
+								value: text,
+								isRight: isRight,
+						  }
+						: answer
+				)
+			);
+
+			// Then I cleanup the object to edit
+			answerToEdit.current = null;
+
+			return Toast.show("Answer has been updated.");
+		}
+
+		// Otherwise it's a new answer, therefore I add it
 		setAnswers((prevValue) =>
 			prevValue.concat({
-				id: prevValue.length + 1,
+				id: prevValue.length,
 				value: text,
-				isRight: answerIsGood,
+				isRight: isRight,
 			})
 		);
-
 		Toast.show("Your answer has been added.");
+	};
+	const handleCloseAnswerModal = () => {
+		setAnswerModalVisible(false);
 	};
 
 	return (
@@ -73,29 +159,35 @@ function QACreationScreen({
 			<ScrollView style={styles.mainContainer}>
 				{/* Timer setter */}
 				{timer != null ? (
-					<View style={styles.allottedTimeContainer}>
+					<Pressable
+						style={styles.allottedTimeContainer}
+						onPress={handleEditTimer}
+					>
 						<TextIcon
 							containerStyle={styles.allottedTimeTextContainer}
 							style={styles.allottedTimeText}
-							icon="clock-outline"
-							text={`Allotted time: ${formatTime(timer)}`}
+							text={`🎯 Allotted time: ${formatTime(timer)}`}
 							fontSize={14}
 							numberOfLines={1}
 						/>
-						<ButtonIcon name="pencil" color={colors.medium} />
+						<ButtonIcon
+							name="pencil"
+							color={colors.optimal}
+							onPress={handleEditTimer}
+						/>
 						<ButtonIcon
 							name="delete"
 							color={colors.danger}
-							onPress={() => setTimer(null)}
+							onPress={handleRemoveTimer}
 						/>
-					</View>
+					</Pressable>
 				) : (
 					<NettButton
 						style={styles.addTimerButton}
-						icon="clock-outline"
-						text="Add a timer"
+						text="⌛ Add a timer"
 						type={buttons.SECONDARY}
 						fontSize={12}
+						onPress={handleAddTimer}
 					/>
 				)}
 
@@ -158,15 +250,15 @@ function QACreationScreen({
 								<NettText style={[styles.answerText, { color: frontColor }]}>
 									{value}
 								</NettText>
-								<ButtonIcon name="pencil" color={frontColor} />
+								<ButtonIcon
+									name="pencil"
+									color={frontColor}
+									onPress={() => handleEditAnswer(index)}
+								/>
 								<ButtonIcon
 									name="delete"
 									color={colors.danger}
-									onPress={() =>
-										setAnswers(
-											answers.filter((_, answerIndex) => answerIndex !== index)
-										)
-									}
+									onPress={() => handleRemoveAnswer(index)}
 								/>
 							</View>
 						);
@@ -198,17 +290,28 @@ function QACreationScreen({
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={question.length <= 0 || answers.length <= 1}
-					onPress={handlePublish}
-					text="Save"
+					onPress={handleSubmit}
+					text="Submit"
 					type={buttons.PRIMARY}
 				/>
 			</View>
 
+			{/* Modal for adding a timer */}
+			<TimerModal
+				isVisible={timerModalVisible}
+				onTapOutside={handleCloseTimerModal}
+				onSubmit={handleSubmitTimer}
+				timerValue={timerToEdit.current}
+				timerList={timerList}
+			/>
+
 			{/* Modal for adding a new answer */}
 			<AnswerModal
 				isVisible={answerModalVisible}
-				onTapOutside={() => setAnswerModalVisible(false)}
-				onSubmit={handleAnswerSubmit}
+				onTapOutside={handleCloseAnswerModal}
+				onSubmit={handleSubmitAnswer}
+				value={answerToEdit.current && answerToEdit.current.value}
+				isRight={answerToEdit.current && answerToEdit.current.isRight}
 			/>
 		</Screen>
 	);

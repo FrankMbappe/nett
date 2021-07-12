@@ -17,12 +17,11 @@ function ShortModal({ children, onRequestClose, ...otherProps }) {
 			{...otherProps}
 		>
 			<TouchableWithoutFeedback onPress={onRequestClose}>
-				<View style={styles.outside}>
-					<KeyboardAvoidingView style={styles.container}>
-						{children}
-					</KeyboardAvoidingView>
-				</View>
+				<View style={styles.outside} />
 			</TouchableWithoutFeedback>
+			<KeyboardAvoidingView style={styles.container}>
+				{children}
+			</KeyboardAvoidingView>
 		</Modal>
 	);
 }

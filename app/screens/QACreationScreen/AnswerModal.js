@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Modal, KeyboardAvoidingView } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
 import BinarySelector from "../../components/BinarySelector";
 import NettButton from "../../components/Button";
 import ButtonIcon from "../../components/ButtonIcon";
@@ -14,6 +14,8 @@ function AnswerModal({
 	onTapOutside,
 	onSubmit,
 	maxTextLength = 120,
+	value = "",
+	isRight = true,
 }) {
 	// States
 	const [text, setText] = useState("");
@@ -28,8 +30,8 @@ function AnswerModal({
 		setIsGood(false);
 	};
 	const handleOnShow = () => {
-		setText("");
-		setIsGood(true);
+		setText(value ?? "");
+		setIsGood(isRight ?? true);
 	};
 
 	return (
