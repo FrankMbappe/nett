@@ -172,6 +172,7 @@ function ProfileEditionScreen({ navigation, route }) {
 							fontSize={16}
 							containerStyle={{ marginBottom: 10 }}
 							dateValue={birthDate}
+							dateDisplay="spinner"
 							onChangeDate={(date) => setBirthDate(date)}
 						/>
 

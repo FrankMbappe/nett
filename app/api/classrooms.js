@@ -1,6 +1,7 @@
 import client from "./client";
 import { lookup } from "react-native-mime-types";
 import { basename } from "path";
+import { postTypes } from "../config/enums";
 
 const endpoint = "/classrooms";
 
@@ -42,18 +43,21 @@ const addComment = ({ classroomId, postId, text }) => {
 };
 
 // Adding a quiz to a classroom
-const addQuiz = ({
-	classroomId,
-	title,
-	description,
-	dateOpening,
-	dateClosing,
-	hasTimeInterval,
-	qas,
-	isDetermistic,
-}) => {
+const addQuiz = (
+	{
+		classroomId,
+		title,
+		description,
+		dateOpening,
+		dateClosing,
+		hasTimeInterval,
+		qas,
+		isDetermistic,
+	},
+	onUploadProgress
+) => {
 	const data = {
-		_type: "quiz",
+		_type: postTypes.quiz,
 		title,
 		description: description ?? undefined,
 		qas,
@@ -63,7 +67,10 @@ const addQuiz = ({
 		isDetermistic,
 	};
 
-	return client.post(`${endpoint}/${classroomId}/quizzes`, data);
+	return client.post(`${endpoint}/${classroomId}/quizzes`, data, {
+		onUploadProgress: (progress) =>
+			onUploadProgress(progress.loaded / progress.total),
+	});
 };
 
 // Adding a Tutorial to a classroom
@@ -73,7 +80,7 @@ const addTutorial = (
 ) => {
 	const data = new FormData();
 
-	data.append("_type", "tutorial");
+	data.append("_type", postTypes.tutorial);
 	data.append("title", title);
 	steps.forEach((step) => {
 		data.append("steps", {

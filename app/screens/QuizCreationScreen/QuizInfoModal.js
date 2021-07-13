@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import NettButton from "../../components/Button";
 import ButtonIcon from "../../components/ButtonIcon";
+import DatePicker from "../../components/DatePicker";
 import Label from "../../components/Label";
 import ShortModal from "../../components/ShortModal";
 import NettSwitch from "../../components/Switch";
@@ -50,6 +51,23 @@ function QuizInfoModal({ isVisible, onTapOutside, onSubmit }) {
 						description="Specify a date at which your quiz will be opened and closed."
 						onToggleSwitch={(value) => setHasTimeInterval(value)}
 					/>
+					{hasTimeInterval && (
+						<View style={styles.datePickers}>
+							<DatePicker
+								label="Opens"
+								dateValue={dateOpening}
+								onChangeDate={(date) => setDateOpening(date)}
+								pickTime
+							/>
+							<DatePicker
+								label="Closes"
+								containerStyle={{ marginTop: 10 }}
+								dateValue={dateClosing}
+								onChangeDate={(date) => setDateClosing(date)}
+								pickTime
+							/>
+						</View>
+					)}
 					<NettSwitch
 						containerStyle={{ marginTop: 10 }}
 						text="Deterministic"
@@ -112,6 +130,9 @@ const styles = StyleSheet.create({
 		color: colors.medium,
 		textAlign: "center",
 		marginTop: 10,
+	},
+	datePickers: {
+		marginVertical: 5,
 	},
 });
 

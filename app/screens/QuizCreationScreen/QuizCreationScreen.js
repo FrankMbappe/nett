@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
+import classroomsApi from "../../api/classrooms";
 
 import ButtonIcon from "../../components/ButtonIcon";
 import NettButton from "../../components/Button";
@@ -20,13 +21,19 @@ import QuizInfoModal from "./QuizInfoModal";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
 import { isAfter } from "date-fns";
+import UploadScreen from "../UploadScreen/UploadScreen";
 
 function QuizCreationScreen({ navigation, route }) {
+	// Params
+	const { classroomId } = route.params;
+
 	// States
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [qaList, setQaList] = useState([]);
 	const [infoModalIsVisible, setInfoModalIsVisible] = useState(false);
+	const [uploadIsVisible, setUploadIsVisible] = useState(false);
+	const [progress, setProgress] = useState(0);
 
 	// Effects
 	useEffect(() => {
@@ -85,27 +92,60 @@ function QuizCreationScreen({ navigation, route }) {
 
 		// I define the shape of the quiz
 		const quiz = {
+			classroomId,
 			title,
 			description: description.length > 0 ? description : undefined,
 			qas: qaList,
 			hasTimeInterval,
 			dateOpening: hasTimeInterval ? dateOpening : undefined,
-			dateClosing: hasTimeInterval ? dateOpening : undefined,
+			dateClosing: hasTimeInterval ? dateClosing : undefined,
 			isDeterministic,
 		};
 
 		// Then I call the API
-		// TODO:
-		alert(JSON.stringify(quiz));
+		uploadQuiz(quiz);
+	};
+	const uploadQuiz = async (quiz) => {
+		// Starting uploading
+		setProgress(0);
+		setUploadIsVisible(true);
+		const result = await classroomsApi.addQuiz(quiz, (progress) =>
+			setProgress(progress)
+		);
+
+		// Result handler
+		if (!result || !result.ok) {
+			setUploadIsVisible(false);
+			return Toast.show(
+				"Something went wrong while adding your quiz, please try again",
+				{ backgroundColor: colors.danger }
+			);
+		}
+	};
+	const handleDone = () => {
+		setUploadIsVisible(false);
+		Toast.show("Refresh the page to see your new post!", {
+			backgroundColor: colors.ok,
+		});
+		navigation.goBack();
 	};
 
 	return (
 		<Screen style={styles.screen}>
+			{/* Upload screen */}
+			<UploadScreen
+				progress={progress}
+				visible={uploadIsVisible}
+				onDone={handleDone}
+			/>
+
+			{/* Header */}
 			<TopBar style={styles.topBar}>
 				<ButtonIcon name="arrow-left" size={25} />
 				<NettText style={styles.topBarTitle}>{"New Quiz"}</NettText>
 			</TopBar>
 
+			{/* Main container */}
 			<ScrollView style={styles.mainContainer}>
 				<>
 					<Label value="Title" />
@@ -141,18 +181,20 @@ function QuizCreationScreen({ navigation, route }) {
 					)}
 					<View style={styles.qaListContainer}>
 						{qaList.map((qa, index) => (
-							<QACard key={String(index)} step={qa} />
+							<QACard key={String(index)} qa={qa} />
 						))}
 					</View>
 				</>
 			</ScrollView>
 
+			{/* Add QA button */}
 			<FloatingButton
 				icon="plus"
 				style={styles.addQAButton}
 				onPress={handleAddQA}
 			/>
 
+			{/* Footer */}
 			<View style={styles.bottomBar}>
 				<NettButton
 					disabled={qaList.length <= 0}
