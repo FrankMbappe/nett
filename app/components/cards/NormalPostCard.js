@@ -44,11 +44,16 @@ function NormalPostCard({
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
 	// If the post has been liked by the current user
-	const hasBeenLiked = likes.some((like) => like.author === currentUserId);
+	const [hasBeenLiked, setHasBeenLiked] = useState(
+		likes.some((like) => like.author === currentUserId)
+	);
 
 	// Action handlers
 	const onPressComment = () => {
 		setModalIsVisible(true);
+	};
+	const handleTestLike = () => {
+		setHasBeenLiked((prevValue) => !prevValue);
 	};
 
 	return (
@@ -98,7 +103,7 @@ function NormalPostCard({
 							isLiked={hasBeenLiked}
 							likeCount={likes.length}
 							commentCount={comments.length}
-							onPressLike={onLike}
+							onPressLike={handleTestLike}
 							onPressComment={onPressComment}
 							onPressShare={onShare}
 						/>

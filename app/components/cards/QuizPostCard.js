@@ -8,9 +8,10 @@ import Badge from "../Badge";
 import NettText from "../Text";
 import Author from "./Author";
 
-function QuizCard({
+function QuizPostCard({
 	currentUserId,
 	quiz: {
+		creationDate,
 		author: { fullName: authorFullName, picUri: authorPicUri },
 		classroom: classroomName,
 
@@ -28,12 +29,12 @@ function QuizCard({
 	const properties = hasTimeInterval && getEventProps(dateOpening, dateClosing);
 
 	return (
-		<View style={styles.container}>
-			<TouchableHighlight
-				style={[styles.container, style]}
-				onPress={onPress}
-				underlayColor={colors.light}
-			>
+		<TouchableHighlight
+			style={[styles.container, style]}
+			onPress={onPress}
+			underlayColor={colors.light}
+		>
+			<>
 				{/* HEADER */}
 				<View style={styles.headContainer}>
 					{/* Display badge only if the user has never seen the post */}
@@ -54,13 +55,18 @@ function QuizCard({
 					<NettText style={styles.description}>{`🧮 ${qas.length} questions,  ${
 						isDeterministic ? "✅ Deterministic" : "❓ Non-deterministic"
 					}`}</NettText>
-					<View style={styles.distanceToNowContainer}>
+					<View
+						style={[
+							styles.distanceToNowContainer,
+							{ backgroundColor: properties.backgroundColor },
+						]}
+					>
 						<NettText
 							style={[styles.distanceToNow, { color: properties.color }]}
 							numberOfLines={1}
 						>
 							{properties.distanceToNow}
-						</NettText>{" "}
+						</NettText>
 					</View>
 				</>
 
@@ -72,8 +78,8 @@ function QuizCard({
 					}}
 					classroomName={classroomName}
 				/>
-			</TouchableHighlight>
-		</View>
+			</>
+		</TouchableHighlight>
 	);
 }
 
@@ -94,12 +100,11 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.22,
 		shadowRadius: 2.22,
+		padding: 10,
 	},
 	headContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		padding: 10,
-		paddingBottom: 0,
 	},
 	postType: {
 		fontWeight: "bold",
@@ -112,6 +117,8 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 25,
 		fontWeight: "bold",
+		padding: 5,
+		marginTop: 5,
 	},
 	description: {
 		fontSize: 15,
@@ -119,15 +126,16 @@ const styles = StyleSheet.create({
 	},
 	distanceToNow: {
 		width: "100%",
-		padding: 7,
-		fontSize: 10,
+		fontSize: 16,
 		textAlign: "center",
-		backgroundColor: "#fcfcfcbf",
-		borderRadius: 7,
+		fontWeight: "bold",
 	},
 	distanceToNowContainer: {
-		padding: 10,
+		marginHorizontal: 5,
+		marginVertical: 7,
+		padding: 15,
+		borderRadius: 7,
 	},
 });
 
-export default QuizCard;
+export default QuizPostCard;

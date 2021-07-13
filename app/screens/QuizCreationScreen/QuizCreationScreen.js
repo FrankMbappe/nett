@@ -127,7 +127,7 @@ function QuizCreationScreen({ navigation, route }) {
 		Toast.show("Refresh the page to see your new post!", {
 			backgroundColor: colors.ok,
 		});
-		navigation.goBack();
+		navigation.navigate(screens.Classroom, { classroomId });
 	};
 
 	return (

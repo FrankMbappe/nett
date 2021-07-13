@@ -70,7 +70,10 @@ function ClassroomScreen({ route, navigation }) {
 	} = useApi(classroomsApi.getClassroom);
 
 	// Extracting variables
-	const { name, posts, topics, teacher } = classroom;
+	const { name, posts, quizzes, tutorials, topics, teacher } = classroom;
+	const allPosts = posts &&
+		quizzes &&
+		tutorials && [...posts, ...quizzes, ...tutorials];
 	const teacherFullName = teacher
 		? userFullName({ ...teacher.profile })
 		: "User";
@@ -163,7 +166,7 @@ function ClassroomScreen({ route, navigation }) {
 						onScroll={(event) =>
 							setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
 						}
-						data={orderBy(posts, "creationDate", "desc")}
+						data={orderBy(allPosts, "creationDate", "desc")}
 						style={{ opacity: isLoading ? 0.25 : 1 }}
 						keyExtractor={({ _id }) => String(_id)}
 						showsVerticalScrollIndicator={false}

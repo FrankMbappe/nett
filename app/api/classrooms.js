@@ -52,7 +52,7 @@ const addQuiz = (
 		dateClosing,
 		hasTimeInterval,
 		qas,
-		isDetermistic,
+		isDeterministic,
 	},
 	onUploadProgress
 ) => {
@@ -64,7 +64,7 @@ const addQuiz = (
 		hasTimeInterval,
 		dateOpening: dateOpening ?? undefined,
 		dateClosing: dateClosing ?? undefined,
-		isDetermistic,
+		isDeterministic,
 	};
 
 	return client.post(`${endpoint}/${classroomId}/quizzes`, data, {

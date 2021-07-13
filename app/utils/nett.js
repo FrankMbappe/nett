@@ -26,7 +26,7 @@ function getEventProps(opens, closes) {
 
 	// --- It hasn't started yet ('^-^) --- //
 	if (openingDate > now) {
-		const prefix = "Will start ";
+		const prefix = "Pending, will start ";
 
 		// In less than 1 hour: It's already there
 		if (differenceInHours(openingDate, now) < 1)
@@ -46,7 +46,7 @@ function getEventProps(opens, closes) {
 
 	// --- It has already started (*o*) --- //
 	else if (closingDate > now) {
-		const prefix = "Will end ";
+		const prefix = "Opened, will end ";
 
 		// In less than 10 minutes: Hurry up!
 		if (differenceInMinutes(closingDate, now) < 10)
