@@ -42,7 +42,11 @@ function getPosts(classrooms) {
 	if (!classrooms) return [];
 
 	// Extracting post list
-	const posts = classrooms.flatMap((classroom) => classroom.posts);
+	const posts = classrooms.flatMap(({ posts, quizzes, tutorials }) => [
+		...posts,
+		...quizzes,
+		...tutorials,
+	]);
 
 	// Sort: Most recent post first
 	return orderBy(posts, "creationDate", "desc");
@@ -185,8 +189,9 @@ function HomeScreen({ navigation }) {
 								if (React.isValidElement(post)) return post;
 								else {
 									// Getting classroom info
-									const classroom = classrooms.find((classroom) =>
-										includes(classroom.posts, post)
+									const classroom = classrooms.find(
+										({ posts, quizzes, tutorials }) =>
+											includes([...posts, ...quizzes, ...tutorials], post)
 									);
 									return classroom ? (
 										<PostCard
