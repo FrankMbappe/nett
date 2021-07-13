@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
 import { formatRelative } from "date-fns";
 
@@ -10,6 +10,8 @@ import LikeCommentShare from "./LikeCommentShare";
 import NettText from "../Text";
 import colors from "../../config/colors";
 import currentUser from "../../config/test";
+import { toggleAddRemove, toggleAddRemoveObject } from "../../utils";
+import { find } from "lodash-es";
 
 function getFontSize(text, hasFile) {
 	if (!text || hasFile) return 18;
@@ -42,18 +44,31 @@ function NormalPostCard({
 }) {
 	// States
 	const [modalIsVisible, setModalIsVisible] = useState(false);
+	const [likeList, setLikeList] = useState(likes);
 
 	// If the post has been liked by the current user
 	const [hasBeenLiked, setHasBeenLiked] = useState(
-		likes.some((like) => like.author === currentUserId)
+		likeList.some((like) => like.author === currentUserId)
 	);
+
+	// Effects
+	useEffect(() => {
+		setHasBeenLiked(likeList.some((like) => like.author === currentUserId));
+	}, [likeList]);
 
 	// Action handlers
 	const onPressComment = () => {
 		setModalIsVisible(true);
 	};
-	const handleTestLike = () => {
-		setHasBeenLiked((prevValue) => !prevValue);
+	const handleLike = () => {
+		const like = { author: currentUserId };
+
+		if (!hasBeenLiked) setLikeList((prevValue) => prevValue.concat(like));
+		else
+			setLikeList((prevValue) =>
+				prevValue.filter(({ author }) => author !== currentUserId)
+			);
+		// Call API?
 	};
 
 	return (
@@ -101,9 +116,9 @@ function NormalPostCard({
 						{/* Comment bar */}
 						<LikeCommentShare
 							isLiked={hasBeenLiked}
-							likeCount={likes.length}
+							likeCount={likeList.length}
 							commentCount={comments.length}
-							onPressLike={handleTestLike}
+							onPressLike={handleLike}
 							onPressComment={onPressComment}
 							onPressShare={onShare}
 						/>
@@ -126,7 +141,7 @@ function NormalPostCard({
 				isLiked={hasBeenLiked}
 				comments={comments}
 				onPressBack={() => setModalIsVisible(false)}
-				onPressLike={onLike}
+				onPressLike={handleLike}
 				onPublish={(text) => onPublishComment && onPublishComment(text)}
 			/>
 		</>

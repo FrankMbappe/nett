@@ -1,4 +1,4 @@
-import { indexOf } from "lodash";
+import { findIndex, includes, indexOf, isEqual } from "lodash";
 
 /**
  * Returns the next item of an array from a specified index
@@ -93,6 +93,10 @@ function toggleAddRemove(item, list, maxLength = null) {
  * @returns The mutated array
  */
 function toggleAddRemoveObject(object, list, comparator = null) {
+	if (!comparator) {
+		if (!includes(list, object)) return list.concat(object);
+		else return list.filter((x) => !isEqual(x, object));
+	}
 	if (!includesObject(object, list, comparator)) return list.concat(object);
 	else {
 		return list.filter((x) => x[comparator] !== object[comparator]);
