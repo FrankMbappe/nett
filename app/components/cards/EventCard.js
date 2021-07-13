@@ -51,7 +51,7 @@ function EventCard({
 			/>
 			<NettText
 				style={[styles.name, { color: properties.color }]}
-				numberOfLines={3}
+				numberOfLines={2}
 			>
 				{name}
 			</NettText>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 10,
 		width: 185,
-		height: 140,
+		height: 120,
 		margin: 5,
 		borderRadius: 10,
 		elevation: 3,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 	type: {
 		textTransform: "uppercase",
 		fontWeight: "700",
-		fontSize: 9,
+		fontSize: 11,
 	},
 	badge: {
 		marginHorizontal: 5,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		fontWeight: "700",
 		fontStyle: "italic",
-		fontSize: 9,
+		fontSize: 11,
 	},
 	divider: {
 		width: "100%",
@@ -108,12 +108,12 @@ const styles = StyleSheet.create({
 	name: {
 		flex: 1,
 		fontWeight: "700",
-		fontSize: 18,
+		fontSize: 22,
 	},
 	distanceToNow: {
 		width: "100%",
 		padding: 7,
-		fontSize: 10,
+		fontSize: 12,
 		textAlign: "center",
 		backgroundColor: "#fcfcfcbf",
 		borderRadius: 7,

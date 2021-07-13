@@ -5,6 +5,7 @@ import { screens } from "../../navigation/routes";
 import ShowAllScreen from "../ShowAllScreen/ShowAllScreen";
 import Icon from "../../components/Icon";
 import colors from "../../config/colors";
+import { formatWordCount } from "../../utils";
 
 function ShowAllClassroomsScreen({ route, navigation }) {
 	// Getting params
@@ -29,7 +30,10 @@ function ShowAllClassroomsScreen({ route, navigation }) {
 						/>
 					}
 					name={name}
-					description={`${participations.length} participants`}
+					description={`${formatWordCount(
+						participations.length + 1,
+						"participant"
+					)}`}
 					onPress={() =>
 						navigation.navigate(screens.Classroom, { classroomId: _id })
 					}

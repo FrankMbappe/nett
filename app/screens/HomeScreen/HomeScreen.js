@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, SectionList, View } from "react-native";
-import { compareDesc } from "date-fns";
+import { compareDesc, isPast } from "date-fns";
 
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
@@ -28,15 +28,22 @@ function filterSections(sections) {
 	);
 }
 function getEvents(classrooms) {
-	// TODO
-	// Filter: Only events that did not end up yet
-	// Sort: Soonest ending first
-	// return array
-	// 	.filter((x) => new Date(x.dateClosing) > new Date())
-	// 	.sort((x, y) =>
-	// 		compareAsc(new Date(x.dateClosing), new Date(y.dateClosing))
-	// 	);
-	return [];
+	if (!classrooms) return [];
+
+	// Extracting events (just quizzes for instance)
+	const events = classrooms
+		.flatMap(({ quizzes }) => quizzes) // All quizzes of all classrooms
+		.filter((quiz) => !isPast(new Date(quiz.dateClosing))) // Only those that are active
+		.map((quiz) => ({
+			classroom: getClassroomInfo(classrooms, quiz).name,
+			type: quiz._type,
+			name: quiz.title,
+			dateClosing: quiz.dateClosing,
+			dateOpening: quiz.dateOpening,
+		}));
+	if (!events) return [];
+
+	return orderBy(events, "dateClosing", "desc");
 }
 function getPosts(classrooms) {
 	if (!classrooms) return [];
@@ -50,6 +57,11 @@ function getPosts(classrooms) {
 
 	// Sort: Most recent post first
 	return orderBy(posts, "creationDate", "desc");
+}
+function getClassroomInfo(classrooms, post) {
+	return classrooms.find(({ posts, quizzes, tutorials }) =>
+		includes([...posts, ...quizzes, ...tutorials], post)
+	);
 }
 
 function HomeScreen({ navigation }) {
@@ -82,8 +94,7 @@ function HomeScreen({ navigation }) {
 				Title: (
 					<SectionHeader
 						expand
-						icon="clock-outline"
-						title="Scheduled events"
+						title="⏳  Scheduled events"
 						onExpansion={() =>
 							navigation.navigate(screens.ShowAllEvents, {
 								data: getEvents(classrooms),
@@ -189,10 +200,7 @@ function HomeScreen({ navigation }) {
 								if (React.isValidElement(post)) return post;
 								else {
 									// Getting classroom info
-									const classroom = classrooms.find(
-										({ posts, quizzes, tutorials }) =>
-											includes([...posts, ...quizzes, ...tutorials], post)
-									);
+									const classroom = getClassroomInfo(classrooms, post);
 									return classroom ? (
 										<PostCard
 											currentUserId={currentUser.id}
