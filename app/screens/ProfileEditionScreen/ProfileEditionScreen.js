@@ -22,7 +22,6 @@ import UploadScreen from "../UploadScreen/UploadScreen";
 import { navigators } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
-import client from "../../api/client";
 import currentUser from "../../config/test";
 
 const validationSchema = Yup.object().shape({

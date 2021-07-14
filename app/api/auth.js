@@ -1,17 +1,17 @@
-import client from "./client";
+import apiClient from "./client";
 
 const endpoint = "/auth";
 
 // Sending phone number confirmation
 const sendConfirmationCode = (phone) => {
 	const data = { phone };
-	return client.get(endpoint, data);
+	return apiClient.get(endpoint, data);
 };
 
 // Verifying phone number
 const verify = (phone, code) => {
 	const data = { phone, code };
-	return client.get(endpoint + "/confirm", data);
+	return apiClient.get(endpoint + "/confirm", data);
 };
 
 export default {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, SectionList, View } from "react-native";
-import { compareDesc, isPast } from "date-fns";
+import { isPast } from "date-fns";
 
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
@@ -35,6 +35,7 @@ function getEvents(classrooms) {
 		.flatMap(({ quizzes }) => quizzes) // All quizzes of all classrooms
 		.filter((quiz) => !isPast(new Date(quiz.dateClosing))) // Only those that are active
 		.map((quiz) => ({
+			id: quiz._id,
 			classroom: getClassroomInfo(classrooms, quiz).name,
 			type: quiz._type,
 			name: quiz.title,
@@ -107,7 +108,7 @@ function HomeScreen({ navigation }) {
 						style={{ flexGrow: 0 }}
 						data={getEvents(classrooms)}
 						showsHorizontalScrollIndicator={false}
-						keyExtractor={(item) => item.id}
+						keyExtractor={({ id }) => String(id)}
 						renderItem={({ item }) => (
 							<EventCard event={item} onPress={() => alert("Event")} /> // TODO: OnPress Event
 						)}

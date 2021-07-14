@@ -1,4 +1,4 @@
-import client from "./client";
+import apiClient from "./client";
 import { basename } from "path";
 import { lookup } from "react-native-mime-types";
 
@@ -25,7 +25,7 @@ const setProfile = (
 			});
 	}
 
-	return client.post(`${endpoint}/me/profile`, data, {
+	return apiClient.post(`${endpoint}/me/profile`, data, {
 		onUploadProgress: (progress) =>
 			onUploadProgress(progress.loaded / progress.total),
 	});
@@ -33,7 +33,7 @@ const setProfile = (
 
 const setType = (_type) => {
 	const data = { _type };
-	return client.put(endpoint + "/type", data);
+	return apiClient.put(endpoint + "/type", data);
 };
 
 export default {

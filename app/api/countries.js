@@ -1,8 +1,8 @@
-import client from "./client";
+import apiClient from "./client";
 
 const endpoint = "/countries";
 
-const getCountries = () => client.get(endpoint);
+const getCountries = () => apiClient.get(endpoint);
 
 export default {
 	getCountries,

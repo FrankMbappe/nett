@@ -1,4 +1,4 @@
-import client from "./client";
+import apiClient from "./client";
 import { lookup } from "react-native-mime-types";
 import { basename } from "path";
 import { postTypes } from "../config/enums";
@@ -6,10 +6,11 @@ import { postTypes } from "../config/enums";
 const endpoint = "/classrooms";
 
 // Getting all classrooms
-const getClassrooms = () => client.get(endpoint);
+const getClassrooms = () => apiClient.get(endpoint);
 
 // Getting a specific classroom by its ID
-const getClassroom = (classroomId) => client.get(`${endpoint}/${classroomId}`);
+const getClassroom = (classroomId) =>
+	apiClient.get(`${endpoint}/${classroomId}`);
 
 // Adding a post to a classroom
 const addPost = ({ classroomId, file, text }, onUploadProgress) => {
@@ -27,7 +28,7 @@ const addPost = ({ classroomId, file, text }, onUploadProgress) => {
 			});
 	}
 
-	return client.post(`${endpoint}/${classroomId}/posts`, data, {
+	return apiClient.post(`${endpoint}/${classroomId}/posts`, data, {
 		onUploadProgress: (progress) =>
 			onUploadProgress(progress.loaded / progress.total),
 	});
@@ -36,7 +37,7 @@ const addPost = ({ classroomId, file, text }, onUploadProgress) => {
 // Adding a comment to a post in a classroom
 const addComment = ({ classroomId, postId, text }) => {
 	const data = { text };
-	return client.post(
+	return apiClient.post(
 		`${endpoint}/${classroomId}/posts/${postId}/comments`,
 		data
 	);
@@ -67,7 +68,7 @@ const addQuiz = (
 		isDeterministic,
 	};
 
-	return client.post(`${endpoint}/${classroomId}/quizzes`, data, {
+	return apiClient.post(`${endpoint}/${classroomId}/quizzes`, data, {
 		onUploadProgress: (progress) =>
 			onUploadProgress(progress.loaded / progress.total),
 	});
@@ -96,7 +97,7 @@ const addTutorial = (
 	});
 	if (description) data.append("description", description);
 
-	return client.post(`${endpoint}/${classroomId}/tutorials`, data, {
+	return apiClient.post(`${endpoint}/${classroomId}/tutorials`, data, {
 		onUploadProgress: (progress) =>
 			onUploadProgress(progress.loaded / progress.total),
 	});
