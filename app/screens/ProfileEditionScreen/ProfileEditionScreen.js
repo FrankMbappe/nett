@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { capitalize } from "lodash";
 import * as ImagePicker from "expo-image-picker";
 import * as Yup from "yup";
 import usersApi from "../../api/users";
+import authStorage from "../../auth/storage";
 
 import BinarySelector from "../../components/BinarySelector";
 import ProfilePhotoPicker from "../../components/ProfilePhotoPicker";
@@ -22,7 +23,8 @@ import UploadScreen from "../UploadScreen/UploadScreen";
 import { navigators } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
-import currentUser from "../../config/test";
+import AuthContext from "../../auth/context";
+import jwtDecode from "jwt-decode";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -30,13 +32,14 @@ const validationSchema = Yup.object().shape({
 });
 
 function ProfileEditionScreen({ navigation, route }) {
+	// Context
+	const authContext = useContext(AuthContext);
+
 	// Params
 	const { profile } = route.params;
 
 	// States: Data
-	const [picUri, setPicUri] = useState(
-		profile && currentUser.hostname + profile.picUri
-	);
+	const [picUri, setPicUri] = useState(profile && profile.picUri);
 	const [birthDate, setBirthDate] = useState(
 		profile ? new Date(profile.birthDate) : new Date()
 	);
@@ -89,7 +92,7 @@ function ProfileEditionScreen({ navigation, route }) {
 			setProgress(progress)
 		);
 
-		// Result handler
+		// Failure
 		if (!result || !result.ok) {
 			setUploadIsVisible(false);
 			return Toast.show(
@@ -97,6 +100,17 @@ function ProfileEditionScreen({ navigation, route }) {
 				{ backgroundColor: colors.danger }
 			);
 		}
+
+		// Success
+		const { authToken } = result.data;
+
+		/* I store the JWT token and decode the user 
+		   object encoded in it */
+		authStorage.storeToken(authToken);
+		const decodedUser = jwtDecode(authToken);
+
+		// Then I set the current user to decoded user
+		authContext.setCurrentUser(decodedUser);
 	};
 	const handleDone = () => {
 		setUploadIsVisible(false);

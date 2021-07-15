@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Divider } from "react-native-elements";
 import authApi from "../../api/auth";
 import Toast from "react-native-root-toast";
+import authStorage from "../../auth/storage";
 
 import NettButton from "../../components/Button";
 import NettText from "../../components/Text";
@@ -13,12 +14,17 @@ import StartBottomBar from "../../components/start/BottomBar";
 
 import styles from "./styles";
 import { buttons } from "../../config/enums";
-import { navigators, screens } from "../../navigation/routes";
+import { screens } from "../../navigation/routes";
 import UploadScreen from "../UploadScreen/UploadScreen";
 import ActivityIndicator from "../../components/ActivityIndicator";
 import colors from "../../config/colors";
+import AuthContext from "../../auth/context";
+import jwtDecode from "jwt-decode";
 
 function PhoneNumberConfirmationScreen({ route, navigation }) {
+	// Context
+	const authContext = useContext(AuthContext);
+
 	// Params
 	const { phone } = route.params;
 	const timerValue = 600; // In seconds, 10 minutes
@@ -78,31 +84,39 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		setDoneAnimVisible(false);
 
 		// I get data from the API result
-		const { authToken, user, isNew } = apiResultData.current;
+		const { authToken, isNew, userProfileExists } = apiResultData.current;
 
-		// First of all, I store the JWT token
-		// TODO: Store 'authToken' Token
+		/* First of all, I store the JWT token
+		   and decode the user object encoded in it */
+		authStorage.storeToken(authToken);
+		const decodedUser = jwtDecode(authToken);
+
+		// Then I set the current user to decoded user
+		authContext.setCurrentUser(decodedUser);
 
 		// If the user is new, he goes to account type selection
 		if (isNew) {
 			Toast.show(
-				`Account with phone number ${user.phone} successfully created.`,
+				`Account with phone number ${decodedUser.phone} successfully created.`,
 				{ backgroundColor: colors.ok }
 			);
 			return navigation.navigate(screens.AccountTypeSelection);
 		}
 
 		// Otherwise, he goes to the profile configuration screen
-		if (!user.profile)
+		if (!userProfileExists) {
 			Toast.show("You need to configure your profile before moving on...", {
 				backgroundColor: colors.warning,
 			});
-		else
-			Toast.show(`Welcome back ${user.profile.firstName}!`, {
+			navigation.navigate(screens.ProfileEdition);
+		} else {
+			Toast.show(`Welcome back ${decodedUser.profile.firstName}!`, {
 				backgroundColor: colors.ok,
 			});
-
-		navigation.navigate(screens.ProfileEdition, { profile: user.profile });
+			navigation.navigate(screens.ProfileEdition, {
+				profile: decodedUser.profile,
+			});
+		}
 	};
 	const handleRetry = () => {
 		handlePrevious();

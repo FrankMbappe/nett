@@ -6,7 +6,6 @@ import NettText from "../Text";
 import TextIcon from "../TextIcon";
 import colors from "../../config/colors";
 import { formatWordCount } from "../../utils";
-import currentUser from "../../config/test";
 
 function ClassroomCard({
 	// Data
@@ -32,7 +31,7 @@ function ClassroomCard({
 			<Author
 				user={{
 					fullName: teacherFullName,
-					picUri: currentUser.hostname + teacherPicUri,
+					picUri: teacherPicUri,
 				}}
 				name={classroomName}
 			/>

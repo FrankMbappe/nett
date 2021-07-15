@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, FlatList, TouchableHighlight, Share } from "react-native";
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
@@ -17,10 +17,10 @@ import colors from "../../config/colors";
 import images from "../../config/images";
 import styles from "./styles";
 
-import currentUser from "../../config/test";
 import ApiError from "../../components/ApiError";
 import { orderBy } from "lodash-es";
 import Toast from "react-native-root-toast";
+import AuthContext from "../../auth/context";
 
 // Public action handlers
 const handlePublishComment = async (classroomId, postId, text) => {
@@ -58,6 +58,9 @@ const handleShare = async (text) => {
 };
 
 function ClassroomScreen({ route, navigation }) {
+	// Context
+	const { currentUser } = useContext(AuthContext);
+
 	// Getting params
 	const { classroomId } = route.params;
 
@@ -172,7 +175,7 @@ function ClassroomScreen({ route, navigation }) {
 						showsVerticalScrollIndicator={false}
 						renderItem={({ item: post }) => (
 							<PostCard
-								currentUserId={currentUser.id}
+								currentUserId={currentUser._id}
 								post={{
 									...post,
 									author: {

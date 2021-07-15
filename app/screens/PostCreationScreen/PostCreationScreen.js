@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
-import { bytesToSize, capitalize, userFullName } from "../../utils";
+import { bytesToSize, capitalize } from "../../utils";
 import { Divider } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
@@ -20,20 +20,23 @@ import { buttons } from "../../config/enums";
 import images from "../../config/images";
 import styles from "./styles";
 import { screens } from "../../navigation/routes";
-import currentUser from "../../config/test";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
 import FileRenderer from "../../components/FileRenderer";
 import UploadScreen from "../UploadScreen/UploadScreen";
 import { extname } from "path";
+import AuthContext from "../../auth/context";
 
 const maxTextLength = 3000;
 
 function PostCreationScreen({ route, navigation }) {
+	// Context
+	const {
+		currentUser: { _type, profile, fullName },
+	} = useContext(AuthContext);
+
 	// Get params
 	const { classroomId, classroomName } = route.params;
-	const { _type, profile } = currentUser;
-	const authorName = userFullName({ ...profile });
 
 	// States: Data
 	const [text, setText] = useState("");
@@ -186,7 +189,7 @@ function PostCreationScreen({ route, navigation }) {
 						image={
 							profile.picUri ? { uri: profile.picUri } : images.USER_DEFAULT
 						}
-						name={authorName}
+						name={fullName}
 						description={`${capitalize(_type)} in ${classroomName}`}
 					/>
 					{/* TODO: Add multiple classrooms */}
@@ -224,7 +227,6 @@ function PostCreationScreen({ route, navigation }) {
 							showDelete
 							onDelete={handleDeleteFile}
 							canBeDownloaded={false}
-							test={false}
 						/>
 						<NettText style={styles.fileLabel}>
 							{`${file.type} - ${bytesToSize(file.size)}`}

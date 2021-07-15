@@ -4,7 +4,7 @@ import {
 	differenceInDays,
 	differenceInMinutes,
 } from "date-fns";
-import { startCase } from "lodash";
+import { includes, startCase } from "lodash";
 import colors from "../config/colors";
 
 function getEventProps(opens, closes) {
@@ -68,4 +68,10 @@ const userFullName = ({ honorific, firstName, lastName }) => {
 	return startCase(`${honorific ?? ""} ${firstName} ${lastName}`.trim());
 };
 
-export { getEventProps, userFullName };
+const getClassroomInfo = (classrooms, post) => {
+	return classrooms.find(({ posts, quizzes, tutorials }) =>
+		includes([...posts, ...quizzes, ...tutorials], post)
+	);
+};
+
+export { getEventProps, userFullName, getClassroomInfo };

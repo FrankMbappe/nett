@@ -9,9 +9,6 @@ import FileRenderer from "../FileRenderer";
 import LikeCommentShare from "./LikeCommentShare";
 import NettText from "../Text";
 import colors from "../../config/colors";
-import currentUser from "../../config/test";
-import { toggleAddRemove, toggleAddRemoveObject } from "../../utils";
-import { find } from "lodash-es";
 
 function getFontSize(text, hasFile) {
 	if (!text || hasFile) return 18;
@@ -23,7 +20,6 @@ function getFontSize(text, hasFile) {
 
 function NormalPostCard({
 	// Data
-	currentUserId,
 	post: {
 		creationDate,
 		author: { fullName: authorFullName, picUri: authorPicUri },
@@ -127,7 +123,7 @@ function NormalPostCard({
 						<Author
 							user={{
 								fullName: authorFullName,
-								picUri: currentUser.hostname + authorPicUri,
+								picUri: authorPicUri,
 							}}
 							classroomName={classroomName}
 						/>

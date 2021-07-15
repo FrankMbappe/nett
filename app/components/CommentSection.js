@@ -15,7 +15,6 @@ import Screen from "./Screen";
 import TopBar from "./TopBar";
 import colors from "../config/colors";
 import { userFullName } from "../utils";
-import currentUser from "../config/test";
 
 function CommentSection({
 	isVisible,
@@ -69,7 +68,7 @@ function CommentSection({
 									profile: {
 										...author.profile,
 										fullName: userFullName({ ...author.profile }),
-										picUri: currentUser.hostname + author.profile.picUri,
+										picUri: author.profile.picUri,
 									},
 								}}
 								creationDate={creationDate}

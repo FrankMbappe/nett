@@ -2,7 +2,6 @@ import { formatRelative } from "date-fns";
 import React from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
 import colors from "../../config/colors";
-import currentUser from "../../config/test";
 import { getEventProps } from "../../utils";
 import Badge from "../Badge";
 import NettText from "../Text";
@@ -74,7 +73,7 @@ function QuizPostCard({
 				<Author
 					user={{
 						fullName: authorFullName,
-						picUri: currentUser.hostname + authorPicUri,
+						picUri: authorPicUri,
 					}}
 					classroomName={classroomName}
 				/>

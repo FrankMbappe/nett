@@ -8,6 +8,7 @@ const screens = Object.freeze({
 	PhoneNumberConfirmation: "PhoneNumberConfirmation",
 	PostCreation: "PostCreation",
 	ProfileEdition: "ProfileEdition",
+	Profile: "Profile",
 	QACreation: "QACreation",
 	QuizCreation: "QuizCreation",
 	QuizTaking: "QuizTaking",
