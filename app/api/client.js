@@ -2,16 +2,18 @@ import { create } from "apisauce";
 import authStorage from "../auth/storage";
 import cache from "../utils/cache";
 
-const token = await authStorage.getToken();
-
 const apiClient = create({
 	baseURL: "http://192.168.8.100:3000/api",
-	headers: { "x-auth-token": token },
 });
 
-// authStorage.getToken().then((token) => {
-// 	apiClient.setHeaders({ "x-auth-token": token });
-// });
+// In order to query protected routes
+apiClient.addAsyncRequestTransform(async (request) => {
+	const authToken = await authStorage.getToken();
+
+	if (!authToken) return;
+
+	request.headers["x-auth-token"] = authToken;
+});
 
 // Intercepting API calls to deal with the cache
 const get = apiClient.get;

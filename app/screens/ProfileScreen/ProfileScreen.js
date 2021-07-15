@@ -1,24 +1,15 @@
 import React from "react";
 import { View } from "react-native";
-
 import styles from "./styles";
 import Screen from "../../components/Screen";
 import NettButton from "../../components/Button";
-
 import NettText from "../../components/Text";
 import { buttons } from "../../config/enums";
-import authStorage from "../../auth/storage";
 import useAuth from "../../hooks/useAuth";
 
 function ProfileScreen({ navigation }) {
 	// Context
-	const { setCurrentUser } = useAuth();
-
-	// Action handlers
-	const handleLogout = () => {
-		setCurrentUser(null);
-		authStorage.removeToken();
-	};
+	const { logOut } = useAuth();
 
 	return (
 		<Screen style={styles.screen}>
@@ -30,7 +21,7 @@ function ProfileScreen({ navigation }) {
 					style={styles.logoutButton}
 					text="Log out"
 					type={buttons.SECONDARY}
-					onPress={handleLogout}
+					onPress={() => logOut()}
 				/>
 			</View>
 		</Screen>
