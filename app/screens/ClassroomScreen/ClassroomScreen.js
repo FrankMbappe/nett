@@ -99,121 +99,115 @@ function ClassroomScreen({ route, navigation }) {
 	};
 
 	return (
-		<Screen
-			style={styles.screen}
-			backImage={images.CLASSROOM_BACKGROUND}
-			backImageStyle={{ opacity: isLoading ? 0.25 : 1 }}
-		>
-			{/* When an error occurs */}
-			<ApiError
-				show={error && !isLoading}
-				onPressRetry={() => loadClassroom(classroomId)}
-			/>
-
-			{/* Screen body */}
-			{!error && (
-				<>
-					{/* Top bar */}
-					<TopBar style={[styles.topBar, { opacity: isLoading ? 0.25 : 1 }]}>
-						<ButtonIcon
-							name="arrow-left"
-							size={25}
-							onPress={() => navigation.goBack()}
-						/>
-						<Icon
-							name="school"
-							iconColor={colors.ok}
-							backgroundColor={colors.okLight}
-							style={styles.classroomPic}
-						/>
-						<View style={styles.topBarTitleContainer}>
-							<NettText style={styles.topBarTitle} numberOfLines={1}>
-								{name}
-							</NettText>
-							<NettText style={styles.topBarCaption} numberOfLines={1}>
-								{`Held by ${teacherFullName}`}
-							</NettText>
-						</View>
-						<ButtonIcon name="magnify" />
-						<ButtonIcon name="dots-vertical" />
-					</TopBar>
-					{topics != null && topics.length > 0 && (
-						<View
-							style={[
-								styles.topicFlatListContainer,
-								{ opacity: isLoading ? 0.25 : 1 },
-							]}
-						>
-							<FlatList
-								contentContainerStyle={[styles.topicFlatListContent]}
-								style={[
-									styles.topicFlatList,
-									!isAtInitScrollPosition && {
-										borderBottomColor: colors.light,
-									},
-								]}
-								data={topics}
-								keyExtractor={({ _id }) => String(_id)}
-								renderItem={({ item: { name } }) => (
-									<NettText style={styles.topic}>{name}</NettText>
-								)}
-								horizontal
-								showsHorizontalScrollIndicator={false}
-							/>
-						</View>
-					)}
-
-					{/* Post list */}
-					<FlatList
-						contentContainerStyle={styles.postFlatListContent}
-						onScroll={(event) =>
-							setIsAtInitScrollPosition(event.nativeEvent.contentOffset.y === 0)
-						}
-						data={orderBy(allPosts, "creationDate", "desc")}
-						style={{ opacity: isLoading ? 0.25 : 1 }}
-						keyExtractor={({ _id }) => String(_id)}
-						showsVerticalScrollIndicator={false}
-						renderItem={({ item: post }) => (
-							<PostCard
-								currentUserId={currentUser._id}
-								post={{
-									...post,
-									author: {
-										fullName: userFullName({ ...post.author.profile }),
-										picUri: post.author.profile.picUri,
-									},
-								}}
-								onLike={() => alert("Call endpoint /like")}
-								onPublishComment={(text) =>
-									handlePublishComment(classroomId, post._id, text)
-								}
-								onShare={() => handleShare(post.text)}
-							/>
-						)}
-						refreshing={refreshing}
-						onRefresh={() => loadClassroom(classroomId)}
-					/>
-
-					{/* Add post button */}
-					<FloatingButton
-						icon="pencil"
-						onPress={handleCreatePost}
-						style={styles.createPostButton}
-					/>
-
-					{/* Footer */}
-					<TouchableHighlight style={styles.footer}>
-						<NettText style={styles.footerText}>{`${formatWordCount(
-							1,
-							"online participant"
-						)}`}</NettText>
-					</TouchableHighlight>
-				</>
-			)}
-
+		<>
 			{/* Loading animation */}
 			<ActivityIndicator visible={isLoading} />
-		</Screen>
+
+			<Screen style={styles.screen} backImage={images.CLASSROOM_BACKGROUND}>
+				{/* When an error occurs */}
+				<ApiError
+					show={error && !isLoading}
+					onPressRetry={() => loadClassroom(classroomId)}
+				/>
+
+				{/* Screen body */}
+				{!error && (
+					<>
+						{/* Top bar */}
+						<TopBar style={styles.topBar}>
+							<ButtonIcon
+								name="arrow-left"
+								size={25}
+								onPress={() => navigation.goBack()}
+							/>
+							<Icon
+								name="school"
+								iconColor={colors.ok}
+								backgroundColor={colors.okLight}
+								style={styles.classroomPic}
+							/>
+							<View style={styles.topBarTitleContainer}>
+								<NettText style={styles.topBarTitle} numberOfLines={1}>
+									{name}
+								</NettText>
+								<NettText style={styles.topBarCaption} numberOfLines={1}>
+									{`Held by ${teacherFullName}`}
+								</NettText>
+							</View>
+							<ButtonIcon name="magnify" />
+							<ButtonIcon name="dots-vertical" />
+						</TopBar>
+						{topics != null && topics.length > 0 && (
+							<View style={styles.topicFlatListContainer}>
+								<FlatList
+									contentContainerStyle={styles.topicFlatListContent}
+									style={[
+										styles.topicFlatList,
+										!isAtInitScrollPosition && {
+											borderBottomColor: colors.light,
+										},
+									]}
+									data={topics}
+									keyExtractor={({ _id }) => String(_id)}
+									renderItem={({ item: { name } }) => (
+										<NettText style={styles.topic}>{name}</NettText>
+									)}
+									horizontal
+									showsHorizontalScrollIndicator={false}
+								/>
+							</View>
+						)}
+
+						{/* Post list */}
+						<FlatList
+							contentContainerStyle={styles.postFlatListContent}
+							onScroll={(event) =>
+								setIsAtInitScrollPosition(
+									event.nativeEvent.contentOffset.y === 0
+								)
+							}
+							data={orderBy(allPosts, "creationDate", "desc")}
+							keyExtractor={({ _id }) => String(_id)}
+							showsVerticalScrollIndicator={false}
+							renderItem={({ item: post }) => (
+								<PostCard
+									currentUserId={currentUser._id}
+									post={{
+										...post,
+										author: {
+											fullName: userFullName({ ...post.author.profile }),
+											picUri: post.author.profile.picUri,
+										},
+									}}
+									onLike={() => alert("Call endpoint /like")}
+									onPublishComment={(text) =>
+										handlePublishComment(classroomId, post._id, text)
+									}
+									onShare={() => handleShare(post.text)}
+								/>
+							)}
+							refreshing={refreshing}
+							onRefresh={() => loadClassroom(classroomId)}
+						/>
+
+						{/* Add post button */}
+						<FloatingButton
+							icon="pencil"
+							onPress={handleCreatePost}
+							style={styles.createPostButton}
+						/>
+
+						{/* Footer */}
+						<TouchableHighlight style={styles.footer}>
+							<NettText style={styles.footerText}>{`${formatWordCount(
+								1,
+								"online participant"
+							)}`}</NettText>
+						</TouchableHighlight>
+					</>
+				)}
+			</Screen>
+		</>
 	);
 }
 

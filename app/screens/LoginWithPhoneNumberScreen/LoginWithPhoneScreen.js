@@ -87,76 +87,76 @@ function LoginWithPhoneScreen({ navigation }) {
 	};
 
 	return (
-		<Screen style={styles.screen}>
-			{/* When an error occurs */}
-			<ApiError show={error && !isLoading} onPressRetry={loadCountries} />
-
-			{!error && !isLoading && (
-				<Form
-					initialValues={{
-						phone: "",
-					}}
-					onSubmit={handleSubmit}
-					validationSchema={validationSchema}
-				>
-					{/* --- Main container --- */}
-					<View
-						style={[styles.mainContainer, { opacity: showLoader ? 0.25 : 1 }]}
-					>
-						{/* Title */}
-						<StartTitle style={styles.titleContainer}>
-							Enter your phone number
-						</StartTitle>
-
-						{/* Input */}
-						<View style={styles.inputContainer}>
-							{/* Dial code picker */}
-							<NettPicker
-								// Picker
-								hasSearchBar
-								containerStyle={styles.dialCodeContainer}
-								style={styles.dialCodeText}
-								placeholder={dialCode}
-								// List
-								listItems={countryList}
-								listItemKey={"code"}
-								selectedListItem={dialCode}
-								onSelectListItem={({ dialCode }) => setDialCode(dialCode)}
-								showListItemValue={({ flag, name, dialCode }) =>
-									`${flag}  ${name} (${dialCode})`
-								}
-								onChangeSearchText={(text) => setSearch(text)}
-								onShowListItems={handleShowCountries}
-							/>
-
-							{/* Phone number input */}
-							<Field
-								fieldStyle={styles.phoneInput}
-								name="phone"
-								placeholder={"Phone number"}
-								keyboardType={"phone-pad"}
-								textContentType="telephoneNumber"
-							/>
-						</View>
-
-						{/* Description */}
-						<NettText style={styles.inputDescription}>
-							Phone numbers are used to register and log into Nett accounts.
-							After entering yours, we will send you a confirmation message to
-							verify it.
-						</NettText>
-					</View>
-
-					{/* --- Bottom bar --- */}
-					<View style={styles.bottomBar}>
-						<SubmitButton style={styles.submitButton} text="Next" />
-					</View>
-				</Form>
-			)}
-
+		<>
 			{/* Loader */}
 			<ActivityIndicator visible={isLoading || showLoader} />
-		</Screen>
+
+			<Screen style={styles.screen}>
+				{/* When an error occurs */}
+				<ApiError show={error && !isLoading} onPressRetry={loadCountries} />
+
+				{!error && !isLoading && (
+					<Form
+						initialValues={{
+							phone: "",
+						}}
+						onSubmit={handleSubmit}
+						validationSchema={validationSchema}
+					>
+						{/* --- Main container --- */}
+						<View style={styles.mainContainer}>
+							{/* Title */}
+							<StartTitle style={styles.titleContainer}>
+								Enter your phone number
+							</StartTitle>
+
+							{/* Input */}
+							<View style={styles.inputContainer}>
+								{/* Dial code picker */}
+								<NettPicker
+									// Picker
+									hasSearchBar
+									containerStyle={styles.dialCodeContainer}
+									style={styles.dialCodeText}
+									placeholder={dialCode}
+									// List
+									listItems={countryList}
+									listItemKey={"code"}
+									selectedListItem={dialCode}
+									onSelectListItem={({ dialCode }) => setDialCode(dialCode)}
+									showListItemValue={({ flag, name, dialCode }) =>
+										`${flag}  ${name} (${dialCode})`
+									}
+									onChangeSearchText={(text) => setSearch(text)}
+									onShowListItems={handleShowCountries}
+								/>
+
+								{/* Phone number input */}
+								<Field
+									fieldStyle={styles.phoneInput}
+									name="phone"
+									placeholder={"Phone number"}
+									keyboardType={"phone-pad"}
+									textContentType="telephoneNumber"
+								/>
+							</View>
+
+							{/* Description */}
+							<NettText style={styles.inputDescription}>
+								Phone numbers are used to register and log into Nett accounts.
+								After entering yours, we will send you a confirmation message to
+								verify it.
+							</NettText>
+						</View>
+
+						{/* --- Bottom bar --- */}
+						<View style={styles.bottomBar}>
+							<SubmitButton style={styles.submitButton} text="Next" />
+						</View>
+					</Form>
+				)}
+			</Screen>
+		</>
 	);
 }
 

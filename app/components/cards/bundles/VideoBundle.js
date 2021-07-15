@@ -41,29 +41,10 @@ const styles = StyleSheet.create({
 		height: 250,
 		backgroundColor: "black",
 	},
-	controlsContainer: {
-		flex: 1,
-		backgroundColor: "#00000080",
-		justifyContent: "center",
-		alignItems: "center",
-	},
 	video: {
 		alignSelf: "center",
 		width: "100%",
 		height: "100%",
-	},
-	videoDuration: {
-		bottom: 15,
-		color: colors.white,
-		end: 15,
-		position: "absolute",
-	},
-	videoProgressContainer: {
-		backgroundColor: "#FFFFFF80",
-		position: "absolute",
-		bottom: 0,
-		width: "100%",
-		height: 7,
 	},
 	loader: {
 		backgroundColor: "black",

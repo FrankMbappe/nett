@@ -123,91 +123,93 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 	};
 
 	return (
-		<Screen style={styles.screen}>
-			{/* Upload screen */}
-			<UploadScreen
-				progress={1}
-				visible={doneAnimVisible}
-				onDone={handleSuccess}
-			/>
-
-			{/* --- Main Box --- */}
-			<View style={[styles.mainContainer, { opacity: showLoader ? 0.25 : 1 }]}>
-				{/* Title */}
-				<StartTitle style={styles.titleContainer}>
-					Confirm your phone number: {phone}
-				</StartTitle>
-
-				{/* Input */}
-				<NettText style={styles.inputDescription}>
-					Enter the 4-digit code you were sent by SMS
-				</NettText>
-				<View style={styles.inputContainer}>
-					<NettTextInput
-						style={styles.codeInput}
-						placeholder={"4-digit code"}
-						keyboardType={"numeric"}
-						icon={"key"}
-						fontSize={18}
-						maxLength={4}
-						onChangeText={(text) => setValidationCode(text)}
-					/>
-				</View>
-
-				{/* Code expiration timer */}
-				<View style={styles.timerContainer}>
-					<NettText style={styles.timerDescription}>
-						Time left before expiration:
-					</NettText>
-					<NettText style={styles.timer}>
-						{timerLeft
-							? new Date(timerLeft * 1000).toISOString().substr(14, 5)
-							: "Expired"}
-					</NettText>
-				</View>
-
-				{/* Resend code */}
-				<View style={styles.resendCodeContainer}>
-					<Divider style={styles.resendCodeDivider} />
-					<View style={styles.resendCodeTextContainer}>
-						<NettText style={styles.resendCodeLabel}>
-							Didn't receive the code?
-						</NettText>
-						<NettText style={styles.resendCodeLink} onPress={handleRetry}>
-							Resend
-						</NettText>
-					</View>
-				</View>
-			</View>
-
-			{/* --- Bottom bar --- */}
-			{timerLeft ? (
-				<StartBottomBar
-					style={styles.bottomBar}
-					buttonStart={
-						<NettButton
-							text="Previous"
-							type={buttons.SECONDARY}
-							onPress={handlePrevious}
-						/>
-					}
-					buttonEnd={
-						<NettButton
-							text="Next"
-							type={buttons.PRIMARY}
-							onPress={handleSubmit}
-						/>
-					}
-				/>
-			) : (
-				<View style={styles.bottomBar}>
-					<NettButton text="Retry" onPress={handleRetry} />
-				</View>
-			)}
-
+		<>
 			{/* Loader */}
 			<ActivityIndicator visible={showLoader} />
-		</Screen>
+
+			<Screen style={styles.screen}>
+				{/* Upload screen */}
+				<UploadScreen
+					progress={1}
+					visible={doneAnimVisible}
+					onDone={handleSuccess}
+				/>
+
+				{/* --- Main Box --- */}
+				<View style={styles.mainContainer}>
+					{/* Title */}
+					<StartTitle style={styles.titleContainer}>
+						Confirm your phone number: {phone}
+					</StartTitle>
+
+					{/* Input */}
+					<NettText style={styles.inputDescription}>
+						Enter the 4-digit code you were sent by SMS
+					</NettText>
+					<View style={styles.inputContainer}>
+						<NettTextInput
+							style={styles.codeInput}
+							placeholder={"4-digit code"}
+							keyboardType={"numeric"}
+							icon={"key"}
+							fontSize={18}
+							maxLength={4}
+							onChangeText={(text) => setValidationCode(text)}
+						/>
+					</View>
+
+					{/* Code expiration timer */}
+					<View style={styles.timerContainer}>
+						<NettText style={styles.timerDescription}>
+							Time left before expiration:
+						</NettText>
+						<NettText style={styles.timer}>
+							{timerLeft
+								? new Date(timerLeft * 1000).toISOString().substr(14, 5)
+								: "Expired"}
+						</NettText>
+					</View>
+
+					{/* Resend code */}
+					<View style={styles.resendCodeContainer}>
+						<Divider style={styles.resendCodeDivider} />
+						<View style={styles.resendCodeTextContainer}>
+							<NettText style={styles.resendCodeLabel}>
+								Didn't receive the code?
+							</NettText>
+							<NettText style={styles.resendCodeLink} onPress={handleRetry}>
+								Resend
+							</NettText>
+						</View>
+					</View>
+				</View>
+
+				{/* --- Bottom bar --- */}
+				{timerLeft ? (
+					<StartBottomBar
+						style={styles.bottomBar}
+						buttonStart={
+							<NettButton
+								text="Previous"
+								type={buttons.SECONDARY}
+								onPress={handlePrevious}
+							/>
+						}
+						buttonEnd={
+							<NettButton
+								text="Next"
+								type={buttons.PRIMARY}
+								onPress={handleSubmit}
+							/>
+						}
+					/>
+				) : (
+					<View style={styles.bottomBar}>
+						<NettButton text="Retry" onPress={handleRetry} />
+					</View>
+				)}
+			</Screen>
+		</>
 	);
 }
 

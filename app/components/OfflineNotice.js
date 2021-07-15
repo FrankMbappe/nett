@@ -21,7 +21,7 @@ function OfflineNotice(props) {
 const styles = StyleSheet.create({
 	container: {
 		alignItems: "center",
-		backgroundColor: colors.appPrimary,
+		backgroundColor: colors.danger,
 		height: 50,
 		justifyContent: "center",
 		top: Constants.statusBarHeight,
