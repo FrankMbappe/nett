@@ -5,7 +5,7 @@ import { orderBy } from "lodash-es";
 import { isPast } from "date-fns";
 import SectionHeader from "../../components/SectionHeader";
 import { navigators, screens } from "../../navigation/routes";
-import { getClassroomInfo } from "../../utils";
+import { getClassroomInfo, userFullName } from "../../utils";
 
 function filterSections(sections) {
 	// Filter: Only sections containing at least 1 item
@@ -14,7 +14,7 @@ function filterSections(sections) {
 	);
 }
 
-function getEvents(classrooms) {
+function getEvents(classrooms = []) {
 	if (!classrooms) return [];
 
 	// Extracting events (just quizzes for instance)
@@ -34,7 +34,7 @@ function getEvents(classrooms) {
 	return orderBy(events, "dateClosing", "desc");
 }
 
-function getPosts(classrooms) {
+function getPosts(classrooms = []) {
 	if (!classrooms) return [];
 
 	// Extracting post list
@@ -48,95 +48,92 @@ function getPosts(classrooms) {
 	return orderBy(posts, "creationDate", "desc");
 }
 
-function getSections(classrooms) {
+function getSections(classrooms = []) {
 	// Data
-	const posts = useMemo(() => getPosts(classrooms), [classrooms]);
-	const events = useMemo(() => getEvents(classrooms), [classrooms]);
+	const posts = getPosts(classrooms);
+	const events = getEvents(classrooms);
 
 	// Sections
-	const sections = useMemo(
-		() => [
-			/* EVENTS */
-			events.length && {
-				Title: (
-					<SectionHeader
-						expand
-						title="⏳  Scheduled events"
-						onExpansion={() =>
-							navigation.navigate(screens.ShowAllEvents, {
-								data: getEvents(classrooms),
-							})
-						}
-					/>
-				),
-				data: [
-					<FlatList
-						style={{ flexGrow: 0 }}
-						data={getEvents(classrooms)}
-						showsHorizontalScrollIndicator={false}
-						keyExtractor={({ id }) => String(id)}
-						renderItem={({ item }) => (
-							<EventCard event={item} onPress={() => alert("Event")} /> // TODO: OnPress Event
-						)}
-						horizontal
-					/>,
-				],
-			},
+	const sections = [
+		/* EVENTS */
+		events.length && {
+			Title: (
+				<SectionHeader
+					expand
+					title="⏳  Scheduled events"
+					onExpansion={() =>
+						navigation.navigate(screens.ShowAllEvents, {
+							data: getEvents(classrooms),
+						})
+					}
+				/>
+			),
+			data: [
+				<FlatList
+					style={{ flexGrow: 0 }}
+					data={getEvents(classrooms)}
+					showsHorizontalScrollIndicator={false}
+					keyExtractor={({ id }) => String(id)}
+					renderItem={({ item }) => (
+						<EventCard event={item} onPress={() => alert("Event")} /> // TODO: OnPress Event
+					)}
+					horizontal
+				/>,
+			],
+		},
 
-			/* CLASSROOMS */
-			classrooms.length && {
-				Title: (
-					<SectionHeader
-						expand
-						title="🏫  Classrooms"
-						onExpansion={() =>
-							navigation.navigate(screens.ShowAllClassrooms, {
-								data: classrooms,
-							})
-						}
-					/>
-				),
-				data: [
-					<FlatList
-						style={{ flexGrow: 0 }}
-						data={classrooms}
-						showsHorizontalScrollIndicator={false}
-						keyExtractor={({ _id }) => String(_id)}
-						renderItem={({
-							item: {
-								_id,
+		/* CLASSROOMS */
+		classrooms.length && {
+			Title: (
+				<SectionHeader
+					expand
+					title="🏫  Classrooms"
+					onExpansion={() =>
+						navigation.navigate(screens.ShowAllClassrooms, {
+							data: classrooms,
+						})
+					}
+				/>
+			),
+			data: [
+				<FlatList
+					style={{ flexGrow: 0 }}
+					data={classrooms}
+					showsHorizontalScrollIndicator={false}
+					keyExtractor={({ _id }) => String(_id)}
+					renderItem={({
+						item: {
+							_id,
+							name,
+							participations,
+							teacher: { profile },
+						},
+					}) => (
+						<ClassroomCard
+							classroom={{
 								name,
-								participations,
-								teacher: { profile },
-							},
-						}) => (
-							<ClassroomCard
-								classroom={{
-									name,
-									nbOfParticipants: participations.length + 1,
-								}}
-								teacher={{ fullName: userFullName({ ...profile }), ...profile }}
-								onPress={() => {
-									navigation.navigate(navigators.Classroom, {
-										screen: screens.Classroom,
-										params: { classroomId: _id },
-									});
-								}}
-							/>
-						)}
-						horizontal
-					/>,
-				],
-			},
+								nbOfParticipants: participations.length + 1,
+							}}
+							teacher={{ fullName: userFullName({ ...profile }), ...profile }}
+							onPress={() => {
+								navigation.navigate(navigators.Classroom, {
+									screen: screens.Classroom,
+									params: { classroomId: _id },
+								});
+							}}
+						/>
+					)}
+					horizontal
+				/>,
+			],
+		},
 
-			/* POSTS */
-			posts.length && {
-				Title: <SectionHeader title="🌍  Recent updates" />,
-				data: getPosts(classrooms),
-			},
-		],
-		[classrooms]
-	);
+		/* POSTS */
+		posts.length && {
+			Title: <SectionHeader title="🌍  Recent updates" />,
+			data: getPosts(classrooms),
+		},
+	];
 
 	// Returns
 	return filterSections(sections);

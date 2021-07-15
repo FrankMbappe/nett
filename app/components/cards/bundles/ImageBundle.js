@@ -1,18 +1,14 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
-import FastImage from "react-native-fast-image";
+import { Image } from "react-native-expo-image-cache";
 
 import ButtonIcon from "../../ButtonIcon";
 
 function ImageBundle({ uri }) {
 	return (
 		<View style={styles.container}>
-			<FastImage
-				style={{ width: "100%", height: 250 }}
-				source={{ uri: uri }}
-				resizeMode={FastImage.resizeMode.contain}
-			/>
+			<Image style={{ width: "100%", height: 250 }} uri={uri} tint="light" />
 			<ButtonIcon
 				name="arrow-expand-all"
 				color="white"

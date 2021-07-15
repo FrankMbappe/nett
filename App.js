@@ -9,7 +9,6 @@ import { StatusBar } from "expo-status-bar";
 import colors from "./app/config/colors";
 import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/context";
-import ProfileEditionScreen from "./app/screens/ProfileEditionScreen/ProfileEditionScreen";
 import authStorage from "./app/auth/storage";
 import { Alert, BackHandler } from "react-native";
 
@@ -50,7 +49,7 @@ export default function App() {
 						hasProfile ? (
 							<AppNavigator />
 						) : (
-							<ProfileEditionScreen />
+							<AuthNavigator userHasProfile />
 						)
 					) : (
 						<AuthNavigator />

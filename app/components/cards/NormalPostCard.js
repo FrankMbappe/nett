@@ -20,6 +20,7 @@ function getFontSize(text, hasFile) {
 
 function NormalPostCard({
 	// Data
+	currentUserId,
 	post: {
 		creationDate,
 		author: { fullName: authorFullName, picUri: authorPicUri },

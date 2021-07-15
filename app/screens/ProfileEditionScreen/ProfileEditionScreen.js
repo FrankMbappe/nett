@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { capitalize } from "lodash";
 import * as ImagePicker from "expo-image-picker";
@@ -23,8 +23,8 @@ import UploadScreen from "../UploadScreen/UploadScreen";
 import { navigators } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
-import AuthContext from "../../auth/context";
 import jwtDecode from "jwt-decode";
+import useAuth from "../../hooks/useAuth";
 
 const validationSchema = Yup.object().shape({
 	firstName: Yup.string().required().min(1).label("First name"),
@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
 
 function ProfileEditionScreen({ navigation, route }) {
 	// Context
-	const authContext = useContext(AuthContext);
+	const authContext = useAuth();
 
 	// Params
 	const { profile } = route.params;

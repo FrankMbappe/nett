@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Divider } from "react-native-elements";
 import authApi from "../../api/auth";
@@ -18,12 +18,12 @@ import { screens } from "../../navigation/routes";
 import UploadScreen from "../UploadScreen/UploadScreen";
 import ActivityIndicator from "../../components/ActivityIndicator";
 import colors from "../../config/colors";
-import AuthContext from "../../auth/context";
 import jwtDecode from "jwt-decode";
+import useAuth from "../../hooks/useAuth";
 
 function PhoneNumberConfirmationScreen({ route, navigation }) {
 	// Context
-	const authContext = useContext(AuthContext);
+	const authContext = useAuth();
 
 	// Params
 	const { phone } = route.params;

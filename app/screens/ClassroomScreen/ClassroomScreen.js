@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, FlatList, TouchableHighlight, Share } from "react-native";
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
@@ -20,7 +20,7 @@ import styles from "./styles";
 import ApiError from "../../components/ApiError";
 import { orderBy } from "lodash-es";
 import Toast from "react-native-root-toast";
-import AuthContext from "../../auth/context";
+import useAuth from "../../hooks/useAuth";
 
 // Public action handlers
 const handlePublishComment = async (classroomId, postId, text) => {
@@ -59,7 +59,7 @@ const handleShare = async (text) => {
 
 function ClassroomScreen({ route, navigation }) {
 	// Context
-	const { currentUser } = useContext(AuthContext);
+	const { currentUser } = useAuth();
 
 	// Getting params
 	const { classroomId } = route.params;

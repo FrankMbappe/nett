@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SectionList, View } from "react-native";
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
-import AuthContext from "../../auth/context";
 
 import { PostCard } from "../../components/cards";
 import ActivityIndicator from "../../components/ActivityIndicator";
@@ -17,10 +16,11 @@ import {
 
 import styles from "./styles";
 import getHomeScreenSections from "./sections";
+import useAuth from "../../hooks/useAuth";
 
 function HomeScreen({ navigation }) {
 	// Context
-	const { currentUser } = useContext(AuthContext);
+	const { currentUser } = useAuth();
 
 	// API
 	const {
@@ -30,14 +30,23 @@ function HomeScreen({ navigation }) {
 		request: loadClassrooms,
 	} = useApi(classroomsApi.getClassrooms);
 
+	// States
+	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
+	const [refreshing, setRefreshing] = useState(false);
+	const [sections, setSections] = useState([]);
+
 	// Effects
 	useEffect(() => {
 		loadClassrooms();
 	}, []);
 
-	// States
-	const [isInitScrollPosition, setIsInitScrollPosition] = useState(true);
-	const [refreshing, setRefreshing] = useState(false);
+	useEffect(() => {
+		if (!isLoading) {
+			console.log(error);
+			console.log(classrooms.length);
+			setSections(getHomeScreenSections(classrooms));
+		}
+	}, [isLoading]);
 
 	return (
 		<Screen style={styles.screen}>
@@ -56,7 +65,7 @@ function HomeScreen({ navigation }) {
 							keyExtractor={(_, index) => String(index)}
 							contentContainerStyle={{ alignItems: "center" }}
 							style={{ flex: 1, opacity: error || isLoading ? 0 : 1 }}
-							sections={getHomeScreenSections}
+							sections={sections}
 							onRefresh={loadClassrooms}
 							onScroll={(event) =>
 								setIsInitScrollPosition(event.nativeEvent.contentOffset.y === 0)

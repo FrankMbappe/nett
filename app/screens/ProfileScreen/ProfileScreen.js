@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View } from "react-native";
 
 import styles from "./styles";
@@ -7,12 +7,12 @@ import NettButton from "../../components/Button";
 
 import NettText from "../../components/Text";
 import { buttons } from "../../config/enums";
-import AuthContext from "../../auth/context";
 import authStorage from "../../auth/storage";
+import useAuth from "../../hooks/useAuth";
 
 function ProfileScreen({ navigation }) {
 	// Context
-	const { setCurrentUser } = useContext(AuthContext);
+	const { setCurrentUser } = useAuth();
 
 	// Action handlers
 	const handleLogout = () => {

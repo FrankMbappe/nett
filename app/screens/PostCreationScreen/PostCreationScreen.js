@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Keyboard, View, ScrollView } from "react-native";
 import { bytesToSize, capitalize } from "../../utils";
 import { Divider } from "react-native-elements";
@@ -25,7 +25,7 @@ import colors from "../../config/colors";
 import FileRenderer from "../../components/FileRenderer";
 import UploadScreen from "../UploadScreen/UploadScreen";
 import { extname } from "path";
-import AuthContext from "../../auth/context";
+import useAuth from "../../hooks/useAuth";
 
 const maxTextLength = 3000;
 
@@ -33,7 +33,7 @@ function PostCreationScreen({ route, navigation }) {
 	// Context
 	const {
 		currentUser: { _type, profile, fullName },
-	} = useContext(AuthContext);
+	} = useAuth();
 
 	// Get params
 	const { classroomId, classroomName } = route.params;
