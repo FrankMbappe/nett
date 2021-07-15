@@ -1,15 +1,12 @@
 import { create } from "apisauce";
+import authStorage from "../auth/storage";
 import cache from "../utils/cache";
+
+const authToken = async () => await authStorage.getToken();
 
 const apiClient = create({
 	baseURL: "http://192.168.8.100:3000/api",
-	headers: {
-		"x-auth-token":
-			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGUx" +
-			"MGJlYTQyNmI4ODJmZDRlOTc1MzEiLCJfdHlwZSI6InRlYWNoZXIiL" +
-			"CJwaG9uZSI6IisyMzc2NTY4OTUzNDgiLCJpYXQiOjE2MjU0Nzc2NT" +
-			"R9.xQG8o7rOkImMFktIDNOXcZP_hsYurfZ9kkcLI0g9fZY",
-	},
+	headers: { "x-auth-token": authToken },
 });
 
 // Intercepting API calls to deal with the cache

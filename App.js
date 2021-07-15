@@ -11,6 +11,7 @@ import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/context";
 import ProfileEditionScreen from "./app/screens/ProfileEditionScreen/ProfileEditionScreen";
 import authStorage from "./app/auth/storage";
+import { Alert, BackHandler } from "react-native";
 
 export default function App() {
 	const [currentUser, setCurrentUser] = useState();
@@ -31,6 +32,13 @@ export default function App() {
 			<AppLoading
 				startAsync={restoreCurrentUser}
 				onFinish={() => setIsReady(true)}
+				onError={() => {
+					Alert.alert(
+						"Something went wrong while opening Nett, please reload." +
+							" If the problem persists, try to reinstall the app.",
+						[{ text: "Ok", onPress: () => BackHandler.exitApp() }]
+					);
+				}}
 			/>
 		);
 

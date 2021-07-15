@@ -1,8 +1,8 @@
 const nett = {
 	white: "#fff",
 	black: "#141414",
-	primary: "#df4141",
-	primaryDark: "#a62b2b",
+	primary: "#d60f5d",
+	primaryDark: "#910645",
 };
 
 export default {

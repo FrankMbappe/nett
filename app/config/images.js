@@ -3,7 +3,7 @@ const images = {
 	random: { uri: "https://picsum.photos/200" },
 
 	// Static
-	APP_ICON: require("../assets/soundcloud.png"),
+	APP_ICON: require("../assets/nett-logo.png"),
 	USER_DEFAULT: require("../assets/default_user_photo.png"),
 	EMPTY_LIST: require("../assets/list_empty.png"),
 	TEACHER_ACCOUNT: require("../assets/icon_teacher_account.png"),
