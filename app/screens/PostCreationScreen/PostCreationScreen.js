@@ -224,6 +224,7 @@ function PostCreationScreen({ route, navigation }) {
 							showDelete
 							onDelete={handleDeleteFile}
 							canBeDownloaded={false}
+							test={false}
 						/>
 						<NettText style={styles.fileLabel}>
 							{`${file.type} - ${bytesToSize(file.size)}`}

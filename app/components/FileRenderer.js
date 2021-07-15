@@ -11,6 +11,7 @@ function FileRenderer({
 	onDelete,
 	showDelete = false,
 	canBeDownloaded = true,
+	test = true,
 }) {
 	if (!file || !type) return null;
 
@@ -19,12 +20,19 @@ function FileRenderer({
 		<>
 			{
 				String(type).includes("image") ? (
-					<ImageBundle uri={currentUser.hostname + file.uri} />
+					<ImageBundle
+						uri={test ? currentUser.hostname + file.uri : file.uri}
+					/>
 				) : String(type).includes("video") ? (
-					<VideoBundle uri={currentUser.hostname + file.uri} />
+					<VideoBundle
+						uri={test ? currentUser.hostname + file.uri : file.uri}
+					/>
 				) : (
 					<FileBundle
-						file={{ ...file, uri: currentUser.hostname + file.uri }}
+						file={{
+							...file,
+							uri: test ? currentUser.hostname + file.uri : file.uri,
+						}}
 						fileCanBeDownloaded={canBeDownloaded}
 					/>
 				)
