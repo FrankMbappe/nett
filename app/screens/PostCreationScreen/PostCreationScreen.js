@@ -32,7 +32,7 @@ const maxTextLength = 3000;
 function PostCreationScreen({ route, navigation }) {
 	// Context
 	const {
-		currentUser: { _type, profile, fullName },
+		currentUser: { _type, profile },
 	} = useAuth();
 
 	// Get params
@@ -142,7 +142,6 @@ function PostCreationScreen({ route, navigation }) {
 		});
 		navigation.goBack();
 	};
-
 	const onPressImage = () => selectMedia(ImagePicker.MediaTypeOptions.Images);
 	const onPressVideo = () => selectMedia(ImagePicker.MediaTypeOptions.Videos);
 	const onPressFile = () => selectDocument();
@@ -189,7 +188,7 @@ function PostCreationScreen({ route, navigation }) {
 						image={
 							profile.picUri ? { uri: profile.picUri } : images.USER_DEFAULT
 						}
-						name={fullName}
+						name={profile.fullName}
 						description={`${capitalize(_type)} in ${classroomName}`}
 					/>
 					{/* TODO: Add multiple classrooms */}

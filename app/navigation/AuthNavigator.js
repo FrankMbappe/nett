@@ -11,9 +11,9 @@ import AppNavigator from "./AppNavigator";
 
 const Stack = createStackNavigator();
 
-const AuthNavigator = ({ userHasProfile = false }) => (
+const AuthNavigator = ({ userIsLoggedIn = false }) => (
 	<Stack.Navigator
-		initialRouteName={userHasProfile ? screens.ProfileEdition : screens.Welcome}
+		initialRouteName={userIsLoggedIn ? screens.ProfileEdition : screens.Welcome}
 		screenOptions={{ headerShown: false }}
 	>
 		<Stack.Screen name={screens.Welcome} component={WelcomeScreen} />

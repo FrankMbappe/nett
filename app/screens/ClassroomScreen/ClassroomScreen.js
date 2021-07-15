@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, FlatList, TouchableHighlight, Share } from "react-native";
 import useApi from "../../hooks/useApi";
 import classroomsApi from "../../api/classrooms";
@@ -91,12 +91,12 @@ function ClassroomScreen({ route, navigation }) {
 	const [refreshing, setRefreshing] = useState(false);
 
 	// Action handlers
-	const handleCreatePost = useCallback(() => {
+	const handleCreatePost = () => {
 		navigation.navigate(screens.PostCreation, {
 			classroomId,
 			classroomName: name,
 		});
-	}, []);
+	};
 
 	return (
 		<Screen

@@ -5,6 +5,7 @@ import HomeTabNavigator from "./HomeTabNavigator";
 import ShowAllClassroomsScreen from "../screens/ShowAllClassroomsScreen.js/ShowAllClassroomsScreen";
 import ShowAllEventsScreen from "../screens/ShowAllEventsScreen/ShowAllEventsScreen";
 import ClassroomNavigator from "./ClassroomNavigator";
+import ImagePreviewScreen from "../screens/ImagePreviewScreen/ImagePreviewScreen";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const AppNavigator = () => (
 			name={screens.ShowAllEvents}
 			component={ShowAllEventsScreen}
 		/>
+		<Stack.Screen name={screens.ImagePreview} component={ImagePreviewScreen} />
 		<Stack.Screen name={navigators.Classroom} component={ClassroomNavigator} />
 	</Stack.Navigator>
 );

@@ -49,10 +49,10 @@ export default function App() {
 						hasProfile ? (
 							<AppNavigator />
 						) : (
-							<AuthNavigator userHasProfile />
+							<AuthNavigator userIsLoggedIn={true} />
 						)
 					) : (
-						<AuthNavigator />
+						<AuthNavigator userIsLoggedIn={false} />
 					)}
 				</NavigationContainer>
 				<StatusBar backgroundColor={colors.appPrimaryDark} style="light" />

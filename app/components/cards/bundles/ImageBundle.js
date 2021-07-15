@@ -4,8 +4,9 @@ import colors from "../../../config/colors";
 import { Image } from "react-native-expo-image-cache";
 
 import ButtonIcon from "../../ButtonIcon";
+import { screens } from "../../../navigation/routes";
 
-function ImageBundle({ uri }) {
+function ImageBundle({ uri, navigation }) {
 	return (
 		<View style={styles.container}>
 			<Image style={{ width: "100%", height: 250 }} uri={uri} tint="light" />
@@ -13,6 +14,9 @@ function ImageBundle({ uri }) {
 				name="arrow-expand-all"
 				color="white"
 				size={30}
+				onPress={() =>
+					navigation && navigation.navigate(screens.ImagePreview, { uri })
+				}
 				containerStyle={styles.expandButton}
 			/>
 		</View>
