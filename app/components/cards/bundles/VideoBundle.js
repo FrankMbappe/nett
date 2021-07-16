@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 
-import colors from "../../../config/colors";
 import ActivityIndicator from "../../ActivityIndicator";
 
 function VideoBundle({ uri, containerStyle }) {
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		width: "100%",
 		height: "100%",
+		borderRadius: 10,
 	},
 	loader: {
 		backgroundColor: "black",

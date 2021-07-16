@@ -2,6 +2,7 @@ import React from "react";
 import { postTypes } from "../../config/enums";
 import NormalPostCard from "./NormalPostCard";
 import QuizPostCard from "./QuizPostCard";
+import TutorialPostCard from "./TutorialPostCard";
 
 function PostCard({
 	// Data
@@ -31,6 +32,16 @@ function PostCard({
 		return (
 			<QuizPostCard
 				quiz={post}
+				currentUserId={currentUserId}
+				style={style}
+				onPress={onPress}
+			/>
+		);
+
+	if (post._type === postTypes.tutorial)
+		return (
+			<TutorialPostCard
+				tutorial={post}
 				currentUserId={currentUserId}
 				style={style}
 				onPress={onPress}

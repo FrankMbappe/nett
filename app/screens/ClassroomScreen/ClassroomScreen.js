@@ -67,6 +67,11 @@ const handlePressPost = (classroomName, post, navigation) => {
 			classroomName,
 			quiz: post,
 		});
+	if (post._type === postTypes.tutorial)
+		return navigation.navigate(screens.TutorialPreview, {
+			classroomName,
+			tutorial: post,
+		});
 };
 
 function ClassroomScreen({ route, navigation }) {

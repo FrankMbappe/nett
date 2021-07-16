@@ -10,6 +10,7 @@ import QuizTakingScreen from "../screens/QuizTakingScreen/QuizTakingScreen";
 import TutorialCreationScreen from "../screens/TutorialCreationScreen/TutorialCreationScreen";
 import ImagePreviewScreen from "../screens/ImagePreviewScreen/ImagePreviewScreen";
 import QuizPreviewScreen from "../screens/QuizPreviewScreen/QuizPreviewScreen";
+import TutorialPreviewScreen from "../screens/TutorialPreviewScreen/TutorialPreviewScreen";
 
 const Stack = createStackNavigator();
 const ClassroomNavigator = () => (
@@ -23,6 +24,10 @@ const ClassroomNavigator = () => (
 		<Stack.Screen
 			name={screens.TutorialCreation}
 			component={TutorialCreationScreen}
+		/>
+		<Stack.Screen
+			name={screens.TutorialPreview}
+			component={TutorialPreviewScreen}
 		/>
 		<Stack.Screen name={screens.ImagePreview} component={ImagePreviewScreen} />
 	</Stack.Navigator>

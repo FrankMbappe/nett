@@ -57,8 +57,8 @@ function QuizPreviewScreen({ navigation, route }) {
 			</TopBar>
 
 			<View style={styles.mainContainer}>
-				<NettText style={styles.quiz}>{capitalize(postTypes.quiz)}</NettText>
 				<View style={styles.titleContainer}>
+					<NettText style={styles.quiz}>{capitalize(postTypes.quiz)}</NettText>
 					<NettText style={styles.title}>{title}</NettText>
 					<NettText style={styles.topics}>
 						{qas.map(({ topic }) => `#${topic} `)}

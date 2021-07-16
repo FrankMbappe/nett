@@ -16,29 +16,30 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	titleContainer: {
-		flex: 1,
+		height: 300,
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	quiz: {
-		backgroundColor: colors.electricLight,
+	tutorial: {
+		backgroundColor: colors.lollipopLight,
 		paddingVertical: 7,
 		paddingHorizontal: 14,
 		borderRadius: 20,
 		fontSize: 18,
 		fontWeight: "bold",
-		color: colors.electric,
+		color: colors.lollipop,
+		marginTop: 25,
 	},
 	title: {
 		fontSize: 40,
 		fontWeight: "bold",
 		maxWidth: "85%",
-		marginTop: 50,
+		marginTop: 20,
 	},
 	topics: {
 		fontSize: 16,
 		fontWeight: "bold",
-		color: colors.appPrimary,
+		color: colors.lollipop,
 		marginTop: 7,
 	},
 	authorInfoContainer: {
@@ -80,29 +81,8 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 
-	distanceToNow: {
+	stepsContainer: {
 		width: "100%",
-		fontSize: 16,
-		textAlign: "center",
-		fontWeight: "bold",
-	},
-	distanceToNowContainer: {
-		width: "100%",
-		marginHorizontal: 5,
-		marginVertical: 7,
-		padding: 15,
-		borderRadius: 7,
-	},
-
-	// --> BOTTOM BAR
-	bottomBar: {
-		padding: 10,
-		paddingBottom: 0,
-		width: "100%",
-		backgroundColor: colors.appBack,
-	},
-	beginButton: {
-		marginBottom: 5,
 	},
 });
 

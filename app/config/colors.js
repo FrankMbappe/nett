@@ -35,6 +35,8 @@ export default {
 	warningLight: "#ffd6be",
 	electric: "#8f00f3",
 	electricLight: "#d9aafb",
+	lollipop: "#ff1e71",
+	lollipopLight: "#ffe9f1",
 
 	// --- ACCOUNT TYPES --- //
 	teacher: "#34b14d",
