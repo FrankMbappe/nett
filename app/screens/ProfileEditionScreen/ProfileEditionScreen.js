@@ -36,7 +36,8 @@ function ProfileEditionScreen({ navigation, route }) {
 	const authContext = useAuth();
 
 	// Params
-	const { profile } = route.params;
+	const profile = route.params && route.params.profile;
+	console.log(profile);
 
 	// States: Data
 	const [picUri, setPicUri] = useState(profile && profile.picUri);
@@ -103,6 +104,7 @@ function ProfileEditionScreen({ navigation, route }) {
 
 		// Success
 		const { authToken } = result.data;
+		console.log(authToken);
 
 		/* I store the JWT token and decode the user 
 		   object encoded in it */
@@ -149,7 +151,6 @@ function ProfileEditionScreen({ navigation, route }) {
 					contentContainerStyle={{ alignItems: "center" }}
 					style={styles.mainContainer}
 				>
-					{/* // TODO: ImagePicker for 'pic' ?? and its error label */}
 					<ProfilePhotoPicker
 						style={styles.profilePhotoPicker}
 						size={200}

@@ -11,6 +11,7 @@ const screens = Object.freeze({
 	Profile: "Profile",
 	QACreation: "QACreation",
 	QuizCreation: "QuizCreation",
+	QuizPreview: "QuizPreview",
 	QuizTaking: "QuizTaking",
 	TutorialCreation: "TutorialCreation",
 	ImagePreview: "ImagePreview",

@@ -11,6 +11,7 @@ import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import { Alert, BackHandler } from "react-native";
+import { has } from "lodash-es";
 
 export default function App() {
 	const [currentUser, setCurrentUser] = useState();
@@ -22,7 +23,7 @@ export default function App() {
 
 		if (currentUser) {
 			setCurrentUser(currentUser);
-			setHasProfile(currentUser.profile !== null);
+			setHasProfile(has(currentUser, "profile"));
 		}
 	};
 

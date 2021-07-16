@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { differenceInMinutes, parse } from "date-fns";
+import { differenceInMinutes } from "date-fns";
 
 const prefix = "cache";
 const expiryInMinutes = 5;
@@ -17,9 +17,7 @@ const store = async (key, value) => {
 };
 
 const isExpired = (item) => {
-	return (
-		differenceInMinutes(Date.now(), parse(item.timestamp)) > expiryInMinutes
-	);
+	return differenceInMinutes(Date.now(), item.timestamp) > expiryInMinutes;
 };
 
 const get = async (key) => {

@@ -84,7 +84,7 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		setDoneAnimVisible(false);
 
 		// I get data from the API result
-		const { authToken, isNew, userProfileExists } = apiResultData.current;
+		const { authToken, isNew } = apiResultData.current;
 
 		/* First of all, I store the JWT token
 		   and decode the user object encoded in it */
@@ -104,19 +104,12 @@ function PhoneNumberConfirmationScreen({ route, navigation }) {
 		}
 
 		// Otherwise, he goes to the profile configuration screen
-		if (!userProfileExists) {
-			Toast.show("You need to configure your profile before moving on...", {
-				backgroundColor: colors.warning,
-			});
-			navigation.navigate(screens.ProfileEdition);
-		} else {
-			Toast.show(`Welcome back ${decodedUser.profile.firstName}!`, {
-				backgroundColor: colors.ok,
-			});
-			navigation.navigate(screens.ProfileEdition, {
-				profile: decodedUser.profile,
-			});
-		}
+		Toast.show(`Welcome back!`, {
+			backgroundColor: colors.ok,
+		});
+		navigation.navigate(screens.ProfileEdition, {
+			profile: decodedUser.profile,
+		});
 	};
 	const handleRetry = () => {
 		handlePrevious();
