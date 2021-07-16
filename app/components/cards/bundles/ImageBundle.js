@@ -1,7 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import colors from "../../../config/colors";
-import { Image } from "react-native-expo-image-cache";
 
 import ButtonIcon from "../../ButtonIcon";
 import { screens } from "../../../navigation/routes";
@@ -9,7 +8,11 @@ import { screens } from "../../../navigation/routes";
 function ImageBundle({ uri, navigation }) {
 	return (
 		<View style={styles.container}>
-			<Image style={{ width: "100%", height: 250 }} uri={uri} tint="light" />
+			<Image
+				style={{ width: "100%", height: 250 }}
+				source={{ uri }}
+				tint="light"
+			/>
 			<ButtonIcon
 				name="arrow-expand-all"
 				color="white"
