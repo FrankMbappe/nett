@@ -6,12 +6,12 @@ import NettText from "../Text";
 import { VideoBundle } from "./bundles";
 
 function TutorialStepCard({
-	step: { title, description, video },
+	step: { title, description, videoUri },
 	onPressRemove,
 }) {
 	return (
 		<View style={styles.container}>
-			<VideoBundle uri={video.uri} />
+			<VideoBundle uri={videoUri} />
 			<View style={styles.inputContainer}>
 				<View style={styles.descriptionContainer}>
 					<NettText

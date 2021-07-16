@@ -36,6 +36,8 @@ function PostCard({
 				onPress={onPress}
 			/>
 		);
+
+	return null;
 }
 
 export default PostCard;

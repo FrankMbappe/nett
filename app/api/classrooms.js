@@ -76,7 +76,8 @@ const addQuiz = (
 
 // Adding a Tutorial to a classroom
 const addTutorial = (
-	{ classroomId, title, description, steps },
+	classroomId,
+	{ title, description, steps },
 	onUploadProgress
 ) => {
 	const data = new FormData();
@@ -84,15 +85,18 @@ const addTutorial = (
 	data.append("_type", postTypes.tutorial);
 	data.append("title", title);
 	steps.forEach((step) => {
+		// Steps and their videos are now two different fields
+		// Step
 		data.append("steps", {
 			position: step.position,
 			title: step.title,
 			description: step.description ?? undefined,
-			video: {
-				name: basename(step.video.uri),
-				type: lookup(step.video.uri),
-				uri: step.video.uri,
-			},
+		});
+		// Its video
+		data.append("videos", {
+			name: basename(step.video.uri),
+			type: lookup(step.video.uri), // mimetype
+			uri: step.video.uri,
 		});
 	});
 	if (description) data.append("description", description);

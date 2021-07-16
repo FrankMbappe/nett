@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import { getInfoAsync } from "expo-file-system";
+import classroomsApi from "../../api/classrooms";
 
 import ButtonIcon from "../../components/ButtonIcon";
 import NettButton from "../../components/Button";
@@ -20,13 +20,19 @@ import TutorialStepModal from "./TutorialStepModal";
 import Toast from "react-native-root-toast";
 import colors from "../../config/colors";
 import TutorialStepCard from "../../components/cards/TutorialStepCard";
+import UploadScreen from "../UploadScreen/UploadScreen";
 
 function TutorialCreationScreen({ navigation, route }) {
+	// Params
+	const { classroomId } = route.params;
+
 	// States
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [stepList, setStepList] = useState([]);
 	const [stepModalIsVisible, setStepModalIsVisible] = useState(false);
+	const [uploadIsVisible, setUploadIsVisible] = useState(false);
+	const [progress, setProgress] = useState(0);
 
 	// Refs
 	const videoFile = useRef();
@@ -34,10 +40,11 @@ function TutorialCreationScreen({ navigation, route }) {
 	// Effects
 	useEffect(() => {
 		requestPermission();
+		alert(JSON.stringify(stepList));
 	}, []);
 
 	// Action handlers
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		// Input validation
 		if (title.length <= 1 || stepList.length <= 1)
 			return Toast.show(
@@ -55,6 +62,24 @@ function TutorialCreationScreen({ navigation, route }) {
 		};
 
 		//* I call the API
+		// Starting uploading
+		setProgress(0);
+		setUploadIsVisible(true);
+		const result = await classroomsApi.addTutorial(
+			classroomId,
+			tutorial,
+			(progress) => setProgress(progress)
+		);
+		console.log(result);
+
+		// Failure
+		if (!result || !result.ok) {
+			setUploadIsVisible(false);
+			return Toast.show(
+				"Something went wrong while adding your post, please try again",
+				{ backgroundColor: colors.danger }
+			);
+		}
 	};
 	const handleAddStep = () => {
 		// Pick video and open modal with that video
@@ -83,7 +108,6 @@ function TutorialCreationScreen({ navigation, route }) {
 			title,
 			description: description.length > 0 ? description : undefined,
 		};
-		alert(JSON.stringify(step));
 
 		// Then I add it to the step list
 		setStepList((prevValue) => prevValue.concat(step));
@@ -106,7 +130,7 @@ function TutorialCreationScreen({ navigation, route }) {
 				allowsEditing: true,
 				videoMaxDuration: 180, // 3 minutes
 				aspect: [4, 3],
-				quality: 0.5,
+				videoQuality: 0.5,
 			});
 
 			// If I get a valid result
@@ -123,9 +147,25 @@ function TutorialCreationScreen({ navigation, route }) {
 			});
 		}
 	};
+	const saveTutorial = async (tutorial) => {};
+	const handleDone = () => {
+		// Everything went fine
+		setUploadIsVisible(false);
+		Toast.show("Refresh the page to see your new post!", {
+			backgroundColor: colors.ok,
+		});
+		navigation.goBack();
+	};
 
 	return (
 		<Screen style={styles.screen}>
+			{/* Upload screen */}
+			<UploadScreen
+				progress={progress}
+				visible={uploadIsVisible}
+				onDone={handleDone}
+			/>
+
 			<TopBar style={styles.topBar}>
 				<ButtonIcon name="arrow-left" size={25} />
 				<NettText style={styles.topBarTitle}>{"New tutorial"}</NettText>
