@@ -7,14 +7,13 @@ function ActivityIndicator({ style, visible = false, type = "default" }) {
 	if (!visible) return null;
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<LottieView
 				source={
 					type === "video"
 						? require("../assets/animations/videoLoader.json")
 						: require("../assets/animations/loaderAlt.json")
 				}
-				style={style}
 				autoPlay
 				loop
 			/>

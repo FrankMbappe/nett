@@ -20,7 +20,7 @@ function getQuestionFontSize({ length }) {
 }
 
 function QATaker({
-	qa: { id, topic, question, answers, rightAnswers, timer },
+	qa: { position, topic, question, answers, rightAnswers, timer },
 	remainingTime,
 	onTimerEnd,
 	onSubmit,
@@ -29,7 +29,7 @@ function QATaker({
 
 	const session = useRef({
 		// TODO: Generate ID for the new session and add it as an id. id: randomUUID();
-		qaId: id,
+		qaId: position,
 		remainingTime: timer,
 		isCorrect: false,
 	});
@@ -48,11 +48,11 @@ function QATaker({
 		setProvidedAnswers([]);
 		// I mutate the current session object accordingly
 		session.current = {
-			qaId: id,
+			qaId: position,
 			remainingTime: remainingTime,
 			isCorrect: false,
 		};
-	}, [id]);
+	}, [position]);
 
 	/* -- Whenever the provided answers' array changes -- */
 	useEffect(() => {
@@ -176,8 +176,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.appBack,
 	},
 	bottomBar: {
-		paddingTop: 10,
-		paddingHorizontal: 10,
+		padding: 15,
 		width: "100%",
 		backgroundColor: colors.appBack,
 	},

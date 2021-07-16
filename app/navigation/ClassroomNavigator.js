@@ -9,6 +9,7 @@ import QACreationScreen from "../screens/QACreationScreen/QACreationScreen";
 import QuizTakingScreen from "../screens/QuizTakingScreen/QuizTakingScreen";
 import TutorialCreationScreen from "../screens/TutorialCreationScreen/TutorialCreationScreen";
 import ImagePreviewScreen from "../screens/ImagePreviewScreen/ImagePreviewScreen";
+import QuizPreviewScreen from "../screens/QuizPreviewScreen/QuizPreviewScreen";
 
 const Stack = createStackNavigator();
 const ClassroomNavigator = () => (
@@ -17,6 +18,7 @@ const ClassroomNavigator = () => (
 		<Stack.Screen name={screens.PostCreation} component={PostCreationScreen} />
 		<Stack.Screen name={screens.QuizTaking} component={QuizTakingScreen} />
 		<Stack.Screen name={screens.QuizCreation} component={QuizCreationScreen} />
+		<Stack.Screen name={screens.QuizPreview} component={QuizPreviewScreen} />
 		<Stack.Screen name={screens.QACreation} component={QACreationScreen} />
 		<Stack.Screen
 			name={screens.TutorialCreation}

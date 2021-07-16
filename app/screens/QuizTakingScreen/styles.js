@@ -4,6 +4,9 @@ import colors from "../../config/colors";
 // <--- QuizTakingScreen styles ---> //
 
 const styles = StyleSheet.create({
+	screen: {
+		padding: 0,
+	},
 	authorAndClassroom: {
 		alignItems: "center",
 		fontWeight: "700",
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	header: {
-		paddingHorizontal: 10,
+		padding: 10,
 	},
 	indicatorsBar: {
 		alignItems: "center",

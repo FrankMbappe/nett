@@ -21,6 +21,7 @@ import ApiError from "../../components/ApiError";
 import { orderBy } from "lodash-es";
 import Toast from "react-native-root-toast";
 import useAuth from "../../hooks/useAuth";
+import { postTypes } from "../../config/enums";
 
 // Public action handlers
 const handlePublishComment = async (classroomId, postId, text) => {
@@ -55,6 +56,17 @@ const handleShare = async (text) => {
 	} catch (error) {
 		Toast.show(error.message, { backgroundColor: colors.danger });
 	}
+};
+const handlePressPost = (classroomName, post, navigation) => {
+	if (!post || !navigation) return;
+
+	if (post._type === postTypes.normal)
+		return navigation.navigate(screens.Classroom); // TODO: Post preview
+	if (post._type === postTypes.quiz)
+		return navigation.navigate(screens.QuizPreview, {
+			classroomName,
+			quiz: post,
+		});
 };
 
 function ClassroomScreen({ route, navigation }) {
@@ -184,6 +196,7 @@ function ClassroomScreen({ route, navigation }) {
 										handlePublishComment(classroomId, post._id, text)
 									}
 									onShare={() => handleShare(post.text)}
+									onPress={() => handlePressPost(name, post, navigation)}
 								/>
 							)}
 							refreshing={refreshing}
