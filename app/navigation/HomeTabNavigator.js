@@ -1,8 +1,7 @@
 import React from "react";
+import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image } from "react-native-expo-image-cache";
-
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import NotificationsScreen from "../screens/NotificationsScreen/NotificationsScreen";
 import colors from "../config/colors";
@@ -64,7 +63,11 @@ function HomeTabNavigator() {
 								borderWidth: 2,
 								borderColor: color,
 							}}
-							uri={currentUser.picUri ?? images.USER_DEFAULT}
+							source={
+								currentUser.profile.picUri
+									? { uri: currentUser.profile.picUri }
+									: images.USER_DEFAULT
+							}
 						/>
 					),
 				}}
