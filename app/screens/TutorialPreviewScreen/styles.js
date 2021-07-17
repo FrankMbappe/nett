@@ -75,14 +75,19 @@ const styles = StyleSheet.create({
 		borderColor: "#dfdfdf",
 	},
 	label: {
-		marginStart: 0,
+		alignSelf: "center",
+		fontSize: 18,
 	},
 	description: {
 		fontSize: 16,
 	},
-
 	stepsContainer: {
 		width: "100%",
+	},
+	videoBundle: {
+		width: 250,
+		marginEnd: 15,
+		borderRadius: 20,
 	},
 });
 

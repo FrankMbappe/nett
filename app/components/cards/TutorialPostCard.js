@@ -44,7 +44,15 @@ function TutorialPostCard({
 				</View>
 
 				<View style={styles.preview}>
-					<VideoBundle uri={steps[0].videoUri} containerStyle={styles.video} />
+					<View style={styles.previewOverlay} />
+					<VideoBundle
+						uri={steps[0].videoUri}
+						containerStyle={styles.video}
+						useNativeControls={false}
+						shouldPlay
+						isMuted
+						resizeMode="cover"
+					/>
 				</View>
 
 				{/* CONTENT */}
@@ -112,6 +120,12 @@ const styles = StyleSheet.create({
 	},
 	preview: {
 		borderRadius: 20,
+	},
+	previewOverlay: {
+		position: "absolute",
+		height: "100%",
+		width: "100%",
+		backgroundColor: "red",
 	},
 	video: {
 		marginTop: 0,

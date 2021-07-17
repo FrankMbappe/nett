@@ -4,7 +4,14 @@ import { Video, AVPlaybackStatus } from "expo-av";
 
 import ActivityIndicator from "../../ActivityIndicator";
 
-function VideoBundle({ uri, containerStyle }) {
+function VideoBundle({
+	uri,
+	containerStyle,
+	isMuted = false,
+	useNativeControls = true,
+	shouldPlay = false,
+	resizeMode = "cover",
+}) {
 	const video = React.useRef(null);
 	const [status, setStatus] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +29,10 @@ function VideoBundle({ uri, containerStyle }) {
 				source={{
 					uri: uri,
 				}}
-				useNativeControls
-				resizeMode="contain"
+				useNativeControls={useNativeControls}
+				shouldPlay={shouldPlay}
+				isMuted={isMuted}
+				resizeMode={resizeMode}
 				isLooping
 				onLoadStart={() => setIsLoading(true)}
 				onLoad={() => setIsLoading(false)}

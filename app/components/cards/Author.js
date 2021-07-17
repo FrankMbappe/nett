@@ -28,7 +28,9 @@ function Author({
 					source={picUri ? { uri: picUri } : images.USER_DEFAULT}
 				/>
 				<NettText style={styles(fontSize).name} numberOfLines={1}>
-					{fullName + `${classroomName ? `  >  ${classroomName}` : ""}`}
+					{classroomName
+						? `${fullName}  >  ${classroomName}`
+						: `Created by ${fullName}`}
 				</NettText>
 			</View>
 			{dividerAtBottom && (

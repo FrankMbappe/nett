@@ -83,7 +83,12 @@ function TutorialPreviewScreen({ navigation, route }) {
 							data={steps}
 							showsHorizontalScrollIndicator={false}
 							keyExtractor={({ _id }) => String(_id)}
-							renderItem={({ videoUri }) => <VideoBundle uri={videoUri} />}
+							renderItem={({ videoUri }) => (
+								<VideoBundle
+									uri={videoUri}
+									containerStyle={styles.videoBundle}
+								/>
+							)}
 							horizontal
 						/>
 					</View>
