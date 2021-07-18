@@ -50,7 +50,7 @@ function QuizTakingScreen({ navigation, route }) {
 			// No more available QAs, quiz ends
 			// displayQuizEnded()
 			Alert.alert(
-				"Congratulations",
+				"🎉🎊  Congratulations",
 				"Congratulations, you finished this quiz, now tap the" +
 					" 'Ok' button to get back to the previous screen",
 				[{ text: "Ok", onPress: () => navigation.goBack() }]
