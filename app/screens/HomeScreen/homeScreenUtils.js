@@ -1,4 +1,3 @@
-import React from "react";
 import { orderBy } from "lodash-es";
 import { isPast } from "date-fns";
 import { getClassroomInfo } from "../../utils";
@@ -16,7 +15,9 @@ const getEvents = (classrooms) => {
 	// Extracting events (just quizzes for instance)
 	const events = classrooms
 		.flatMap(({ quizzes }) => quizzes) // All quizzes of all classrooms
-		.filter((quiz) => !isPast(new Date(quiz.dateClosing))) // Only those that are active
+		.filter(
+			(quiz) => quiz.hasTimeInterval && !isPast(new Date(quiz.dateClosing))
+		) // Only those that are active
 		.map((quiz) => ({
 			id: quiz._id,
 			classroom: getClassroomInfo(classrooms, quiz).name,
