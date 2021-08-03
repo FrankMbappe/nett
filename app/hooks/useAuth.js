@@ -1,17 +1,27 @@
 import authStorage from "../auth/storage";
-
+import jwtDecode from "jwt-decode";
 const { useContext } = require("react");
 const { default: AuthContext } = require("../auth/context");
 
 const useAuth = () => {
-	const { currentUser, setCurrentUser } = useContext(AuthContext);
+    const { currentUser, setCurrentUser } = useContext(AuthContext);
 
-	const logOut = () => {
-		setCurrentUser(null);
-		authStorage.removeToken();
-	};
+    const logIn = async (authToken) => {
+        /* I store the JWT token
+		   and decode the user object from it */
+        authStorage.storeToken(authToken);
+        const decodedUser = jwtDecode(authToken);
 
-	return { currentUser, setCurrentUser, logOut };
+        // Then I set the current user to decoded value
+        setCurrentUser(decodedUser);
+    };
+
+    const logOut = () => {
+        setCurrentUser(null);
+        authStorage.removeToken();
+    };
+
+    return { currentUser, setCurrentUser, logIn, logOut };
 };
 
 export default useAuth;

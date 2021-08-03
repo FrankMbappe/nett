@@ -13,89 +13,99 @@ import { screens } from "../../navigation/routes";
 import Toast from "react-native-root-toast";
 import { capitalize } from "lodash-es";
 import colors from "../../config/colors";
+import useAuth from "../../hooks/useAuth";
 
 // --- CONSTANTS --- //
 const OPTIONS = [
-	{
-		key: "teacher",
-		image: images.TEACHER_ACCOUNT,
-		name: "Teacher",
-		description: "Create classrooms and lecture your courses to students.",
-	},
-	{
-		key: "student",
-		image: images.STUDENT_ACCOUNT,
-		name: "Student",
-		description: "Join classrooms and attend courses made by your teachers.",
-	},
-	{
-		key: "consultant",
-		image: images.CONSULT_ACCOUNT,
-		name: "Consultant",
-		description: "Share your knowledge with the world via classrooms.",
-	},
+    {
+        key: "teacher",
+        image: images.TEACHER_ACCOUNT,
+        name: "Teacher",
+        description: "Create classrooms and lecture your courses to students.",
+    },
+    {
+        key: "student",
+        image: images.STUDENT_ACCOUNT,
+        name: "Student",
+        description:
+            "Join classrooms and attend courses made by your teachers.",
+    },
+    {
+        key: "consultant",
+        image: images.CONSULT_ACCOUNT,
+        name: "Consultant",
+        description: "Share your knowledge with the world via classrooms.",
+    },
 ];
 
 // --- SCREEN --- //
 function AccountTypeSelectionScreen({ navigation }) {
-	// States
-	const [selectedType, setSelectedType] = useState();
+    // Context
+    const authContext = useAuth();
 
-	// Action handlers
-	const handleSubmit = async () => {
-		if (!selectedType.key) return;
+    // States
+    const [selectedType, setSelectedType] = useState();
 
-		// I attempt to set the account type
-		const result = await usersApi.setType(selectedType.key);
+    // Action handlers
+    const handleSubmit = async () => {
+        if (!selectedType.key) return;
 
-		if (!result)
-			return Toast.show(
-				"Something went wrong while updating the account type, please try again..",
-				{ backgroundColor: colors.danger }
-			);
+        // I attempt to set the account type
+        const result = await usersApi.setType(selectedType.key);
 
-		// Success
-		Toast.show(
-			`The account type has been succesfully set to ${
-				(capitalize(selectedType.key), { backgroundColor: colors.ok })
-			}`
-		);
-		navigation.navigate(screens.ProfileEdition);
-	};
+        if (!result)
+            return Toast.show(
+                "Something went wrong while updating the account type, please try again..",
+                { backgroundColor: colors.danger }
+            );
 
-	return (
-		<Screen style={styles.screen}>
-			{/* --- Main Box --- */}
-			<View style={styles.mainContainer}>
-				{/* Title */}
-				<StartTitle style={styles.titleContainer}>
-					Which kind of account would you like to create ?
-				</StartTitle>
+        // Success
+        const { authToken } = result.data;
+        console.log(authToken);
+        // The current user is updated using the JWT token
+        authContext.logIn(authToken);
 
-				{/* Account type selection */}
-				<ListItemSelector
-					onSelectOption={(option) => setSelectedType(option)}
-					options={OPTIONS}
-					selectedOption={selectedType}
-					selectedStyle={{
-						backgroundColor: "#ffeae8",
-						borderColor: "#f5c8c4",
-					}}
-					style={styles.typeSelector}
-				/>
-			</View>
+        Toast.show(
+            `The account type has been succesfully set to ${
+                (capitalize(selectedType.key), { backgroundColor: colors.ok })
+            }`
+        );
+        navigation.navigate(screens.ProfileEdition);
+    };
 
-			{/* --- Bottom bar --- */}
-			<View style={styles.bottomBar}>
-				<NettButton
-					disabled={!selectedType}
-					onPress={handleSubmit}
-					text="Next"
-					type={buttons.PRIMARY}
-				/>
-			</View>
-		</Screen>
-	);
+    return (
+        <Screen style={styles.screen}>
+            {/* --- Main Box --- */}
+            <View style={styles.mainContainer}>
+                {/* Title */}
+                <StartTitle style={styles.titleContainer}>
+                    Which kind of account would you like to create ?
+                </StartTitle>
+
+                {/* Account type selection */}
+                <ListItemSelector
+                    onSelectOption={(option) => setSelectedType(option)}
+                    options={OPTIONS}
+                    selectedOption={selectedType}
+                    selectedStyle={{
+                        backgroundColor: "#ffeae8",
+                        borderColor: "#f5c8c4",
+                    }}
+                    style={styles.typeSelector}
+                />
+            </View>
+
+            {/* --- Bottom bar --- */}
+            <View style={styles.bottomBar}>
+                <NettButton
+                    disabled={!selectedType}
+                    onPress={handleSubmit}
+                    text="Next"
+                    type={buttons.PRIMARY}
+                />
+            </View>
+        </Screen>
+    );
 }
 
 export default AccountTypeSelectionScreen;
