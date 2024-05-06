@@ -1,33 +1,36 @@
 {
-	"expo": {
-		"name": "nett",
-		"slug": "nett",
-		"version": "1.0.0",
-		"orientation": "portrait",
-		"icon": "./app/assets/nett-logo.png",
-		"splash": {
-			"image": "./app/assets/nett-splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./app/assets/nett-logo.png",
-				"backgroundColor": "#FFFFFF"
-			},
-			"package": "com.frankmbappe.nett"
-		},
-		"web": {
-			"favicon": "./app/assets/nett-favicon.png"
-		},
-		"description": "This is an app serving as a teaching tool for nursing students.",
-		"githubUrl": "https://github.com/FrankMbappe/nett"
-	}
+  "expo": {
+    "name": "nett",
+    "slug": "nett",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/nett-logo.png",
+    "splash": {
+      "image": "./app/assets/nett-splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/nett-logo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.frankmbappe.nett"
+    },
+    "web": {
+      "favicon": "./app/assets/nett-favicon.png"
+    },
+    "description": "This is an app serving as a teaching tool for nursing students.",
+    "githubUrl": "https://github.com/FrankMbappe/nett",
+    "experiments": {
+      "tsconfigPaths": true
+    }
+  }
 }
